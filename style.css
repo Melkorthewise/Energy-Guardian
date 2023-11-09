@@ -4,13 +4,8 @@
 }
 
 .inlog{
-    background-color: blueviolet;
-    width: 50%;
-    margin: 200px 0px 0px 0px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    height: 200px;
+    justify-content: center;
+    height: 50%;
     padding: 10px;
 }
 
