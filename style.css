@@ -3,10 +3,23 @@
     margin: 0;
 }
 
+.bar_up{
+    background-color: greenyellow;
+
+}
 .inlog{
-    /* Werken aan het inlog scherm*/
-    justify-content: center;
-    height: 50%;
-    padding: 10px;
+    background-color:lightslategray;
+    padding-left:47%;
+    padding-top:25%;
+    min-height:68.6vh;
+}
+
+.inlog_submit{
+    padding-left:10%
+}
+
+.bar_down{
+    background-color:greenyellow;
+    box-sizing:border-box;
 }
 
