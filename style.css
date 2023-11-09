@@ -3,23 +3,29 @@
     margin: 0;
 }
 
+.div{
+    display:inline-flex;
+}
 .bar_up{
     background-color: greenyellow;
+    height:5vh
 
 }
 .inlog{
     background-color:lightslategray;
-    padding-left:47%;
-    padding-top:25%;
-    min-height:68.6vh;
+    text-align:center;
+    height:92.5vh;
+
+
 }
 
 .inlog_submit{
-    padding-left:10%
+    text-align:center;
 }
 
 .bar_down{
     background-color:greenyellow;
-    box-sizing:border-box;
+    height:2.5vh;
 }
+
 
