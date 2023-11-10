@@ -30,6 +30,19 @@
     text-align:center;
 }
 
+.button{
+    background-color:rgb(235, 223, 223);
+    border:none;
+    color:rgb(0, 0, 0);
+    width:10vh;
+    text-align:center;
+    text-decoration:none;
+    display:inline-block;
+    font-size:11px;
+    max-height:15px;
+
+}
+
 .bar_down{
     background-color:greenyellow;
     height:2.5vh;
