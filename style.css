@@ -11,6 +11,13 @@
     height:5vh
 
 }
+
+.login_txt{
+    background-color: lightslategray;
+    text-align:center;
+    height:32.5vh;
+}
+
 .inlog{
     background-color:lightslategray;
     text-align:center;
