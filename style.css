@@ -6,7 +6,7 @@
 .div{
     display:inline-flex;
 }
-/* indeling tabladen */
+/* layout tabladen */
 .bar_up{
     text-size-adjust:1vh;
     background-color: greenyellow;
@@ -26,7 +26,7 @@
     height:2.5vh;
 }
 
-/* indeling inlogscherm */
+/* layout inlogscherm */
 .login_txt{
     background-color: lightslategray;
     text-align:center;
@@ -58,7 +58,7 @@
 
 }
 
-/* indeling Main page */
+/* layout Main page */
 
 
 
