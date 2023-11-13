@@ -10,9 +10,8 @@
 .bar_up{
     text-size-adjust:1vh;
     background-color: greenyellow;
-    height:5vh
-    
-    
+    height:5vh;
+    font-size:2vh;
 }
 
 .mid{
@@ -34,8 +33,8 @@
 }
 
 .login_logo{
-    height:50vh;
-    width:50vh;
+    height:40vh;
+    width:40vh;
     position:absolute;
     bottom:0vh;
     right:0vh;
@@ -47,9 +46,9 @@
 
 .button{
     background-color:rgb(235, 223, 223);
-    border:none;
+    border:100px 15px;
     color:rgb(0, 0, 0);
-    width:10vh;
+    width:100px;
     text-align:center;
     text-decoration:none;
     display:inline-block;
@@ -61,13 +60,17 @@
 /* layout Main page */
 .squareMain{
     height:20vh;
-    width:20vh;
+    width:10vw;
     background-color: greenyellow;
 }
 
+.mainH3{
+    font-size:1.5vw;
+}
 .error{
     position:absolute;
     bottom:7.5vh;
-    left:3vw;
-    color: red;
+    left:3.25vw;
+    color:red;
+    font-size:1.5vw;
 }
