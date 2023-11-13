@@ -6,6 +6,7 @@
 .div{
     display:inline-flex;
 }
+/* indeling tabladen */
 .bar_up{
     text-size-adjust:1vh;
     background-color: greenyellow;
@@ -14,7 +15,18 @@
     
 }
 
+.mid{
+    background-color:lightslategray;
+    text-align:center;
+    height:92.5vh;
+}
 
+.bar_down{
+    background-color:greenyellow;
+    height:2.5vh;
+}
+
+/* indeling inlogscherm */
 .login_txt{
     background-color: lightslategray;
     text-align:center;
@@ -27,12 +39,6 @@
     position:absolute;
     bottom:0vh;
     right:0vh;
-}
-
-.inlog{
-    background-color:lightslategray;
-    text-align:center;
-    height:92.5vh;
 }
 
 .inlog_submit{
@@ -52,9 +58,7 @@
 
 }
 
-.bar_down{
-    background-color:greenyellow;
-    height:2.5vh;
-}
+/* indeling Main page */
+
 
 
