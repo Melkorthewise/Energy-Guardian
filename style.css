@@ -7,10 +7,13 @@
     display:inline-flex;
 }
 .bar_up{
+    text-size-adjust:1vh;
     background-color: greenyellow;
     height:5vh
-
+    
+    
 }
+
 
 .login_txt{
     background-color: lightslategray;
@@ -18,12 +21,18 @@
     height:32.5vh;
 }
 
+.login_logo{
+    height:50vh;
+    width:50vh;
+    position:absolute;
+    bottom:0vh;
+    right:0vh;
+}
+
 .inlog{
     background-color:lightslategray;
     text-align:center;
     height:92.5vh;
-
-
 }
 
 .inlog_submit{
