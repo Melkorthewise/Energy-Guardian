@@ -8,29 +8,29 @@
 }
 /* layout tabladen */
 .bar_up{
-    position:fixed;
+    position:absolute;
     text-size-adjust:1vh;
     background-color: greenyellow;
-    top:0vh;
-    width:100vw;
+    top:0%;
+    width:100%;
     font-size:2vh;
     height:4vh;
 }
 
 .mid{
-    position:fixed;
+    position:absolute;
     background-color:lightslategray;
     text-align:center;
-    top:4vh;
-    width:100vw;
-    height:95vh;
+    top:4%;
+    width:100%;
+    height:80vh;
 }
 
 .bar_down{
-    position:fixed;
+    position:absolute;
     background-color:greenyellow;
-    top:97vh;
-    width:100vw;
+    top:97%;
+    width:100%;
     height:3vh;
 }
 
@@ -68,21 +68,24 @@
 
 /* layout Main page */
 body{
-    width:100%;
-    overflow-y:visible;
+    overflow-y:scroll;
+    scrollbar-width:thin;
+    scrollbar-color:#808080 #f0f0f0;
+    margin:0;
 }
+
 .mainH3{
 
     font-size:1.5vw;
 }
 
 .squareMain{
-    position:fixed;
-    height:calc(25px + 12vh);
-    width:calc(25px + 6vw);
+    height:calc(50px + 15vh);
+    width:calc(50px + 7.5vw);
     background-color: greenyellow;
     border-radius:15px;
     border:1px solid;
+    position:relative;
 }
 
 .error{
