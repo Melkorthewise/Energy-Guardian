@@ -62,6 +62,8 @@
     height:calc(50px + 15vh);
     width:calc(50px + 7.5vw);
     background-color: greenyellow;
+    border-radius:15px;
+    border:1px solid;
 }
 
 .mainH3{
@@ -78,4 +80,5 @@
 .enableSettings{
     position:absolute;
     right:1vw;
+    font-size:calc(2vh);
 }
