@@ -8,21 +8,30 @@
 }
 /* layout tabladen */
 .bar_up{
+    position:fixed;
     text-size-adjust:1vh;
     background-color: greenyellow;
-    height:5vh;
+    top:0vh;
+    width:100vw;
     font-size:2vh;
+    height:4vh;
 }
 
 .mid{
+    position:fixed;
     background-color:lightslategray;
     text-align:center;
-    height:92.5vh;
+    top:4vh;
+    width:100vw;
+    height:95vh;
 }
 
 .bar_down{
+    position:fixed;
     background-color:greenyellow;
-    height:2.5vh;
+    top:97vh;
+    width:100vw;
+    height:3vh;
 }
 
 /* layout inlogscherm */
@@ -58,17 +67,24 @@
 }
 
 /* layout Main page */
+body{
+    width:100%;
+    overflow-y:visible;
+}
+.mainH3{
+
+    font-size:1.5vw;
+}
+
 .squareMain{
-    height:calc(50px + 15vh);
-    width:calc(50px + 7.5vw);
+    position:fixed;
+    height:calc(25px + 12vh);
+    width:calc(25px + 6vw);
     background-color: greenyellow;
     border-radius:15px;
     border:1px solid;
 }
 
-.mainH3{
-    font-size:1.5vw;
-}
 .error{
     position:absolute;
     bottom:7.5vh;
