@@ -36,7 +36,7 @@
     height:40vh;
     width:40vh;
     position:absolute;
-    bottom:0vh;
+    bottom:0.5vh;
     right:0vh;
 }
 
@@ -59,8 +59,8 @@
 
 /* layout Main page */
 .squareMain{
-    height:20vh;
-    width:10vw;
+    height:calc(50px + 15vh);
+    width:calc(50px + 7.5vw);
     background-color: greenyellow;
 }
 
