@@ -84,7 +84,7 @@ body{
     background-color: greenyellow;
     border-radius:15px;
     border:1px solid;
-    position:relative;
+    position:static;
 }
 
 .error{
