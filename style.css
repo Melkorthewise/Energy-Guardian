@@ -16,11 +16,19 @@
 }
 
 .barUpTxtLeft{
+    position:fixed;
     float:left;
-    height:25px;
-    width:25px;
+    text-align:center;
+    height:8.15vh;
+    width:300px;
+    text-decoration:none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:17px;
+    color:white;
     background-color: #04AA6D;
+    z-index:1;
 }
+
 .barUpTxtRight{
     text-decoration:none;
     font-family:Arial, Helvetica, sans-serif;
@@ -38,10 +46,11 @@
     top:6.9%;
     width:100%;
     height:93vh;
+    z-index:-1;
 }
 
 .bar_down{
-    position:absolute;
+    position:fixed;
     background-color:#04AA6D;
     top:97%;
     width:100%;
