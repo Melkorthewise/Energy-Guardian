@@ -22,7 +22,7 @@
     text-align:center;
     top:4%;
     width:100%;
-    height:80vh;
+    height:93vh;
 }
 
 .bar_down{
@@ -84,7 +84,6 @@ body{
     background-color: greenyellow;
     border-radius:15px;
     border:1px solid;
-    position:static;
 }
 
 .error{
