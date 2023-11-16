@@ -7,15 +7,15 @@
 
 /* layout tabladen */
 .bar_up{
-    position:absolute;
-    text-size-adjust:1vh;
+    overflow: hidden;
     background-color: #333;
-    top:0%;
-    width:100%;
-    font-size:2vh;
-    height:4vh;
 }
 
+.barUpTxt{
+    color:white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 14px 16px;
+}
 .mid{
     position:absolute;
     background-color:lightslategray;
@@ -33,6 +33,12 @@
     height:3vh;
 }
 
+/* layout home */
+.logoHome{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
 /* layout inlogscherm */
 .login_txt{
     background-color: lightslategray;
