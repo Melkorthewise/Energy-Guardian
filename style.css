@@ -4,17 +4,24 @@
 }
 
 
-
 /* layout tabladen */
 .bar_up{
-    position:absolute;
+    position:fixed;
     text-size-adjust:1vh;
     background-color: #333;
-    top:0%;
     width:100%;
     font-size:2vh;
     height:4vh;
+    padding: 14px 16px;
 }
+
+.barUpTxt{
+    font-family: Arial, Helvetica, sans-serif;
+    color:white;
+    float:right;
+    padding-left:10px;
+}
+
 
 .mid{
     position:absolute;
