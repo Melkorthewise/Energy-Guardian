@@ -9,7 +9,7 @@
 .bar_up{
     position:absolute;
     text-size-adjust:1vh;
-    background-color: greenyellow;
+    background-color: #333;
     top:0%;
     width:100%;
     font-size:2vh;
