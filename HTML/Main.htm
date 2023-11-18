@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css" />
-    <script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
 </head>
 
 <body>
-    <div class="barUpTxtLeft"></div>
+    <div class="barUpTxtLeft">Energy-Guardian</div>
     <div class="bar_up">
         <a href="Login.htm" class="barUpTxtRight">Log out</a>
         <a href="#" class="barUpTxtRight">Settings</a>
@@ -18,18 +16,17 @@
 
     <div class="mid">
         <div style="height:80vh">
-            <div class="verbruikNu" style="position:absolute; left:15vw; top:20vh">
+            <a href="plotter.htm"><div class="verbruikNu" style="position:absolute; left:15vw; top:20vh">
                 <h3 class="mainH3">Usage now</h3>
                 <div class="squareMain">
                     <h2 class="error">Error</h2>
                 </div>
-            </div>
+            </div></a>
 
             <div class="verbruikPeriode" style="position:absolute; left:45vw; top:20vh">
                 <h3 class="mainH3">Usage periode</h3>
                 <div class="squareMain">
-                    <h2 class="error" id="script"></h2>
-                    <script type="text/javascript" scr="..//Javascript//plotScriptMain.js"></script>
+                    <h2 class="error" id="script">Error</h2>
                 </div>
             </div>
 

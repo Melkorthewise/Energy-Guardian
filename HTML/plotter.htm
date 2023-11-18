@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="../style.css">
+
+    <script src='https://cdn.plot.ly/plotly-2.27.0.min.js'></script>
+    <script src="../Javascript/test.js"></script>
+</head>
+
+<body>
+    <div class="barUpTxtLeft">Energy-Guardian</div>
+    <div class="bar_up">
+        <a href="Login.htm" class="barUpTxtRight">Log out</a>
+        <a href="#" class="barUpTxtRight">Settings</a>
+        <a href="Main.htm" class="barUpTxtRight">Main Page</a>
+    </div>
+    
+    <div class="mid">
+        <div style="width:600px; height:250px; top:10%">
+        <h2 id="test"></h2>
+        <script>
+            var number = 1;
+
+            while(true){
+                number++;
+                document.getElementById("test").innerHTML=number;
+                console.log(number);
+                console.log("-1");
+            }
+        </script>
+    </div>
+
+    </div>
+
+    <div class="bar_down"></div>
+</body>
+

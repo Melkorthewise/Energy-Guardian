@@ -120,6 +120,9 @@ body{
     border:1px solid;
 }
 
+.plot{
+    font-size:larger;
+}
 .error{
     position:absolute;
     bottom:7.5vh;
