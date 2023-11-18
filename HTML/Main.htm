@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" href="../style.css">
+    <script type="text/javascript" src="../Javascript/plotCode.js"></script>
+    <script type="text/javascript" scr="../Javascript/settingsBehavior.js"></script>
+    <meta http-equiv="refresh" content="5"> <!-- elke 5 seconden wordt de page geupdate-->
 </head>
 
 <body>
     <div class="barUpTxtLeft">Energy-Guardian</div>
     <div class="bar_up">
         <a href="Login.htm" class="barUpTxtRight">Log out</a>
-        <a href="#" class="barUpTxtRight">Settings</a>
+        <a href="" class="barUpTxtRight">Settings</a>
     </div>
 
     <div class="mid">
@@ -19,7 +22,7 @@
             <a href="plotter.htm"><div class="verbruikNu" style="position:absolute; left:15vw; top:20vh">
                 <h3 class="mainH3">Usage now</h3>
                 <div class="squareMain">
-                    <h2 class="error">Error</h2>
+                    <h2 class="error" id="output">Click!</h2>
                 </div>
             </div></a>
 
