@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
         y: [Math.floor(Math.random()*1000), Math.floor(Math.random()*1000), Math.floor(Math.random()*1000), 
             Math.floor(Math.random()*1000), Math.floor(Math.random()*1000), Math.floor(Math.random()*1000)],
         mode: 'lines',
-        name: 'Solid',
+        name: 'testing',
         line: {
-          dash: 'solid',
+          dash: 'dashdot',
           width: 4
         }
       };
