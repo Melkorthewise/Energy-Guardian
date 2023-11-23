@@ -8,13 +8,26 @@
     <script type="text/javascript" src="../Javascript/plotCode.js"></script>
     <script type="text/javascript" scr="../Javascript/settingsBehavior.js"></script>
     <meta http-equiv="refresh" content="5"> <!-- elke 5 seconden wordt de page geupdate-->
+
+    <!-- Javascripts-->
 </head>
 
 <body>
     <div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
     <div class="bar_up">
         <a href="Login.htm" class="barUpTxtRight">Log out</a>
-        <a href="" class="barUpTxtRight">Settings</a>
+        <a href="" class="barUpTxtRight" id="logOut" onclick="open()">Settings</a>
+
+        <script type="text/javascript">
+            function open() {
+                document.getElementById("bar_down").style.width = "100%";
+            }
+            
+            function closeNav() {
+                document.getElementById("bar_down").style.width = "0%";
+            }
+        </script>
+
     </div>
 
     <div class="mid">
