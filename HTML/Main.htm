@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../style.css">
     <script type="text/javascript" src="../Javascript/plotCode.js"></script>
     <script type="text/javascript" scr="../Javascript/settingsBehavior.js"></script>
-    <meta http-equiv="refresh" content="5"> <!-- elke 5 seconden wordt de page geupdate-->
 
     <!-- Javascripts-->
 </head>
@@ -15,16 +14,21 @@
 <body>
     <div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
     <div class="bar_up">
-        <a href="Login.htm" class="barUpTxtRight">Log out</a>
-        <a href="" class="barUpTxtRight" id="logOut" onclick="open()">Settings</a>
+        <span class="barUpTxtRight" onclick="inlog()">Log out</span>
+        <span class="barUpTxtRight" onclick="openSettings()">Settings</span>
+        
 
         <script type="text/javascript">
-            function open() {
-                document.getElementById("bar_down").style.width = "100%";
+            function openSettings() {
+                document.getElementById("barDown").style.height = "50vh";
             }
             
-            function closeNav() {
-                document.getElementById("bar_down").style.width = "0%";
+            function closeSettings() {
+                document.getElementById("barDown").style.height = "3vh";
+            }
+
+            function inlog(){
+                window.location.href="Login.htm";
             }
         </script>
 
@@ -77,7 +81,12 @@
         </div>
     </div>
 
-    <div class="bar_down">
-    </div>
+    <div id="barDown" class="bar_down">
+        <a href="javascript:void(0)" class="close" onclick="closeSettings()">&times;</a>
+        <div class="showTxtBarDown">
+            <a href="#">Change password</a>
+            <a href="#">Connect device</a>
+        </div>
+    </div> 
 
 </body>
