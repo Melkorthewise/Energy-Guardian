@@ -13,6 +13,7 @@
     font-size:2vh;
     height:4vh;
     padding: 14px 16px;
+    z-index: 1;
 }
 
 .barUpTxtLeft{
@@ -26,7 +27,7 @@
     font-size:17px;
     color:white;
     background-color: #04AA6D;
-    z-index:1;
+    z-index:2;
 }
 
 .guardian{
@@ -140,4 +141,7 @@ body{
     position:absolute;
     right:1vw;
     font-size:calc(2vh);
+}
+.inlog_boxes{
+    margin-top: -10%;
 }
