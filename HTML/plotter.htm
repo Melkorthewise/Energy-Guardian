@@ -12,11 +12,27 @@
 </head>
 
 <body>
-    <div class="barUpTxtLeft">Energy-Guardian</div>
+    <div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
     <div class="bar_up">
-        <a href="Login.htm" class="barUpTxtRight">Log out</a>
-        <a href="#" class="barUpTxtRight" id="settings">Settings</a>
-        <a href="Main.htm" class="barUpTxtRight">Main Page</a>
+        <span class="barUpTxtRight" onclick="inlog()">Log out</span>
+        <span class="barUpTxtRight" onclick="openSettings()">Settings</span>
+        <span class="barUpTxtRight" onclick="main()">Main</span>
+        
+
+        <script type="text/javascript">
+            function openSettings() {
+                document.getElementById("barDown").style.height="50vh";
+            }
+            
+            function closeSettings() {
+                document.getElementById("barDown").style.height = "3vh";
+            }
+
+            function main(){
+                window.location.href="main.htm";
+            }
+        </script>
+
     </div>
     
     <div class="mid">
@@ -25,6 +41,47 @@
 
     </div>
 
-    <div class="bar_down"></div>
+    <div id="barDown" class="bar_down">
+        <a href="javascript:void(0)" class="close" onclick="closeSettings()">&times;</a>
+        <div class="showTxtBarDown">
+            <a onclick="change()" style="text-decoration:none; color:white">Change password</a><br>
+            <a href="#" style="text-decoration:none; color:white" onclick="setDevice()">Connect device</a><br>
+            <a href="#" style="text-decoration:none; color:white" onclick="lightMode()">Light mode /</a>
+            <a href="#" style="text-decoration:none; color:white" onclick="normalMode()">Normal mode /</a>
+            <a href="#" style="text-decoration:none; color:white" onclick="darkMode()">Dark mode</a>
+        </div>
+
+        <script>
+            function change(){
+            }
+            function lightMode(){
+                document.getElementById("mid").style.backgroundColor = "whitesmoke";
+                var elements = document.getElementsByClassName("mainH3");
+
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.color = "black";
+                }
+            }
+
+            function darkMode(){
+                document.getElementById("mid").style.backgroundColor = "black";
+                var elements = document.getElementsByClassName("mainH3");
+
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.color = "whitesmoke";
+                }
+            }
+
+            function normalMode(){
+                document.getElementById("mid").style.backgroundColor = "lightslategray";
+                var elements = document.getElementsByClassName("mainH3");
+
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.color = "black";
+                }
+
+            }
+        </script>
+    </div> 
 </body>
 
