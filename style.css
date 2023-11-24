@@ -130,6 +130,7 @@
     transition: 1.5s;
     overflow-y:hidden;
     text-align:center;
+    color:whitesmoke;
 }
 
 .closeDevice{
