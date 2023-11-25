@@ -45,7 +45,7 @@ var con = mysql.createConnection({
 //con.connect(function(err){
     //if (err) throw err;
 
-    //var sql = "INSERT INTO User (Username, PASSWORD) VALUES ('Frederik', 'Netflix&Chill')";
+    //var sql = "INSERT INTO User (Username, PASSWORD) VALUES ('Hendrik', 'Test123')";
     //con.query(sql, function(err, result){
         //if (err) throw err;
         //console.log("1 record inserted" + result);
@@ -73,11 +73,54 @@ var con = mysql.createConnection({
 //});
 
 //Sort result
-con.connect(function(err){
-    if (err) throw err;
+//con.connect(function(err){
+    //if (err) throw err;
 
-    con.query("SELECT * FROM User ORDER BY UserName", function(err, result){
-        if (err) throw err;
-        console.log(result);
-    });
-});
+    //con.query("SELECT * FROM User ORDER BY UserName", function(err, result){
+        //if (err) throw err;
+        //console.log(result);
+    //});
+//});
+
+//Delete record
+//con.connect(function(err){
+    //if (err) throw err;
+    //var sql = "DELETE FROM User WHERE UserName = 'Hendrik'"
+    
+    //con.query(sql, function(err, result){
+        //if (err) throw err;
+        //console.log("Deleted: " + result.affectedRows);
+    //});
+//});
+
+//Delete table
+//con.connect(function(err){
+    //if (err) throw err;
+    //var sql = "DROP TABLE User";
+
+    //con.query(sql, function(err, result){
+        //if (err) throw err;
+        //console.log("Deleted");
+    //});
+//});
+
+//Update table
+//con.connect(function(err){
+    //if (err) throw err;
+    //var sql = "UPDATE User SET PASSWORD = 'NEWPASSWORD!@#$'WHERE UserName = 'Hendrik'";
+
+    //con.query(sql, function(err, result){
+        //if (err) throw err;
+        //console.log(result.affectedRows + " Updated");
+    //});
+//});
+
+//Limit the result
+//con.connect(function(err){
+    //if (err) throw err;
+    //var sql = "SELECT * FROM User LIMIT 5"; //Geeft maar maximaal aantal returns
+    //con.query("SELECT * FROM User ORDER BY UserName", function(err, result){
+        //if (err) throw err;
+        //console.log(result);
+    //});
+//});
