@@ -4,7 +4,7 @@ var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password:"JHKest24", //eigen wachtwoord
-    database: "test"
+    database: "test" //pas gebruiken na het maken van een database
 
 });
 
