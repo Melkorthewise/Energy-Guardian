@@ -29,7 +29,7 @@
             }
 
             function main(){
-                window.location.href="main.htm";
+                window.location.href="PlottertoMain.php";
             }
         </script>
 

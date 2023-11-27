@@ -39,7 +39,7 @@
     <div class="mid">
         <h1 class="login_txt">Energy-Guardian</h1>
 
-        <form class="inlog_boxes" method="post">
+        <form class="inlog_boxes"  method="post">
             <!--E-mailbox, Passwordbox and Submitbutton-->
             <label for="femail">E-mail adress:</label><br>
             <input type="email" placeholder="    example@hotmail.com" name="email" id="user"><br><br>
@@ -58,17 +58,18 @@
     <div class="bar_down">
         <br>
     </div>
+
+    <script>
+    function toMainPage(){
+            window.location.href = 'LogintoMain.php';
+            var user = document.getElementById("user");
+            var userPassword = document.getElementById("userPassword");
+            
+            <?php
+                $sql = "SELECT UserID FROM energyguardian";
+            ?>
+        }
+    </script>
 </body>
 </html>
 
-<script>
-    function toMainPage(){
-        var user = document.getElementById("user");
-        var userPassword = document.getElementById("userPassword");
-        
-        <?php
-            $sql = "SELECT UserID FROM energyguardian";
-        ?>
-        //window.location.href = 'Main.php';
-    }
-</script>
