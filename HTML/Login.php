@@ -11,12 +11,11 @@
 </head>
 
 <body>
-    <?php include("../phpLogin.php"); ?>
     <div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
 
     <div class="bar_up">
-        <a href="home.htm" class="barUpTxtRight">Homepage</a>
-        <a href="veri.htm" class="barUpTxtRight">Sign Up</a>
+        <a href="home.php" class="barUpTxtRight">Homepage</a>
+        <a href="veri.php" class="barUpTxtRight">Sign Up</a>
     </div>
 
     <div class="mid">
@@ -29,10 +28,10 @@
             <label for="fpassword">Password</label><br>
             <input type="password" placeholder="              Password" name="password"><br>
 
-            <a href= "Main.htm"><button class="button">Continue</button></a><br>
+            <a href= "Main.php"><button class="button">Continue</button></a><br>
             <button class="button" onclick="login()">Testing</button><br>
-            <a href= "veri.htm"><button class="button">SIGN UP</button></a><br>
-            <button>Testing PHP</button>
+            <!--<a href= "veri.php"><button class="button">SIGN UP</button></a><br>-->
+            <!--<button>Testing PHP</button>-->
         </form>
     
         <img class ="login_logo" src="..//Pictures//logo.png">
