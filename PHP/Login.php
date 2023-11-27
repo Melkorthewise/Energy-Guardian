@@ -58,18 +58,18 @@
     <div class="bar_down">
         <br>
     </div>
-
-    <script>
-    function toMainPage(){
-            window.location.href = 'LogintoMain.php';
-            var user = document.getElementById("user");
-            var userPassword = document.getElementById("userPassword");
-            
-            <?php
-                $sql = "SELECT UserID FROM energyguardian";
-            ?>
-        }
-    </script>
 </body>
 </html>
 
+<script>
+    function toMainPage(){
+        //E-mail adress werkt niet, invoeren email leidt tot error, geen email leidt tot inloggen
+        window.location.href = 'LogintoMain.php';
+        var user = document.getElementById("user");
+        var userPassword = document.getElementById("userPassword");
+        
+        <?php
+            $sql = "SELECT UserID FROM energyguardian";
+        ?>
+    }
+</script>

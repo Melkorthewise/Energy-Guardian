@@ -1,6 +1,6 @@
 <?php
-$userName = $_POST["email"];
-$password = $_POST["password"];
+//$userName = $_POST["email"];
+//$password = $_POST["password"];
 
 $host = "localhost";
 $userNameDatabase = "root";
