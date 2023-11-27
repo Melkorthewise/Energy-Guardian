@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" href="../style.css">
+    <script src="../test.js"></script>
 </head>
 
 <body>
@@ -18,18 +21,19 @@
     <div class="mid">
         <h1 class="login_txt">Energy-Guardian</h1>
 
-        <form class="inlog_boxes">
+        <form class="inlog_boxes" action="../phpLogin.php" method="post">
             <!--E-mailbox, Passwordbox and Submitbutton-->
             <label for="femail">E-mail adress:</label><br>
-            <input type="email" placeholder="    example@hotmail.com"><br><br>
+            <input type="email" placeholder="    example@hotmail.com" name="email"><br><br>
             <label for="fpassword">Password</label><br>
-            <input type="password" placeholder="              Password">
+            <input type="password" placeholder="              Password" name="password"><br>
+
+            <a href= "Main.htm"><button class="button">Continue</button></a><br>
+            <button class="button" onclick="login()">Testing</button><br>
+            <a href= "veri.htm"><button class="button">SIGN UP</button></a><br>
+            <button>Testing PHP</button>
         </form>
-
-
-        <a href= "Main.htm"><button class="button">Continue</button></a><br><br>
-        <a href= "veri.htm"><button class="button">SIGN UP</button></a>
-
+    
         <img class ="login_logo" src="..//Pictures//logo.png">
     </div>
 
@@ -38,3 +42,4 @@
     </div>
 </body>
 </html>
+
