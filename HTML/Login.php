@@ -1,4 +1,22 @@
+<?php
+    $host = "localhost";
+    $userNameDatabase = "root";
+    $passwordDatabase = "JHKest24";
+    $databaseName = "energyguardian";
 
+    $connect = new mysqli(hostname: $host,
+                            username: $userNameDatabase, 
+                            password: $passwordDatabase,
+                            database: $databaseName,
+                            port: 3306);
+
+
+    if(mysqli_connect_errno()){
+        die("Connection error: ". $mysqli -> connect_error);
+    }
+
+    //echo "Connected";
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,16 +39,16 @@
     <div class="mid">
         <h1 class="login_txt">Energy-Guardian</h1>
 
-        <form class="inlog_boxes" action="../phpLogin.php" method="post">
+        <form class="inlog_boxes" method="post">
             <!--E-mailbox, Passwordbox and Submitbutton-->
             <label for="femail">E-mail adress:</label><br>
-            <input type="email" placeholder="    example@hotmail.com" name="email"><br><br>
+            <input type="email" placeholder="    example@hotmail.com" name="email" id="user"><br><br>
             <label for="fpassword">Password</label><br>
-            <input type="password" placeholder="              Password" name="password"><br>
+            <input type="password" placeholder="              Password" name="password" id="userPassword"><br>
 
-            <a href= "Main.php"><button class="button">Continue</button></a><br>
-            <button class="button" onclick="login()">Testing</button><br>
-            <!--<a href= "veri.php"><button class="button">SIGN UP</button></a><br>-->
+            <button class="button" onclick="toMainPage()">Continue</button><br>
+            <!--<button class="button" onclick="login()">Testing</button><br>-->
+            <a href= "veri.php"><button class="button">SIGN UP</button></a><br>
             <!--<button>Testing PHP</button>-->
         </form>
     
@@ -43,3 +61,14 @@
 </body>
 </html>
 
+<script>
+    function toMainPage(){
+        var user = document.getElementById("user");
+        var userPassword = document.getElementById("userPassword");
+        
+        <?php
+            $sql = "SELECT UserID FROM energyguardian";
+        ?>
+        //window.location.href = 'Main.php';
+    }
+</script>
