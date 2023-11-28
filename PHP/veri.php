@@ -39,9 +39,15 @@
 
 
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <a href= "Login.php"><button class="button">Login</button></a>
+        <a href= "Login.php"><button class="button" onclick="login()">Login</button></a>
 
         <img class ="login_logo" src="..//Pictures//logo.png">
+
+        <script>
+            function inlog(){
+                window.location.href="Login.php";
+            }
+        </script>
     </div>
 
     <div class="bar_down">
@@ -49,4 +55,3 @@
     </div>
 </body>
 </html>
-W

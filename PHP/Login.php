@@ -4,7 +4,7 @@
     $passwordDatabase = "JHKest24";
     $databaseName = "energyguardian";
 
-    $connect = new mysqli(hostname: $host,
+    $connect = mysqli_connect(hostname: $host,
                             username: $userNameDatabase, 
                             password: $passwordDatabase,
                             database: $databaseName,
@@ -12,7 +12,7 @@
 
 
     if(mysqli_connect_errno()){
-        die("Connection error: ". $mysqli -> connect_error);
+        die("Connection error: ". mysqli_connect_error());
     }
 
     //echo "Connected";
@@ -39,7 +39,7 @@
     <div class="mid">
         <h1 class="login_txt">Energy-Guardian</h1>
 
-        <form class="inlog_boxes"  method="post">
+        <form class="inlog_boxes">
             <!--E-mailbox, Passwordbox and Submitbutton-->
             <label for="femail">E-mail adress:</label><br>
             <input type="email" placeholder="    example@hotmail.com" name="email" id="user"><br><br>
@@ -48,11 +48,11 @@
 
             <button class="button" onclick="toMainPage()">Continue</button><br>
             <!--<button class="button" onclick="login()">Testing</button><br>-->
-            <a href= "veri.php"><button class="button">SIGN UP</button></a><br>
+            <button class="button" onclick="toSignupPage()">SIGN UP</button><br>
             <!--<button>Testing PHP</button>-->
         </form>
     
-        <img class ="login_logo" src="..//Pictures//logo.png">
+        <img class ="login_logo" src="../Pictures/logo.png">
     </div>
 
     <div class="bar_down">
@@ -68,8 +68,13 @@
         var user = document.getElementById("user");
         var userPassword = document.getElementById("userPassword");
         
-        <?php
-            $sql = "SELECT UserID FROM energyguardian";
-        ?>
+        //<?php
+            //$sql = "SELECT UserID FROM energyguardian";
+        //?>
+    }
+
+    function toSignupPage(){
+        //Werkt alleen op het moment dat er een input in de e-mail- en passwordbar zitten
+        window.location.href = 'veri.php';
     }
 </script>
