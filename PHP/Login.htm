@@ -11,7 +11,6 @@
 </head>
 
 <body>
-    <?php include("../phpLogin.php"); ?>
     <div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
 
     <div class="bar_up">
@@ -22,7 +21,7 @@
     <div class="mid">
         <h1 class="login_txt">Energy-Guardian</h1>
 
-        <form class="inlog_boxes" action="../phpLogin.php" method="post">
+        <form class="inlog_boxes" action="phpInlog.php" method="post">
             <!--E-mailbox, Passwordbox and Submitbutton-->
             <label for="femail">E-mail adress:</label><br>
             <input type="email" placeholder="    example@hotmail.com" name="email"><br><br>
@@ -44,3 +43,8 @@
 </body>
 </html>
 
+<script>
+    function login(){
+        window.location.href = "Main.htm";
+    }
+</script>

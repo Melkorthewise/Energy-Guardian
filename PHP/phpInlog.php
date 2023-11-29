@@ -1,19 +1,33 @@
 <?php
+
 $userName = $_POST["email"];
-$password = $_POST["password"];
+$userPassword = $_POST["password"];
 
 $host = "localhost";
-$username = "root";
-$password = "JHKest24!";
-$database = "energy_guardians";
+$user = "root";
+$password = "";
+$databaseName = "energyguardian";
 
-$conn = mysqli_connect($host, $username, $password, $database);
+$conn = mysqli_connect(hostname:$host, 
+                        username:$user, 
+                        password:$password, 
+                        database:$databaseName);
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+if(mysqli_connect_errno()){
+    die("Error " . mysqli_connect_error());
 }
 
-echo "Connected successfully";
 
-mysqli_close($conn);
+$sql = "SELECT Email_Address, PW FROM login 
+WHERE Email_Address = '$userName' AND PW = '$userPassword'";
+
+$result = $conn->query($sql);
+
+
+if ($result) {
+    header("Location: Main.htm");
+    exit;
+}
+
+die("ERROR");
 ?>
