@@ -17,29 +17,29 @@
     <div class="mid">
         <h1 class="login_txt">Energy-Guardian</h1>
 
-        <form class="inlog_boxes">
+        <form class="inlog_boxes" action="phpSignUp.php" method="post">
             <!--E-mailbox, Passwordbox and Submitbutton-->
             <label for="First Name">First Name</label><br>
-            <input type="First Name" placeholder="              First Name"><br></br>
+            <input type="text" placeholder="              First Name" name="firstName" id="firstName"><br></br>
 
-            <label for="Second Name">First Name</label><br>
-            <input type="Second Name" placeholder="              Second Name"><br></br>
+            <label for="Second Name">Last Name</label><br>
+            <input type="text" placeholder="              Second Name" name="lastName" id="lastName"><br></br>
 
-            <label for="fEmail">E-mail adress:</label><br>
-            <input type="Email" placeholder="    example@hotmail.com"><br><br>
+            <label for="fEmail">E-mail Adress:</label><br>
+            <input type="Email" placeholder="    example@hotmail.com" name="email" id="email"><br><br>
 
             <label for="fPassword">Password</label><br>
-            <input type="Password" placeholder="              Password"><br></br>
+            <input type="Password" placeholder="              Password" name="password" id="password"><br></br>
 
             <label for="fRepeat Password">Repeat Password</label><br>
-            <input type="Password" placeholder="              Password"><br></br>
+            <input type="Password" placeholder="              Password" name="passwordRepeat" id="passwordRepeat"><br></br>
 
             
         </form>
 
 
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <a href= "Login.htm"><button class="button">Login</button></a>
+        <button class="button" onclick = "signUp()">SIGN UP!</button></a>
 
         <img class ="login_logo" src="..//Pictures//logo.png">
     </div>
@@ -49,4 +49,29 @@
     </div>
 </body>
 </html>
-W
+
+<script>
+    function signUp(){
+        var firstName = document.getElementById("firstName");
+        alert("1");
+        var lastName = document.getElementById("lastName");
+        var email = document.getElementById("email");
+        var password = document.getElementById("password");
+        var repeatPassword = document.getElementById("passwordRepeat");
+
+        if(password.value == repeatPassword.value){
+            window.location.href = "phpSignUp.php";
+            alert(firstName);
+            alert(password);
+        }
+
+        else{
+            alert("Passwords do not match, try again");
+            firstName.value = "";
+            lastName.value = "";
+            email.value = "";
+            password.value = "";
+            repeatPassword.value = "";
+        }
+    }
+</script>

@@ -18,7 +18,7 @@ if(mysqli_connect_errno()){
 }
 
 
-$sql = "SELECT Email_Address, PW FROM login 
+$sql = "SELECT UserID FROM login 
 WHERE Email_Address = '$userName' AND PW = '$userPassword'";
 
 $result = $conn->query($sql);
