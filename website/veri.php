@@ -12,7 +12,7 @@
 
     if(isset($_POST['submit'])){
         $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
+        $lastName = $_POST['secondName'];
         $email = $_POST['email'];
         $user_password = $_POST['password'];
         
@@ -51,13 +51,13 @@
     <div class="mid">
         <h1 class="login_txt">Energy-Guardian</h1>
 
-        <form class="inlog_boxes" method="post" onsubmit="signUp()">
+        <form class="inlog_boxes" method="post" onsubmit="signUp(event)">
             <!--E-mailbox, Passwordbox and Submitbutton-->
             <label for="First Name">First Name</label><br>
             <input type="text" placeholder="              First Name" name="firstName" id="firstName"><br></br>
 
             <label for="Second Name">Last Name</label><br>
-            <input type="text" placeholder="              Second Name" name="lastName" id="lastName"><br></br>
+            <input type="text" placeholder="              Second Name" name="secondName" id="secondName"><br></br>
 
             <label for="fEmail">E-mail Adress:</label><br>
             <input type="Email" placeholder="    example@hotmail.com" name="email" id="email"><br><br>
@@ -68,7 +68,7 @@
             <label for="fRepeat Password">Repeat Password</label><br>
             <input type="Password" placeholder="              Password" name="passwordRepeat" id="passwordRepeat"><br></br>
 
-            <input class="button" type="submit">SIGN UP!</input></a>
+            <input class="button" type="submit" name="submit">SIGN UP!</input></a>
 
             
         </form>
@@ -86,7 +86,7 @@
 <script>
     function signUp(){
         var firstName = document.getElementById("firstName");
-        var lastName = document.getElementById("lastName");
+        var secondName = document.getElementById("secondName");
         var email = document.getElementById("email");
         var password = document.getElementById("password");
         var repeatPassword = document.getElementById("passwordRepeat");
@@ -98,7 +98,7 @@
         else{
             alert("Passwords do not match, try again");
             firstName.value = "";
-            lastName.value = "";
+            secondName.value = "";
             email.value = "";
             password.value = "";
             repeatPassword.value = "";
