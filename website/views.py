@@ -1,14 +1,19 @@
 from django.http import HttpResponse
 from django.template import loader
-from .models import Wattage
+from django.shortcuts import redirect, render
+#from .models import Wattage, Login
+from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 
+
+@csrf_protect
 def login(request):
-    data = Wattage.objects.all().values()
-    template = loader.get_template("index.html")
-    context = {
-        'data': data,
-    }
-    return HttpResponse(template.render(context, request))
+    #username = request.POST['username']
+    #password = request.POST['password']
+
+    #for p in Login.objects.raw("SELECT * FROM login"):
+    #    print(p)
+
+    return render(request, "login.html")
 
 
 def main(request):
@@ -16,5 +21,4 @@ def main(request):
     return HttpResponse(template.render())
 
 def home(request):
-    template = loader.get_template("home.html")
-    return HttpResponse(template.render())
+    return render(request, "index.html")

@@ -7,6 +7,7 @@
 
 body {
     background-color: rgb(248, 248, 248);
+    background-color:lightslategray;
 }
 
 img {
@@ -30,7 +31,7 @@ img {
     background-color: #04AA6D;
     text-align:center;
     height:1.45em;
-    width:300px;
+    min-width:300px;
     color:white;
     padding-top: 1.25vh;
 }
@@ -38,7 +39,7 @@ img {
 .navbar-link {
     color: white;
     text-decoration: none;
-    padding-top: 2vh;
+    padding-top: 2.2vh;
     padding-right: 20px;
 
     float: right;
@@ -64,6 +65,8 @@ img {
     margin-left: auto;
     margin-right: auto;
     margin-top: 100px;
+    /*background-color: rgb(248, 248, 248);*/
+    padding: 20px;
 }
 
 .login_txt{
@@ -86,7 +89,7 @@ img {
     right:0vh;
 }
 
-#text, #password {
+#username, #password {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -104,32 +107,6 @@ img {
     cursor: pointer;
     width: 100%;
 }
-
-.button{
-    background-color:rgb(235, 223, 223);
-    border:100px 15px;
-    color:rgb(0, 0, 0);
-    width:100px;
-    text-align:center;
-    text-decoration:none;
-    display:inline-block;
-    font-size:11px;
-    max-height:15px;
-
-}
-
-/*.title-navbar{
-    padding-top:1.5vh;
-    text-decoration:none;
-    font-family:Arial, Helvetica, sans-serif;
-    font-size:2vh;
-    color:white;
-    float: left;
-    margin-right:30px;
-    margin-top:0.5%;
-    z-index: -3;
-    cursor:pointer;
-}*/
 
 
 .mid{

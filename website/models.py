@@ -145,8 +145,9 @@ class Login(models.Model):
         db_table = 'login'
 
 
-class Wattage(models.Model):
-    volt = models.IntegerField(db_column='Volt', primary_key=True)  # Field name made lowercase.
+class Data(models.Model):
+    dataid = models.IntegerField(db_column='DataID', primary_key=True)
+    volt = models.IntegerField(db_column='Volt')  # Field name made lowercase.
     ampere = models.IntegerField(db_column='Ampere', blank=True, null=True)  # Field name made lowercase.
     userid = models.ForeignKey(Login, models.DO_NOTHING, db_column='UserID', to_field='userid', blank=True, null=True)  # Field name made lowercase.
 
