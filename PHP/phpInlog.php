@@ -25,7 +25,7 @@ $result = $conn->query($sql);
 
 
 if ($result) {
-    header("Location: Main.htm");
+    header("Location: Main.php");
     exit;
 }
 

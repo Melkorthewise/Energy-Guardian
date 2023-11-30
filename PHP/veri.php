@@ -20,19 +20,19 @@
         <form class="inlog_boxes" action="phpSignUp.php" method="post">
             <!--E-mailbox, Passwordbox and Submitbutton-->
             <label for="First Name">First Name</label><br>
-            <input type="text" placeholder="              First Name" name="firstName" id="firstName"><br></br>
+            <input type="text" placeholder="              First Name" name="firstName[]" id="firstName"><br></br>
 
             <label for="Second Name">Last Name</label><br>
-            <input type="text" placeholder="              Second Name" name="lastName" id="lastName"><br></br>
+            <input type="text" placeholder="              Second Name" name="lastName[]" id="lastName"><br></br>
 
             <label for="fEmail">E-mail Adress:</label><br>
-            <input type="Email" placeholder="    example@hotmail.com" name="email" id="email"><br><br>
+            <input type="Email" placeholder="    example@hotmail.com" name="email[]" id="email"><br><br>
 
             <label for="fPassword">Password</label><br>
-            <input type="Password" placeholder="              Password" name="password" id="password"><br></br>
+            <input type="Password" placeholder="              Password" name="password[]" id="password"><br></br>
 
             <label for="fRepeat Password">Repeat Password</label><br>
-            <input type="Password" placeholder="              Password" name="passwordRepeat" id="passwordRepeat"><br></br>
+            <input type="Password" placeholder="              Password" name="passwordRepeat[]" id="passwordRepeat"><br></br>
 
             
         </form>
@@ -53,7 +53,6 @@
 <script>
     function signUp(){
         var firstName = document.getElementById("firstName");
-        alert("1");
         var lastName = document.getElementById("lastName");
         var email = document.getElementById("email");
         var password = document.getElementById("password");
@@ -61,8 +60,6 @@
 
         if(password.value == repeatPassword.value){
             window.location.href = "phpSignUp.php";
-            alert(firstName);
-            alert(password);
         }
 
         else{

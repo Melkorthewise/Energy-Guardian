@@ -45,6 +45,6 @@
 
 <script>
     function login(){
-        window.location.href = "Main.htm";
+        window.location.href = "Main.php";
     }
 </script>

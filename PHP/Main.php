@@ -36,7 +36,7 @@
             }
 
             function inlog(){
-                window.location.href="Login.htm";
+                window.location.href="Login.php";
             }
         </script>
 
@@ -44,7 +44,7 @@
 
     <div id="mid" class="mid">
         <div style="height:80vh">
-            <a href="plotter.htm"><div class="verbruikNu" style="position:absolute; left:15vw; top:15vh">
+            <a href="plotter.php"><div class="verbruikNu" style="position:absolute; left:15vw; top:15vh">
                 <h3 id="txt" class="mainH3">Usage now</h3>
                 <div class="squareMain">
                     <h2 class="error" id="output">Click!</h2>

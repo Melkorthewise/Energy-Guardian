@@ -29,7 +29,7 @@ if ($conn->query($sqlOutput) === TRUE) {
 
 
     if ($result) {
-        header("Location: Main.htm");
+        header("Location: Main.php");
         exit;
     }
 
