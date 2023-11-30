@@ -1,59 +1,47 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: bahnschrift;
+    font-weight: 400;
 }
 
+body {
+    background-color: rgb(248, 248, 248);
+}
 
-/* layout tabladen */
-.bar_up{
-    position:fixed;
+img {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* layout header and footer */
+.header{
     text-size-adjust:1vh;
     background-color: #333;
     width:100%;
     font-size:2vh;
     height:7vh;
     z-index: -2;
+    overflow: hidden;
 }
 
-.barUpTxtLeft{
+.title-navbar{
     position:fixed;
-    float:left;
-    text-align:center;
-    height:7vh;
-    width:300px;
-    text-decoration:none;
-    font-family:Arial, Helvetica, sans-serif;
-    font-size:1.76vh;
-    color:white;
     background-color: #04AA6D;
-    z-index:-1;
-}
-
-.guardian{
-    padding: 4%;
-}
-.barUpTxtRight{
-    padding-top:1.5vh;
-    text-decoration:none;
-    font-family:Arial, Helvetica, sans-serif;
-    font-size:2vh;
-    color:white;
-    float:right;
-    margin-right:30px;
-    margin-top:0.5%;
-    z-index: -3;
-    cursor:pointer;
-}
-
-
-.mid{
-    position:absolute;
-    background-color:lightslategray;
     text-align:center;
-    top:6.9%;
-    width:100%;
-    height:93vh;
-    z-index:-3;
+    height:1.45em;
+    width:300px;
+    color:white;
+    padding-top: 1.25vh;
+}
+
+.navbar-link {
+    color: white;
+    text-decoration: none;
+    padding-top: 2vh;
+    padding-right: 20px;
+
+    float: right;
 }
 
 .bar_down{
@@ -68,6 +56,90 @@
     overflow-x: hidden;
     transition: 1.5s;
     overflow-y:hidden;
+}
+
+/* layout inlogscherm */
+.main-login {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+}
+
+.login_txt{
+    text-align:center;
+}
+
+.inlog_boxes{
+    bottom:0;
+    top:auto;
+    text-align:center;
+    width:100%;
+    height:20vh;
+    line-height:30px;
+}
+.logo-login{
+    height:40vh;
+    width:40vh;
+    position:absolute;
+    bottom:0.5vh;
+    right:0vh;
+}
+
+#text, #password {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#submit{
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.button{
+    background-color:rgb(235, 223, 223);
+    border:100px 15px;
+    color:rgb(0, 0, 0);
+    width:100px;
+    text-align:center;
+    text-decoration:none;
+    display:inline-block;
+    font-size:11px;
+    max-height:15px;
+
+}
+
+/*.title-navbar{
+    padding-top:1.5vh;
+    text-decoration:none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:2vh;
+    color:white;
+    float: left;
+    margin-right:30px;
+    margin-top:0.5%;
+    z-index: -3;
+    cursor:pointer;
+}*/
+
+
+.mid{
+    position:absolute;
+    background-color:lightslategray;
+    text-align:center;
+    top:6.9%;
+    width:100%;
+    height:93vh;
+    z-index:-3;
 }
 
 .showTxtBarDown{
@@ -152,50 +224,8 @@
 }
 
 
-/* layout inlogscherm */
-.login_txt{
-    background-color: lightslategray;
-    text-align:center;
-    height:32.5vh;
-}
-
-.inlog_boxes{
-    bottom:0;
-    top:auto;
-    text-align:center;
-    width:100%;
-    height:20vh;
-    line-height:30px;
-}
-.login_logo{
-    height:40vh;
-    width:40vh;
-    position:absolute;
-    bottom:0.5vh;
-    right:0vh;
-}
-
-.inlog_submit{
-    text-align:center;
-}
-
-.button{
-    background-color:rgb(235, 223, 223);
-    border:100px 15px;
-    color:rgb(0, 0, 0);
-    width:100px;
-    text-align:center;
-    text-decoration:none;
-    display:inline-block;
-    font-size:11px;
-    max-height:15px;
-
-}
-
-
 /* layout Main page */
 body{
-    overflow-y:scroll;
     scrollbar-width:thin;
     scrollbar-color:#808080 #f0f0f0;
     margin:0;

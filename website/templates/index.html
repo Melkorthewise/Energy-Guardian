@@ -9,31 +9,28 @@
     <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
 </head>
 <body>
-    <div class="barUpTxtLeft"> <h1 class="guardian">Energy-Guardian</h1> </div>
+    <div class="header">
+        <h1 class="title-navbar">Energy-Guardian</h1>
 
-    <div class="bar_up">
-        <!--<a href="home.html" class="barUpTxtRight">Homepage</a>-->
-        <a href="veri.html" class="barUpTxtRight">Sign Up</a>
+        <a href="home.html" class="navbar-link">Homepage</a>
+        <a href="veri.html" class="navbar-link">Sign Up</a>
     </div>
 
-    <div class="mid">
+    <div class="main-login">
         <h1 class="login_txt">Login</h1>
 
-        <form class="inlog_boxes" method="post">
-            {% csrf_token %} 
-            <!--E-mailbox, Passwordbox and Submitbutton-->
-            <label for="email">E-mail adress:</label><br>
-            <input type="email" placeholder="example@hotmail.com" name="email"><br>
-            <label for="password">Password</label><br>
-            <input type="password" placeholder="Password" name="password"><br>
-
-            <a href="main">Continue</a><br>
-            <button class="button" onclick="login()">Testing</button><br>
-            <a href="veri.htm"><button class="button">SIGN UP</button></a><br>
-        </form>
-    
-        <img class ="login_logo" src="{% static 'logo.png' %}">
+        <form class="login" method="post">
+            <!-- crsf key -->
+            <label for="">Username</label><br>
+            <input type="text" name="text" id="text" placeholder="Username"><br>
+            <label for="">Password</label><br>
+            <input type="password" name="password" id="password" placeholder="Password"><br>
+            <br>
+            <input type="submit" value="Login" id="submit">
+        </form>    
     </div>
+
+    <img class ="logo-login" src="{% static 'logo.png' %}">
 
     <div class="bar_down">
         <br>
