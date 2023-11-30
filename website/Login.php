@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,26 +12,26 @@
     <div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
 
     <div class="bar_up">
-        <a href="home.htm" class="barUpTxtRight">Homepage</a>
-        <a href="veri.htm" class="barUpTxtRight">Sign Up</a>
+        <a href="website/home.php" class="barUpTxtRight">Homepage</a>
+        <a href="website/veri.php" class="barUpTxtRight">Sign Up</a>
     </div>
 
     <div class="mid">
         <h1 class="login_txt">Energy-Guardian</h1>
 
-        <form class="inlog_boxes" action="phpInlog.php" method="post">
+        <form class="inlog_boxes" action="" method="post">
             <!--E-mailbox, Passwordbox and Submitbutton-->
             <label for="femail">E-mail adress:</label><br>
             <input type="email" placeholder="    example@hotmail.com" name="email"><br><br>
             <label for="fpassword">Password</label><br>
-            <input type="password" placeholder="              Password" name="password"><br>
+            <input type="password" placeholder="              Password" name="user_password"><br>
 
-            <a href= "Main.htm"><button class="button">Continue</button></a><br>
+            <button class="button" type="submit" name="submit">Continue</button><br>
             <button class="button" onclick="login()">Testing</button><br>
-            <a href= "veri.htm"><button class="button">SIGN UP</button></a><br>
+            <a href= "veri.php"><button class="button">SIGN UP</button></a><br>
             <button>Testing PHP</button>
         </form>
-    
+
         <img class ="login_logo" src="..//Pictures//logo.png">
     </div>
 
@@ -48,3 +46,31 @@
         window.location.href = "Main.php";
     }
 </script>
+
+<?php
+    // Database connection
+    include("databaseCode/serverSetup.php");
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    if(isset($_POST['submit'])){
+        $email = $_POST['Email_Address'];
+        $user_password = $_POST['Password'];
+
+        $sql = "INSERT INTO login (Email_Address, password) VALUES ('$email', '$user_password')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+
+    $conn->close();
+?>
