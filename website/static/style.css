@@ -1,0 +1,235 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+
+/* layout tabladen */
+.bar_up{
+    position:fixed;
+    text-size-adjust:1vh;
+    background-color: #333;
+    width:100%;
+    font-size:2vh;
+    height:7vh;
+    z-index: -2;
+}
+
+.barUpTxtLeft{
+    position:fixed;
+    float:left;
+    text-align:center;
+    height:7vh;
+    width:300px;
+    text-decoration:none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:1.76vh;
+    color:white;
+    background-color: #04AA6D;
+    z-index:-1;
+}
+
+.guardian{
+    padding: 4%;
+}
+.barUpTxtRight{
+    padding-top:1.5vh;
+    text-decoration:none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:2vh;
+    color:white;
+    float:right;
+    margin-right:30px;
+    margin-top:0.5%;
+    z-index: -3;
+    cursor:pointer;
+}
+
+
+.mid{
+    position:absolute;
+    background-color:lightslategray;
+    text-align:center;
+    top:6.9%;
+    width:100%;
+    height:93vh;
+    z-index:-3;
+}
+
+.bar_down{
+    bottom: 0;
+    height: 3vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: auto;
+    background-color: #04AA6D;
+    overflow-x: hidden;
+    transition: 1.5s;
+    overflow-y:hidden;
+}
+
+.showTxtBarDown{
+    position:relative;
+    text-decoration:none;
+    top:10%;
+    width:100%;
+    text-align:center;
+    margin:30px;
+    font-size:4vh;
+    line-height:10vh;
+    font-family:Arial, Helvetica, sans-serif;
+    color:white;
+}
+
+.close{
+    position:absolute;
+    top:20px;
+    right:45px;
+    font-size:6vh;
+    text-decoration:none;
+    color:white;
+}
+
+.changePassword{
+    bottom: 0;
+    height: 0vh;
+    width: 0vw;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: auto;
+    background-color: #333;
+    overflow-x: hidden;
+    transition: 1.5s;
+    overflow-y:hidden;
+    text-align:center;
+}
+
+.closePassword{
+    position:absolute;
+    top:20px;
+    left:17vw;
+    font-size:6vh;
+    text-decoration:none;
+    color:white;
+    z-index:1;
+}
+
+.setDevice{
+    bottom: 0;
+    height: 0vh;
+    width: 0vw;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: auto;
+    background-color: #333;
+    overflow-x: hidden;
+    transition: 1.5s;
+    overflow-y:hidden;
+    text-align:center;
+    color:whitesmoke;
+}
+
+.closeDevice{
+    position:absolute;
+    top:20px;
+    left:17vw;
+    font-size:6vh;
+    text-decoration:none;
+    color:white;
+    z-index:1;
+}
+
+
+/* layout home */
+.logoHome{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
+/* layout inlogscherm */
+.login_txt{
+    background-color: lightslategray;
+    text-align:center;
+    height:32.5vh;
+}
+
+.inlog_boxes{
+    bottom:0;
+    top:auto;
+    text-align:center;
+    width:100%;
+    height:20vh;
+    line-height:30px;
+}
+.login_logo{
+    height:40vh;
+    width:40vh;
+    position:absolute;
+    bottom:0.5vh;
+    right:0vh;
+}
+
+.inlog_submit{
+    text-align:center;
+}
+
+.button{
+    background-color:rgb(235, 223, 223);
+    border:100px 15px;
+    color:rgb(0, 0, 0);
+    width:100px;
+    text-align:center;
+    text-decoration:none;
+    display:inline-block;
+    font-size:11px;
+    max-height:15px;
+
+}
+
+
+/* layout Main page */
+body{
+    overflow-y:scroll;
+    scrollbar-width:thin;
+    scrollbar-color:#808080 #f0f0f0;
+    margin:0;
+}
+
+.mainH3{
+    font-size:1.5vw;
+    color:black;
+}
+
+.squareMain{
+    height:calc(50px + 15vh);
+    width:calc(50px + 7.5vw);
+    background-color: greenyellow;
+    border-radius:15px;
+    border:1px solid;
+}
+
+.plot{
+    font-size:larger;
+}
+.error{
+    position:absolute;
+    bottom:7.5vh;
+    left:3.25vw;
+    color:red;
+    font-size:1.5vw;
+}
+
+.enableSettings{
+    position:absolute;
+    right:1vw;
+    font-size:calc(2vh);
+}
+.inlog_boxes{
+    margin-top: -10%;
+}
