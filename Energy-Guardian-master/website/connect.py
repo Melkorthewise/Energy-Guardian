@@ -9,7 +9,7 @@ class connecter:
         database="energy_guardian"
         )
     
-    def check(self, username, password):   
+    def login(self, username, password):   
         self.__init__()
         data = self.mydb.cursor()
 

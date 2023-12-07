@@ -15,8 +15,13 @@ def login(request):
 
         if database.login(username, password):
             return redirect('main')
-
-
+        
+        elif  username == "" or password == "":
+            return render(request, 'login.html')
+            
+        else:
+            return render(request, 'login.html', context={"error_message":"Wrong e-mail address / password"})
+    
     return render(request, 'login.html')
 
 def main(request):

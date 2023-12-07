@@ -19,6 +19,10 @@
     <div class="main-login">
         <h1 class="login_txt">Login</h1>
 
+        {% if error_message %}
+            <p>{{ error_message }}</p>
+        {% endif %}
+
         <form class="login" method="post">
             {% csrf_token %}
             <label for="username">Username</label><br>
