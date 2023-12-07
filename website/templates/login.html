@@ -10,19 +10,19 @@
 </head>
 <body>
     <div class="header">
-        <h1 class="title-navbar">Energy-Guardian</h1>
+        <a href="/"><h1 class="title-navbar">Energy-Guardian</h1></a>
 
-        <a href="/" class="navbar-link">Homepage</a>
-        <a href="Signup" class="navbar-link">Sign Up</a>
+        <!-- <a href="/" class="navbar-link">Homepage</a> -->
+        <a href="signup" class="navbar-link">Sign Up</a>
     </div>
 
     <div class="main-login">
         <h1 class="login_txt">Login</h1>
 
-        <form class="login" method="post">
+        <form method="post" class="login">
             {% csrf_token %}
             <label for="email">Email</label><br>
-            <input type="email" name="email" id="username" placeholder="Email"><br>
+            <input type="email" name="email" id="email" placeholder="Email"><br>
             <label for="password">Password</label><br>
             <input type="password" name="password" id="password" placeholder="Password"><br>
             <br>
@@ -30,7 +30,7 @@
         </form>    
     </div>
 
-    <img class ="logo-login" src="{% static 'logo.png' %}">
+    <img class="logo-login" src="{% static 'logo.png' %}">
 
     <div class="bar_down">
         <br>

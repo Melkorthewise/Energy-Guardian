@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 #from .models import Wattage, Login
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 import mysql.connector
+from .connect import *
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
@@ -15,17 +16,29 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
+def home(request):
+    return render(request, "index.html")
+
 @csrf_protect
 def login(request):
+    try:
+        user = request.session["user"]
+        return redirect('main')
+    except KeyError:
+        pass
+
     if request.method == "POST":
         #current_user_profile = request.user.profile
+        # Ophalen email en wachtwoord van ingevulde formulier
         email = request.POST.get("email")
         password = request.POST.get("password")
     
-        mycursor.execute("SELECT * FROM login WHERE email_address = '{}'".format(email))
+        # Het uitvoeren van de query met de opgehaalde gegevens
+        mycursor.execute("SELECT * FROM login WHERE email_address = '{}' and password = '{}'".format(email, password))
         myresult = mycursor.fetchall()
 
         for x in myresult:
+            # Checken of het de juiste gegevens zijn
             if x[1] == email and x[4] == password:
                 request.session["user"] = x[0]
                 response = redirect("main")
@@ -35,12 +48,10 @@ def login(request):
 
 
 def main(request):
-    user = request.session["user"]
-
-    # user = request.COOKIES.get('user')
-    if user is None:
-        response = redirect("login")
-        return response
+    try:
+        user = request.session["user"]
+    except KeyError:
+        return redirect('login')
     
     mycursor.execute("SELECT FirstName FROM login where UserID = '{}'".format(user))
     myresult = mycursor.fetchall()
@@ -52,9 +63,6 @@ def main(request):
 
     template = loader.get_template("main.html")
     return HttpResponse(template.render(context, request))
-
-def home(request):
-    return render(request, "index.html")
 
 def plotter(request):
     user = request.session["user"]
@@ -76,6 +84,30 @@ def plotter(request):
     return HttpResponse(template.render(context, request))
 
 def logout(request):
-    del request.session["user"]
+    try:
+        del request.session["user"]
+    except KeyError:
+        pass
     
-    return redirect("main")
+    #return redirect("main")
+
+def signup(request):
+    try:
+        user = request.session["user"]
+        return redirect('main')
+    except KeyError:
+        pass
+
+    if request.method == 'POST':
+        database = connecter()
+        firstName = request.POST.get("firstName")
+        lastName = request.POST.get("secondName")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        
+        database.signUp(email, firstName, lastName, password)
+
+        return redirect('login')
+        
+    
+    return render(request, 'signUp.html')

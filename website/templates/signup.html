@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sing Up</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
+</head>
+
+<body>
+    <div class="header">
+        <a href="/"><h1 class="title-navbar">Energy-Guardian</h1></a>
+
+        <a href="login" class="navbar-link">Login</a>
+        <!-- <a href="about" class="navbar-link">About</a> -->
+    </div>
+
+    <div class="main-login">
+        <h1 class="login_txt">Energy-Guardian</h1>
+
+        <!-- <form class="login" method="post" onsubmit="signUp(event)"> -->
+        <form method="post" class="login">
+            {% csrf_token %}
+            <!--E-mailbox, Passwordbox and Submitbutton-->
+            <label for="First Name">First Name</label><br>
+            <input type="text" placeholder="First Name" name="firstName" id="firstname"><br></br>
+
+            <label for="Second Name">Last Name</label><br>
+            <input type="text" placeholder="Second Name" name="secondName" id="secondname"><br></br>
+
+            <label for="fEmail">E-mail Adress:</label><br>
+            <input type="Email" placeholder="example@hotmail.com" name="email" id="email"><br><br>
+
+            <label for="fPassword">Password</label><br>
+            <input type="Password" placeholder="Password" name="password" id="password"><br></br>
+
+            <label for="fRepeat Password">Repeat Password</label><br>
+            <input type="Password" placeholder="Password" name="passwordRepeat" id="password"><br></br>
+
+            <input type="submit" value="Sign Up" id="submit">
+        </form>
+
+        <img class="logo-login" src="{% static 'logo.png' %}">
+
+    </div>
+
+    <div class="bar_down">
+        <br>
+    </div>
+</body>
+</html>
+
+<script>
+    // function signUp(){
+    //     var firstName = document.getElementById("firstName");
+    //     var secondName = document.getElementById("secondName");
+    //     var email = document.getElementById("email");
+    //     var password = document.getElementById("password");
+    //     var repeatPassword = document.getElementById("passwordRepeat");
+
+    //     if(password.value == repeatPassword.value){
+    //         window.location.href = "login";
+    //     }
+
+    //     else{
+    //         alert("Passwords do not match, try again");
+    //         firstName.value = "";
+    //         secondName.value = "";
+    //         email.value = "";
+    //         password.value = "";
+    //         repeatPassword.value = "";
+    //     }
+    // }
+</script>

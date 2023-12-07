@@ -7,7 +7,7 @@
 
 body {
     background-color: rgb(248, 248, 248);
-    background-color:lightslategray;
+    background-color:rgb(160, 166, 175);
 }
 
 img {
@@ -59,7 +59,7 @@ img {
     overflow-y:hidden;
 }
 
-/* layout inlogscherm */
+/* layout inlogscherm en signup-scherm*/
 .main-login {
     width: 50%;
     margin-left: auto;
@@ -89,7 +89,7 @@ img {
     right:0vh;
 }
 
-#username, #password {
+#firstname, #secondname, #email, #password {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -111,7 +111,6 @@ img {
 
 .mid{
     position:absolute;
-    background-color:lightslategray;
     text-align:center;
     top:6.9%;
     width:100%;
@@ -202,7 +201,42 @@ img {
 
 
 /* layout Main page */
-body{
+.main {
+    padding: 10px;
+    display: flex;
+}
+
+.graph {
+    margin: 10px;
+    width: 40%;
+}
+
+.data {
+    margin: 10px;
+    width: 30%;
+}
+
+.data-types {
+    background-color: rgb(223, 222, 222);
+    padding: 10px;
+}
+
+.devices {
+    margin: 10px;
+    width: 30%;
+}
+
+.module-header {
+    background-color: #04AA6D;
+    color: white;
+    padding: 10px;
+}
+
+
+
+
+
+/* old code body{
     scrollbar-width:thin;
     scrollbar-color:#808080 #f0f0f0;
     margin:0;
@@ -239,4 +273,4 @@ body{
 }
 .inlog_boxes{
     margin-top: -10%;
-}
+} */

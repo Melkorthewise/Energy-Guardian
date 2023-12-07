@@ -10,45 +10,90 @@
 </head>
 <body>
     <div class="header">
-        <h1 class="title-navbar">Energy-Guardian</h1>
-
+        <!-- <a href="main"><h1 class="title-navbar">Energy-Guardian</h1></a> -->
         {% for x in user %}
-            <a class="navbar-link">{{x}}</a>
+            <a href="main"><h1 class="title-navbar">Welcome, {{x}}</h1></a>
         {% endfor %}
+
         <a href="login" class="navbar-link">Logout</a>
         <a href="about" class="navbar-link">About</a>
     </div>
-    <!--<div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
-    <div class="bar_up">
-        <span class="barUpTxtRight" onclick="inlog()">Log out</span>
-        <span class="barUpTxtRight" onclick="openSettings()">Settings</span>
-        
-
-        <script type="text/javascript">
-            function openSettings() {
-                document.getElementById("barDown").style.height="50vh";
-            }
-            
-            function closeSettings() {
-                document.getElementById("barDown").style.height = "3vh";
-
-                if(document.getElementById("passwordBar").style.width > "0vw"){
-                    closePassword()
-                }
-
-                else if(document.getElementById("deviceBar").style.width > "0vw"){
-                    closeDevice();
-                }
-            }
-
-            function inlog(){
-                window.location.href="website/Login.php";
-            }
-        </script>-->
 
     </div>
 
-    <div id="mid" class="mid">
+    <div class="main">
+        <div class="graph">
+            <div class="module-header">
+                <h1>Usage</h1>
+            </div>
+            <canvas id="graph" width="100%" height="400px"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                
+            </script>
+        </div>
+
+        <div class="data">
+            <div class="module-header">
+                <h1>Average Usage</h1>
+            </div>
+            <div class="data-types">
+                Per hour: 4.5 Kwh.
+            </div>
+            <div class="data-types">
+                Per day: 98 Kwh
+            </div>
+            <div class="data-types">
+                Per week: 702 kWh
+            </div>
+            <div class="data-types">
+                Per year: 3630 kWh
+            </div>
+        </div>
+        
+        <div class="devices">
+            <div class="module-header">
+                <h1>Devices</h1>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <div id="mid" class="mid">
         <div style="height:80vh">
             <a href="plotter"><div class="verbruikNu" style="position:absolute; left:15vw; top:15vh">
                 <h3 id="txt" class="mainH3">Usage now</h3>
@@ -93,9 +138,9 @@
             </div>
 
         </div>
-    </div>
+    </div> -->
 
-    <div id="barDown" class="bar_down">
+    <!-- <div id="barDown" class="bar_down">
         <a href="javascript:void(0)" class="close" onclick="closeSettings()">&times;</a>
         <div class="showTxtBarDown">
             <a href="#" style="text-decoration:none; color:white" onclick="openPassword()">Change password</a><br>
@@ -196,6 +241,6 @@
 
             }
         </script>
-    </div> 
+    </div>  -->
 </body>
 </html>
