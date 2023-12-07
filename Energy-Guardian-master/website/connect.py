@@ -22,16 +22,38 @@ class connecter:
 
     def signUp(self, email, firstName, lastName, password):
         data = self.mydb.cursor()
+        
+        data.execute("SELECT UserID FROM login")
+        userID = [row[0] for row in data.fetchall()]
 
-        data.execute("SELECT MAX(UserID)+1 FROM login")
-        result = data.fetchone()
+        old = 0
+        setID = 0
+        through = True
+        
+        for id in userID:
+            if id == old:
+                old +=1
 
-        new_userid = result[0] if result is not None and result[0] is not None else 1
+            else:
+                setID = old
+                through = False
+                break
+
+        if through:
+            while setID in userID:
+                setID += 1
 
         sql = "INSERT INTO login (UserID, Email_Address, FirstName, SecondName, Password) VALUES (%s, %s, %s, %s, %s)"
-        val = (new_userid, email, firstName, lastName, password)
-        data.execute(sql, val)
-        self.mydb.commit()
+        val = (setID, email, firstName, lastName, password)
+        print(val)
+        try:
+            data.execute(sql, val)
+            self.mydb.commit()
+        except mysql.connector.Error as err:
+            if err.errno == 1062:
+                print(f"User with UserID {setID} already exists.")
+            else:
+                print(f"Error: {err}")
 
 
 
