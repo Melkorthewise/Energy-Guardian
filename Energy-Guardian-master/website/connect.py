@@ -45,7 +45,7 @@ class connecter:
 
         sql = "INSERT INTO login (UserID, Email_Address, FirstName, SecondName, Password) VALUES (%s, %s, %s, %s, %s)"
         val = (setID, email, firstName, lastName, password)
-        print(val)
+
         try:
             data.execute(sql, val)
             self.mydb.commit()
