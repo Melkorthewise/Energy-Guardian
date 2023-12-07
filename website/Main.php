@@ -36,7 +36,7 @@
             }
 
             function inlog(){
-                window.location.href="Login.php";
+                window.location.href="website/Login.php";
             }
         </script>
 
