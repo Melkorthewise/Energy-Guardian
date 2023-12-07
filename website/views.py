@@ -15,35 +15,67 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-
 @csrf_protect
 def login(request):
-    #username = request.POST.get['username']
-    #password = request.POST.get['password']
-
-    #for p in Login.objects.raw("SELECT * FROM login"):
-    #    print(p)
-
     if request.method == "POST":
         #current_user_profile = request.user.profile
-        username = request.POST.get("username")
+        email = request.POST.get("email")
         password = request.POST.get("password")
-
-        print(username, password)
     
-        # mycursor.execute("SELECT * FROM login WHERE username")
+        mycursor.execute("SELECT * FROM login WHERE email_address = '{}'".format(email))
+        myresult = mycursor.fetchall()
 
-        # myresult = mycursor.fetchall()
-
-        # for x in myresult:
-        #     print(x)
+        for x in myresult:
+            if x[1] == email and x[4] == password:
+                request.session["user"] = x[0]
+                response = redirect("main")
+                return response
 
     return render(request, "login.html")
 
 
 def main(request):
+    user = request.session["user"]
+
+    # user = request.COOKIES.get('user')
+    if user is None:
+        response = redirect("login")
+        return response
+    
+    mycursor.execute("SELECT FirstName FROM login where UserID = '{}'".format(user))
+    myresult = mycursor.fetchall()
+
+    for x in myresult:
+        context = {
+            'user': x,
+        }
+
     template = loader.get_template("main.html")
-    return HttpResponse(template.render())
+    return HttpResponse(template.render(context, request))
 
 def home(request):
     return render(request, "index.html")
+
+def plotter(request):
+    user = request.session["user"]
+
+    # user = request.COOKIES.get('user')
+    if user is None:
+        response = redirect("login")
+        return response
+    
+    mycursor.execute("SELECT FirstName FROM login where UserID = '{}'".format(user))
+    myresult = mycursor.fetchall()
+
+    for x in myresult:
+        context = {
+            'user': x,
+        }
+
+    template = loader.get_template("plotter.html")
+    return HttpResponse(template.render(context, request))
+
+def logout(request):
+    del request.session["user"]
+    
+    return redirect("main")

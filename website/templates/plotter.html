@@ -3,10 +3,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Power usage vieuwer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="{% static 'plotCode.js' %}"></script>
+    <script type="text/javascript" src="{% static 'settingsBehavior.js' %}"></script>
 </head>
 <body>
     <div class="header">
@@ -15,14 +18,15 @@
         {% for x in user %}
             <a class="navbar-link">{{x}}</a>
         {% endfor %}
-        <a href="login" class="navbar-link">Logout</a>
+        <a href="logout" class="navbar-link">Logout</a>
         <a href="about" class="navbar-link">About</a>
     </div>
-    <!--<div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
+    <!-- <div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
     <div class="bar_up">
         <span class="barUpTxtRight" onclick="inlog()">Log out</span>
         <span class="barUpTxtRight" onclick="openSettings()">Settings</span>
-        
+    
+        <div style="height:20vh">
 
         <script type="text/javascript">
             function openSettings() {
@@ -44,65 +48,78 @@
             function inlog(){
                 window.location.href="website/Login.php";
             }
-        </script>-->
+        </script>
 
-    </div>
+    </div> -->
 
-    <div id="mid" class="mid">
-        <div style="height:80vh">
-            <a href="plotter"><div class="verbruikNu" style="position:absolute; left:15vw; top:15vh">
-                <h3 id="txt" class="mainH3">Usage now</h3>
-                <div class="squareMain">
-                    <h2 class="error" id="output">Click!</h2>
-                </div>
-            </div></a>
+<div id="plot"></div>
+<input type="range" id="zoomSlider" min="0" max="5" step="0.1" value="5" style="width: 100%;" />
+<script>
+var currentZoom = 5;
+var yValues = [200, 400, 600, 800, 1000, 1200]; //originele y waarde thingie
 
-            <div class="verbruikPeriode" style="position:absolute; left:45vw; top:15vh">
-                <h3 id="txt" class="mainH3">Usage periode</h3>
-                <div class="squareMain">
-                    <h2 class="error" id="script">Error</h2>
-                </div>
-            </div>
+function updatePlot() {
+    var trace1 = {
+        x: [0, 1, 2, 3, 4, 5],
+        y: yValues,
+        mode: 'lines',
+        name: 'testing',
+        line: {
+          dash: 'dashdot',
+          width: 4
+        }
+    };
 
-            <div class="verbruikTotaal" style="position:absolute; left:75vw; top:15vh">
-                <h3 id="txt" class="mainH3">Usage total</h3>
-                <div class="squareMain">
-                    <h2 class="error">Error</h2>
-                </div>
-            </div>
+    var data = [trace1];
+    var layout = {
+        title: 'Current power usage',
+        xaxis: {
+          range: [0, currentZoom],
+          autorange: false
+        },
+        yaxis: {
+          range: [0, Math.max(...yValues)],
+          autorange: false
+        },
+        legend: {
+          y: 0.5,
+          traceorder: 'reversed',
+          font: {
+            size: 16
+          }
+        }
+    };
 
-            <div class="status" style="position:absolute; left:15vw; top:60vh">
-                <h3 id="txt" class="mainH3">Status</h3>
-                <div class="squareMain">
-                    <h2 class="error">Error</h2>
-                </div>
-            </div>
+    Plotly.react('plot', data, layout);
+}
 
-            <div class="timer" style="position:absolute; left:45vw; top:60vh">
-                <h3 id="txt" class="mainH3">Timer</h3>
-                <div class="squareMain">
-                    <h2 class="error">Error</h2>
-                </div>
-            </div>
+function updateYValues() {
+    yValues.push(Math.floor(Math.random()*1000)); 
+    yValues.shift(); 
+    updatePlot(); 
+}
 
-            <div class="apparaat" style="position:absolute; left:75vw; top:60vh">
-                <h3 id="txt" class="mainH3">Device</h3>
-                <div class="squareMain">
-                    <h2 class="error">Error</h2>
-                </div>
-            </div>
+document.addEventListener("DOMContentLoaded", function() {
+    updatePlot(); 
+    setInterval(updateYValues, 3000); //zorgt voor de 3 seconde vertraging
+});
 
-        </div>
-    </div>
+document.getElementById('zoomSlider').addEventListener('input', function(e) {
+    currentZoom = e.target.value;
+    updatePlot();
+});
 
-    <div id="barDown" class="bar_down">
+
+
+</script>
+
+</body>
+</html>
+<div id="barDown" class="bar_down">
         <a href="javascript:void(0)" class="close" onclick="closeSettings()">&times;</a>
         <div class="showTxtBarDown">
-            <a href="#" style="text-decoration:none; color:white" onclick="openPassword()">Change password</a><br>
-            <a href="#" style="text-decoration:none; color:white" onclick="openDevice()">Connect device</a><br>
-            <a href="#" style="text-decoration:none; color:white" onclick="lightMode()">Light mode /</a>
-            <a href="#" style="text-decoration:none; color:white" onclick="normalMode()">Normal mode /</a>
-            <a href="#" style="text-decoration:none; color:white" onclick="darkMode()">Dark mode</a>
+            <button href="#" class="settings-button" style="text-decoration:none;" onclick="openPassword()">Change password</button><br>
+            <a href="#" class="settings-button" style="text-decoration:none;" onclick="openDevice()">Connect device</a><br>
         </div>
 
         <div id="passwordBar" class="changePassword">
@@ -197,5 +214,5 @@
             }
         </script>
     </div> 
+
 </body>
-</html>
