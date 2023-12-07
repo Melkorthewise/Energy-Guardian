@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Energy_Guardians.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'energy_guardians',
+        'NAME': 'energy_guardian',
         'USER': 'root',
         'PASSWORD': 'toor',
         'HOST': '127.0.0.1',
