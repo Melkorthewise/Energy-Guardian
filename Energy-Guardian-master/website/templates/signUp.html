@@ -4,15 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="../style.css">
+    <title>Sing Up</title>
+    <link rel="stylesheet" href="{% static 'styleFromPhp.css' %}">
+    <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
 </head>
 
 <body>
     <div class="barUpTxtLeft"><h1 class="guardian">Energy-Guardian</h1></div>
 
     <div class="bar_up">
-        <a href="home.htm" class="barUpTxtRight">Homepage</a>
+        <a href="login" class="barUpTxtRight">Homepage</a>
     </div>
 
     <div class="mid">
@@ -36,7 +37,7 @@
             <label for="fRepeat Password">Repeat Password</label><br>
             <input type="Password" placeholder="              Password" name="passwordRepeat" id="passwordRepeat"><br></br>
 
-            <input class="button" type="submit" name="submit">SIGN UP!</input></a>
+            <input class="button" type="submit" name="submit">SIGN UP!</a>
 
             
         </form>
@@ -60,7 +61,7 @@
         var repeatPassword = document.getElementById("passwordRepeat");
 
         if(password.value == repeatPassword.value){
-            window.location.href = "login.html";
+            window.location.href = "login";
         }
 
         else{
