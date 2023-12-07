@@ -9,9 +9,12 @@ from .connect import *
 @csrf_protect
 def login(request):
     if request.method == 'POST':
+        database = connecter()
         username = request.POST.get("username")
         password = request.POST.get("password")
 
+        if database.login(username, password):
+            return redirect('main')
 
 
     return render(request, 'login.html')

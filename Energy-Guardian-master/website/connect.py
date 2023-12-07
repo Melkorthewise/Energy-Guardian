@@ -9,16 +9,21 @@ class connecter:
         database="energy_guardian"
         )
     
-    def check(self):   
+    def check(self, username, password):   
         self.__init__()
         data = self.mydb.cursor()
 
-        data.execute("SELECT Email_Address, Password FROM login")
+        check = "SELECT Email_Address, Password FROM login WHERE Email_Address = %s AND Password = %s"
+        values = (username, password)
+        data.execute(check, values)
 
         myresult = data.fetchall()
 
-        for x in myresult:
-            print(x)
+        if myresult:
+            return True
+        
+        else:
+            return False
 
     def signUp(self, email, firstName, lastName, password):
         data = self.mydb.cursor()
@@ -58,5 +63,3 @@ class connecter:
 
 
 connector_instance = connecter()
-
-connector_instance.check()
