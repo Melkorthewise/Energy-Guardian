@@ -222,8 +222,12 @@ img {
 }
 
 .devices {
+    background-color: rgb(223, 222, 222);
     margin: 10px;
     width: 30%;
+    height: 51.5em;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .module-header {

@@ -86,10 +86,11 @@ def plotter(request):
 def logout(request):
     try:
         del request.session["user"]
+        return redirect('login')
     except KeyError:
         pass
     
-    #return redirect("main")
+    return redirect("main")
 
 def signup(request):
     try:
