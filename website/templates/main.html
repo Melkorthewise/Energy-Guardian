@@ -12,7 +12,7 @@
     <div class="header">
         <!--  <a href="main"><h1 class="title-navbar">Energy-Guardian</h1></a> -->
         {% for x in user %}
-            <a href="main"><h1 class="title-navbar">Welcome, {{x}}</h1></a>
+            <a href="main"><h1 class="title-navbar">Welcome, {{user}}</h1></a>
         {% endfor %}
 
         <a href="logout" class="navbar-link">Logout</a>
@@ -44,6 +44,9 @@
             <div class="data-types">
                 Per year: 3630 kWh
             </div>
+            {% for x in voltage %}
+                <p>{{x}}</p>
+            {% endfor %}
         </div>
         
         <div class="devices">

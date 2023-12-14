@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_
 import mysql.connector
 from .connect import *
 
+
+# Database connection
 mydb = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
@@ -16,9 +18,13 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
+
+#Home pagina
 def home(request):
     return render(request, "index.html")
 
+
+# Login pagina
 @csrf_protect
 def login(request):
     try:
@@ -37,6 +43,8 @@ def login(request):
         mycursor.execute("SELECT * FROM login WHERE email_address = '{}' and password = '{}'".format(email, password))
         myresult = mycursor.fetchall()
 
+        print(myresult)
+
         for x in myresult:
             # Checken of het de juiste gegevens zijn
             if x[1] == email and x[4] == password:
@@ -47,23 +55,40 @@ def login(request):
     return render(request, "login.html")
 
 
+# Main page with dashboard
 def main(request):
     try:
         user = request.session["user"]
     except KeyError:
         return redirect('login')
     
-    mycursor.execute("SELECT FirstName FROM login where UserID = '{}'".format(user))
-    myresult = mycursor.fetchall()
+    # Sorteren op datum waar die kijkt naar bijvoorbeeld de afgelopen 24 uur
+    mycursor.execute("SELECT DeviceID, Volt, Ampere, latestpulltime FROM wattage where UserID = '{}'".format(user))
+    #voltage = [row[1] for row in mycursor.fetchall()]
+    #amperage = [row[2] for row in mycursor.fetchall()]
+    data = [row[1] for row in mycursor.fetchall()]
+    time = [row[3] for row in mycursor.fetchall()]
 
-    for x in myresult:
-        context = {
-            'user': x,
-        }
+    mycursor.execute("SELECT FirstName FROM login where UserID = '{}'".format(user))
+    user_tuple = mycursor.fetchone()    
+
+    user = user_tuple[0] if user_tuple else None
+    
+    context = {
+        'user': user,
+        'voltage': data,
+        'time': time,
+    }
+            
+    # print(type(context), context)
+
+    # print("Test:", context)
 
     template = loader.get_template("main.html")
     return HttpResponse(template.render(context, request))
 
+
+# Plotter pagina
 def plotter(request):
     user = request.session["user"]
 
@@ -83,6 +108,8 @@ def plotter(request):
     template = loader.get_template("plotter.html")
     return HttpResponse(template.render(context, request))
 
+
+# Logout function
 def logout(request):
     try:
         del request.session["user"]
@@ -92,6 +119,8 @@ def logout(request):
     
     return redirect("main")
 
+
+# Signup pagina maken
 def signup(request):
     try:
         user = request.session["user"]
