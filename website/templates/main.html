@@ -11,9 +11,7 @@
 <body>
     <div class="header">
         <!--  <a href="main"><h1 class="title-navbar">Energy-Guardian</h1></a> -->
-        {% for x in user %}
-            <a href="main"><h1 class="title-navbar">Welcome, {{user}}</h1></a>
-        {% endfor %}
+        <a href="main"><h1 class="title-navbar">Welcome, {{user}}</h1></a>
 
         <a href="logout" class="navbar-link">Logout</a>
         <a href="about" class="navbar-link">About</a>
@@ -24,7 +22,6 @@
             <div class="module-header">
                 <h1>Usage</h1>
             </div>
-            <!-- Graph can be placed here -->
             
         </div>
 
@@ -32,27 +29,45 @@
             <div class="module-header">
                 <h1>Average Usage</h1>
             </div>
-            <div class="data-types">
-                Per hour: 4.5 Kwh.
+            <div class="blocks">
+                <div class="data-types">
+                    <div class="center">
+                        Per hour: <br>
+                        4.5 Kwh.
+                    </div>
+                </div>
+                <div class="data-types">
+                    <div class="center">
+                        Per day: <br> 
+                        98 Kwh
+                    </div>
+                </div>
+                <div class="data-types">
+                    <div class="center">
+                        Per week: <br>
+                        702 kWh
+                    </div>
+                </div>
+                <div class="data-types">
+                    <div class="center">
+                        Per year: <br>
+                        3630 kWh
+                    </div>
+                </div>
+                <!-- {% for x in voltage %}
+                    <p>{{x}}</p>
+                {% endfor %} -->
             </div>
-            <div class="data-types">
-                Per day: 98 Kwh
-            </div>
-            <div class="data-types">
-                Per week: 702 kWh
-            </div>
-            <div class="data-types">
-                Per year: 3630 kWh
-            </div>
-            {% for x in voltage %}
-                <p>{{x}}</p>
-            {% endfor %}
         </div>
         
         <div class="devices">
             <div class="module-header">
                 <h1>Devices</h1>
             </div>
+            <p>{{device}}</p>
+            {% for x in device %}
+                <p>{{x}}</p>
+            {% endfor %}
         </div>
     </div>
 

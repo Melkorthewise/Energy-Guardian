@@ -72,17 +72,22 @@ def main(request):
     mycursor.execute("SELECT FirstName FROM login where UserID = '{}'".format(user))
     user_tuple = mycursor.fetchone()    
 
-    user = user_tuple[0] if user_tuple else None
+    username = user_tuple[0] if user_tuple else None
+
+    mycursor.execute("SELECT Name_Device FROM device where DeviceID in (SELECT DeviceID FROM Wattage WHERE UserID = '{}')".format(user))
+    device = mycursor.fetchone()    
+
+    print(user, device)
     
     context = {
-        'user': user,
+        'user': username,
         'voltage': data,
-        'time': time,
+        'device': device,
     }
             
     # print(type(context), context)
 
-    # print("Test:", context)
+    print("Test:", context)
 
     template = loader.get_template("main.html")
     return HttpResponse(template.render(context, request))

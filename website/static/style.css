@@ -5,9 +5,22 @@
     font-weight: 400;
 }
 
+:root {
+    --main: #04AA6D;
+
+    --second: #FC9606;
+
+    --header: #333333;
+    --header-old: #333;
+
+    --background: #c0c0c0;
+    --background-old: rgb(248, 248, 248);
+
+    --background-window: #E0E0E0;
+}
+
 body {
-    background-color: rgb(248, 248, 248);
-    background-color:rgb(160, 166, 175);
+    background-color:var(--background);
 }
 
 img {
@@ -29,7 +42,7 @@ img {
 
 .title-navbar{
     position:fixed;
-    background-color: #04AA6D;
+    background-color: var(--main);
     text-align:center;
     height:1.45em;
     min-width:300px;
@@ -54,7 +67,7 @@ img {
     z-index: 1;
     left: 0;
     top: auto;
-    background-color: #04AA6D;
+    background-color: var(--main);
     overflow-x: hidden;
     transition: 1.5s;
     overflow-y:hidden;
@@ -100,7 +113,7 @@ img {
 }
 
 #submit{
-    background-color: #04AA6D;
+    background-color: var(--main);
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -148,7 +161,7 @@ img {
     z-index: 1;
     left: 0;
     top: auto;
-    background-color: #333;
+    background-color: var(--header);
     overflow-x: hidden;
     transition: 1.5s;
     overflow-y:hidden;
@@ -209,29 +222,46 @@ img {
 .graph {
     margin: 10px;
     width: 40%;
+    background-color: var(--background-window);
 }
 
 .data {
     margin: 10px;
     width: 30%;
+    background-color: var(--background-window);
+    height: 210px;
 }
 
-.data-types {
-    background-color: rgb(223, 222, 222);
+.blocks {
+    display: flex;
+}
+
+.center {
+    margin: auto;
     padding: 10px;
 }
 
+.data-types {
+    background-color: var(--header);
+    color: white;
+    margin: 15px;
+    width: 120px;
+    height: 120px;
+    
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
 .devices {
-    background-color: rgb(223, 222, 222);
+    background-color: var(--background-window);
     margin: 10px;
     width: 30%;
     height: 51.5em;
-    padding-bottom: 0;
-    margin-bottom: 0;
 }
 
 .module-header {
-    background-color: #04AA6D;
+    background-color: var(--main);
     color: white;
     padding: 10px;
 }
