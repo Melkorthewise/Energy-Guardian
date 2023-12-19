@@ -9,9 +9,9 @@ from .connect import *
 
 # Database connection
 mydb = mysql.connector.connect(
-    host="127.0.0.1",
+    host="localhost",
     user="root",
-    password="toor",
+    password="root",
     database="energy_guardian",
     port=3306,
 )
@@ -40,10 +40,10 @@ def login(request):
         password = request.POST.get("password")
     
         # Het uitvoeren van de query met de opgehaalde gegevens
-        mycursor.execute("SELECT * FROM login WHERE email_address = '{}' and password = '{}'".format(email, password))
+        mycursor.execute("SELECT * FROM users WHERE Email_Address = '{}' and Password = '{}'".format(email, password))
         myresult = mycursor.fetchall()
 
-        print(myresult)
+        print(email, password, myresult)
 
         for x in myresult:
             # Checken of het de juiste gegevens zijn
@@ -63,18 +63,18 @@ def main(request):
         return redirect('login')
     
     # Sorteren op datum waar die kijkt naar bijvoorbeeld de afgelopen 24 uur
-    mycursor.execute("SELECT DeviceID, Volt, Ampere, latestpulltime FROM wattage where UserID = '{}'".format(user))
+    mycursor.execute("SELECT DeviceID, Volt, Ampere, latestpulltime FROM wattage where DeviceID in (SELECT DeviceID FROM Device WHERE UserID = '{}')".format(user))
     #voltage = [row[1] for row in mycursor.fetchall()]
     #amperage = [row[2] for row in mycursor.fetchall()]
     data = [row[1] for row in mycursor.fetchall()]
     time = [row[3] for row in mycursor.fetchall()]
 
-    mycursor.execute("SELECT FirstName FROM login where UserID = '{}'".format(user))
+    mycursor.execute("SELECT FirstName FROM users where UserID = '{}'".format(user))
     user_tuple = mycursor.fetchone()    
 
     username = user_tuple[0] if user_tuple else None
 
-    mycursor.execute("SELECT Name_Device FROM device where DeviceID in (SELECT DeviceID FROM Wattage WHERE UserID = '{}')".format(user))
+    mycursor.execute("SELECT Name_Device FROM Device WHERE UserID = '{}'".format(user))
     device = mycursor.fetchone()    
 
     print(user, device)
@@ -102,7 +102,7 @@ def plotter(request):
         response = redirect("login")
         return response
     
-    mycursor.execute("SELECT FirstName FROM login where UserID = '{}'".format(user))
+    mycursor.execute("SELECT FirstName FROM users where UserID = '{}'".format(user))
     myresult = mycursor.fetchall()
 
     for x in myresult:

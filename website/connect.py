@@ -5,7 +5,7 @@ class connecter:
         self.mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="toor",
+        password="root",
         database="energy_guardian"
         )
     
@@ -13,7 +13,7 @@ class connecter:
         self.__init__()
         data = self.mydb.cursor()
 
-        check = "SELECT Email_Address, Password FROM login WHERE Email_Address = %s AND Password = %s"
+        check = "SELECT Email_Address, Password FROM users WHERE Email_Address = %s AND Password = %s"
         values = (username, password)
         data.execute(check, values)
 
@@ -27,7 +27,7 @@ class connecter:
     def signUp(self, email, firstName, lastName, password):
         data = self.mydb.cursor()
         
-        data.execute("SELECT UserID FROM login")
+        data.execute("SELECT UserID FROM users")
         userID = [row[0] for row in data.fetchall()]
 
         old = 0
@@ -46,7 +46,7 @@ class connecter:
             while setID in userID:
                 setID += 1
 
-        sql = "INSERT INTO login (UserID, Email_Address, FirstName, SecondName, Password) VALUES (%s, %s, %s, %s, %s)"
+        sql = "INSERT INTO users (UserID, Email_Address, FirstName, SecondName, Password) VALUES (%s, %s, %s, %s, %s)"
         val = (setID, email, firstName, lastName, password)
 
         try:
