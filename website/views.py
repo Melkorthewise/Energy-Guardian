@@ -1,11 +1,17 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.shortcuts import redirect, render
-#from .models import Wattage, Login
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
-import mysql.connector
-from .connect import *
+from django.core.serializers.json import DjangoJSONEncoder
 
+# Import non-Django libraries
+import mysql.connector
+import json
+from datetime import datetime, timedelta
+
+# Import other files
+from .connect import *
+from .math import *
 
 # Database connection
 mydb = mysql.connector.connect(
@@ -61,13 +67,6 @@ def main(request):
         user = request.session["user"]
     except KeyError:
         return redirect('login')
-    
-    # Sorteren op datum waar die kijkt naar bijvoorbeeld de afgelopen 24 uur
-    mycursor.execute("SELECT DeviceID, Volt, Ampere, latestpulltime FROM wattage where DeviceID in (SELECT DeviceID FROM Device WHERE UserID = '{}')".format(user))
-    #voltage = [row[1] for row in mycursor.fetchall()]
-    #amperage = [row[2] for row in mycursor.fetchall()]
-    data = [row[1] for row in mycursor.fetchall()]
-    time = [row[3] for row in mycursor.fetchall()]
 
     mycursor.execute("SELECT FirstName FROM users where UserID = '{}'".format(user))
     user_tuple = mycursor.fetchone()    
@@ -77,17 +76,28 @@ def main(request):
     mycursor.execute("SELECT Name_Device FROM Device WHERE UserID = '{}'".format(user))
     device = mycursor.fetchone()    
 
-    print(user, device)
+    #usage(user, device, "HOUR")
+
+    # print("What", chart(user, device, "HOUR")[0])
+
+    #print(user, device)
     
     context = {
         'user': username,
-        'voltage': data,
         'device': device,
+        'hour': usage(user, device, "HOUR"),
+        'day': usage(user, device, "DAY"),
+        'month': usage(user, device, "MONTH"),
+        'year': usage(user, device, "YEAR"),
+        'date': chart(user, device, "HOUR")[0],
+        'value': chart(user, device, "HOUR")[1],
     }
+
+    #print(calculate_hourly_energy(device, "HOUR"))
             
     # print(type(context), context)
 
-    print("Test:", context)
+    # print("Context:", context, "\n")
 
     template = loader.get_template("main.html")
     return HttpResponse(template.render(context, request))
@@ -146,3 +156,17 @@ def signup(request):
         
     
     return render(request, 'signUp.html')
+
+
+# Data collection of the Raspberry Pi Pico
+@csrf_exempt
+def receive_data(request):
+    #if request.method == "POST":
+        #data = json.loads(request.body.decode('utf-8'))
+
+    sql = "insert into wattage (DeviceID, Volt, ampere, pulldatetime) VALUES (1, 230, 15, NOW());"
+
+    mycursor.execute(sql)
+    mydb.commit()
+
+    return HttpResponse("Hello World")

@@ -215,25 +215,34 @@ img {
 
 /* layout Main page */
 .main {
-    padding: 4% 10px 4px 10px;
+    padding: 8.25vh 10px 4px 10px;
     display: flex;
 }
 
 .graph {
-    margin: 10px;
-    width: 40%;
     background-color: var(--background-window);
+    margin: 10px;
+    width: 43%;
+    height: 30em;
 }
 
 .data {
+    background-color: var(--background-window);
+    margin: 10px;
+    width: 23.75%;
+    height: 22.5em;
+}
+
+.devices {
+    background-color: var(--background-window);
     margin: 10px;
     width: 30%;
-    background-color: var(--background-window);
-    height: 210px;
+    height: 51em;
 }
 
 .blocks {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .center {
@@ -244,20 +253,14 @@ img {
 .data-types {
     background-color: var(--header);
     color: white;
+
     margin: 15px;
     width: 120px;
     height: 120px;
-    
-    display: flex;
-    text-align: center;
-    align-items: center;
-}
 
-.devices {
-    background-color: var(--background-window);
-    margin: 10px;
-    width: 30%;
-    height: 51.5em;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
 
 .module-header {
@@ -266,6 +269,9 @@ img {
     padding: 10px;
 }
 
+.chart {
+    padding: 15px;
+}
 
 
 

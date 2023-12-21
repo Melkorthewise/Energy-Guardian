@@ -4,9 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="30">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+    <!-- Add this to your template, for example, base.html -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="header">
@@ -22,7 +26,9 @@
             <div class="module-header">
                 <h1>Usage</h1>
             </div>
-            
+            <div class="chart">
+                <canvas id="myChart" style="width: 50%;max-width:900px"></canvas> 
+            </div>
         </div>
 
         <div class="data">
@@ -32,26 +38,32 @@
             <div class="blocks">
                 <div class="data-types">
                     <div class="center">
-                        Per hour: <br>
-                        4.5 Kwh.
+                        Last hour: <br>
+                        {{hour}} kWh
                     </div>
                 </div>
                 <div class="data-types">
                     <div class="center">
-                        Per day: <br> 
-                        98 Kwh
+                        Last day: <br> 
+                        {{day}} kWh
                     </div>
                 </div>
                 <div class="data-types">
                     <div class="center">
-                        Per week: <br>
-                        702 kWh
+                        Last week: <br>
+                        {{month}} kWh
                     </div>
                 </div>
                 <div class="data-types">
                     <div class="center">
-                        Per year: <br>
-                        3630 kWh
+                        Last month: <br>
+                        {{month}} kWh
+                    </div>
+                </div><br>
+                <div class="data-types">
+                    <div class="center">
+                        Last year: <br>
+                        {{year}} kWh
                     </div>
                 </div>
                 <!-- {% for x in voltage %}
@@ -64,196 +76,60 @@
             <div class="module-header">
                 <h1>Devices</h1>
             </div>
-            <p>{{device}}</p>
             {% for x in device %}
                 <p>{{x}}</p>
             {% endfor %}
         </div>
     </div>
 
+    
+    <script>
+        // Output the JSON data in a script tag
+        var dates = {{ date|safe }};
+        var values = {{value|safe}};
+
+        {% for x in device %}
+        var device = '{{x|safe}}';
+        {% endfor %}
+
+        console.log(device);
+
+        // var dates = combinedData[0];
+        // var values = combinedData[1];
+
+        // console.log(dates);
+        // console.log(values);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- <div id="mid" class="mid">
-        <div style="height:80vh">
-            <a href="plotter"><div class="verbruikNu" style="position:absolute; left:15vw; top:15vh">
-                <h3 id="txt" class="mainH3">Usage now</h3>
-                <div class="squareMain">
-                    <h2 class="error" id="output">Click!</h2>
-                </div>
-            </div></a>
-
-            <div class="verbruikPeriode" style="position:absolute; left:45vw; top:15vh">
-                <h3 id="txt" class="mainH3">Usage periode</h3>
-                <div class="squareMain">
-                    <h2 class="error" id="script">Error</h2>
-                </div>
-            </div>
-
-            <div class="verbruikTotaal" style="position:absolute; left:75vw; top:15vh">
-                <h3 id="txt" class="mainH3">Usage total</h3>
-                <div class="squareMain">
-                    <h2 class="error">Error</h2>
-                </div>
-            </div>
-
-            <div class="status" style="position:absolute; left:15vw; top:60vh">
-                <h3 id="txt" class="mainH3">Status</h3>
-                <div class="squareMain">
-                    <h2 class="error">Error</h2>
-                </div>
-            </div>
-
-            <div class="timer" style="position:absolute; left:45vw; top:60vh">
-                <h3 id="txt" class="mainH3">Timer</h3>
-                <div class="squareMain">
-                    <h2 class="error">Error</h2>
-                </div>
-            </div>
-
-            <div class="apparaat" style="position:absolute; left:75vw; top:60vh">
-                <h3 id="txt" class="mainH3">Device</h3>
-                <div class="squareMain">
-                    <h2 class="error">Error</h2>
-                </div>
-            </div>
-
-        </div>
-    </div> -->
-
-    <!-- <div id="barDown" class="bar_down">
-        <a href="javascript:void(0)" class="close" onclick="closeSettings()">&times;</a>
-        <div class="showTxtBarDown">
-            <a href="#" style="text-decoration:none; color:white" onclick="openPassword()">Change password</a><br>
-            <a href="#" style="text-decoration:none; color:white" onclick="openDevice()">Connect device</a><br>
-            <a href="#" style="text-decoration:none; color:white" onclick="lightMode()">Light mode /</a>
-            <a href="#" style="text-decoration:none; color:white" onclick="normalMode()">Normal mode /</a>
-            <a href="#" style="text-decoration:none; color:white" onclick="darkMode()">Dark mode</a>
-        </div>
-
-        <div id="passwordBar" class="changePassword">
-            <div class="passwordBar">
-                <br><br>
-                <h1>Change Password</h1>
-                <label for="fPassword">Password</label><br>
-                <input type="Password" placeholder="              Password"  name="newPassword" id="new"><br></br>
-
-                <label for="fRepeat Password">Repeat Password</label><br>
-                <input type="password" placeholder="              Password" name="newPasswordRepeat" id="newRepeat"><br></br>
-            </div>
-
-            <button class="button" onclick="changePassword()" value="Submit">Continue</button><br><br>
-        </div>
-
-        <div id="deviceBar" class="setDevice">
-            <h1>Connect Device</h1>
-        </div>
-
-        <script>
-            function openPassword(){
-                if(document.getElementById("deviceBar").style.width > "0vw"){
-                    closeDevice();
-                }
-
-                document.getElementById("passwordBar").style.width = "20vw";
-                document.getElementById("passwordBar").style.height = "50vh";
-
-            }
-            
-            function closePassword(){
-                document.getElementById("passwordBar").style.width = "0vw";
-                document.getElementById("passwordBar").style.height = "3vh";
-            }
-
-            function changePassword(){
-                var password = document.getElementById("new");
-                var repeatPassword = document.getElementById("newRepeat");
-
-                if(password.value == repeatPassword.value){
-                    alert(`Password has been changed to ${password.value}`);
-                }
-                
-                else{
-                    alert("The 2 passwords were not the same")
-                }
-
-                password.value="";
-                repeatPassword.value="";
-            }
-            
-            function openDevice(){
-                if (document.getElementById("passwordBar").style.width > "0vw"){
-                    closePassword()
-                }
-
-                document.getElementById("deviceBar").style.width = "20vw";
-                document.getElementById("deviceBar").style.height = "50vh";
-            }
-
-            function closeDevice(){
-                document.getElementById("deviceBar").style.width = "0vw";
-                document.getElementById("deviceBar").style.height = "3vh";
-            }
-            function lightMode(){
-                document.getElementById("mid").style.backgroundColor = "whitesmoke";
-                var elements = document.getElementsByClassName("mainH3");
-
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].style.color = "black";
+        // Access the data from the data-chart-data attribute
+        //var chartData = JSON.parse(document.getElementById('myChart').getAttribute('data-chart-data'));
+        
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: device,
+                    data: values,
+                    fill: false,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        maxRotation: 45,  // Maximum label rotation angle
+                        minRotation: 0,   // Minimum label rotation angle
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-
-            function darkMode(){
-                document.getElementById("mid").style.backgroundColor = "black";
-                var elements = document.getElementsByClassName("mainH3");
-
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].style.color = "whitesmoke";
-                }
-            }
-
-            function normalMode(){
-                document.getElementById("mid").style.backgroundColor = "lightslategray";
-                var elements = document.getElementsByClassName("mainH3");
-
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].style.color = "black";
-                }
-
-            }
-        </script>
-    </div>  -->
+        });
+    </script>
 </body>
 </html>
