@@ -6,7 +6,7 @@
 }
 
 :root {
-    --main: #04AA6D;
+    --main: #5eb958;
 
     --second: #FC9606;
 
@@ -101,6 +101,14 @@ img {
     position:absolute;
     bottom:0.5vh;
     right:0vh;
+}
+
+.main-logo{
+    height:40vh;
+    width:40vh;
+    position:absolute;
+    bottom: 0.5vh;
+    right: 0vh;
 }
 
 #firstname, #secondname, #email, #password {
@@ -221,28 +229,31 @@ img {
 
 .graph {
     background-color: var(--background-window);
-    margin: 10px;
-    width: 43%;
-    height: 30em;
+    margin: 0.5%;
+    width: 47%;
+    height: 33em;
 }
 
 .data {
     background-color: var(--background-window);
-    margin: 10px;
-    width: 23.75%;
+    margin: 0.5%;
+    width: 23.25%;
     height: 22.5em;
 }
 
 .devices {
     background-color: var(--background-window);
-    margin: 10px;
-    width: 30%;
+    margin: 0.5%;
+    width: 26.75%;
     height: 51em;
 }
 
 .blocks {
     display: flex;
     flex-wrap: wrap;
+
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .center {
@@ -254,7 +265,7 @@ img {
     background-color: var(--header);
     color: white;
 
-    margin: 15px;
+    margin: 3% 3% 3% 3%;
     width: 120px;
     height: 120px;
 
@@ -273,8 +284,23 @@ img {
     padding: 15px;
 }
 
+.device-box {
+    background-color: var(--header);
+    color: white;
 
+    width: 20vh;
+    height: 20vh;
+    margin: 13.25px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot {
+    margin: 0px;
+    padding: 0px;
+}
 
 /* old code body{
     scrollbar-width:thin;

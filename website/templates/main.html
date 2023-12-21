@@ -27,7 +27,7 @@
                 <h1>Usage</h1>
             </div>
             <div class="chart">
-                <canvas id="myChart" style="width: 50%;max-width:900px"></canvas> 
+                <canvas id="myChart" style="width: 100%;max-width:900px"></canvas> 
             </div>
         </div>
 
@@ -76,9 +76,17 @@
             <div class="module-header">
                 <h1>Devices</h1>
             </div>
-            {% for x in device %}
-                <p>{{x}}</p>
-            {% endfor %}
+            <div class="blocks">
+                {% for x in device %}
+                <div class="device-box">
+                    <svg height="50" width="50">
+                        <circle cx="25" cy="25" r="10" stroke="black" stroke-width="2" fill="{{status}}"/>
+                    </svg>
+                    <p>{{x}}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <img class="main-logo" src="{% static 'logo.png' %}">
         </div>
     </div>
 

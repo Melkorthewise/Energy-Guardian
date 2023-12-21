@@ -73,8 +73,14 @@ def main(request):
 
     username = user_tuple[0] if user_tuple else None
 
+    # Niet meerdere apparaten tot de dezelfde eigenaar toekenen dat werkt nog niet
     mycursor.execute("SELECT Name_Device FROM Device WHERE UserID = '{}'".format(user))
-    device = mycursor.fetchone()    
+    device = mycursor.fetchone()
+
+    if device != None:
+        status = "#5db657"
+    else:
+        status = "#f9434e"    
 
     #usage(user, device, "HOUR")
 
@@ -85,6 +91,7 @@ def main(request):
     context = {
         'user': username,
         'device': device,
+        'status': status,
         'hour': usage(user, device, "HOUR"),
         'day': usage(user, device, "DAY"),
         'month': usage(user, device, "MONTH"),
@@ -169,4 +176,6 @@ def receive_data(request):
     mycursor.execute(sql)
     mydb.commit()
 
-    return HttpResponse("Hello World")
+    print("data added")
+
+    return HttpResponse()

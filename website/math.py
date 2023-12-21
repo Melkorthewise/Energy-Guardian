@@ -78,7 +78,7 @@ class DateTimeEncoder(json.JSONEncoder):
 
 def chart(user, device, period):
 
-    mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}';".format(user))
+    mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 1 {};".format(user, period))
     data = mycursor.fetchall()
 
     # print("Data:", type(data), data, "\n")
@@ -100,7 +100,5 @@ def chart(user, device, period):
 
         time.append(date)
         value.append(power_w)
-
-    # print(time, "\n", value)
     
     return time, value
