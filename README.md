@@ -18,7 +18,7 @@ Voordat de server opgestart kan worden moet eerst de database gekoppeld worden. 
 # Settings aanpassen
 Bij mij zijn wat privé gegevens nodig voor het volledige gebruik van de server, daarom heb ik een aparte python bestand aangemaakt die niet wordt gepushed op de github. Ik heb in de mag `Energy_Guardians` een bestand aangemaakt genaamd `config.py`. Hierin staat deze code: `hosts = ['localhost', '127.0.0.1', 'privé ip']`. Het privé ip adres is alleen nodig voor de pico om te kunnen verbinden met de server, dus die kan je weglaten. Dit stukje code zou je ook direct in de code kunnen zetten, wat handiger is als je alleen aan de server gaat werken.
 
-Als je toch een bestand wilt aanmaken hiervoor, doe je gewoon hetzelfde als ik. Je voegt het bestand dat je niet in de github wil hebben toe aan `.gitignore'. Je zet in het bestand gewoon de naam van het bestand en dat is het.
+Als je toch een bestand wilt aanmaken hiervoor, doe je gewoon hetzelfde als ik. Je voegt het bestand dat je niet in de github wil hebben toe aan `.gitignore`. Je zet in het bestand gewoon de naam van het bestand en dat is het.
 
 # Server opstarten
 Open een terminal bijvoorbeeld in die van vscode. Ga naar de map waar het bestand `manage.py` staat. 
