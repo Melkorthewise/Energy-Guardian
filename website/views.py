@@ -77,7 +77,7 @@ def main(request):
     mycursor.execute("SELECT Name_Device FROM Device WHERE UserID = '{}'".format(user))
     device = mycursor.fetchone()
 
-    if device != None:
+    if device_status(user):
         status = "#5db657"
     else:
         status = "#f9434e"    

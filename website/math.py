@@ -70,12 +70,6 @@ def usage(user, device, period):
     return total_energy
 
 
-class DateTimeEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, datetime):
-            return obj.strftime('%Y-%m-%dT%H:%M:%S')
-        return super().default(obj)
-
 def chart(user, device, period):
 
     mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 1 {};".format(user, period))
@@ -102,3 +96,15 @@ def chart(user, device, period):
         value.append(power_w)
     
     return time, value
+
+def device_status(user):
+    
+    mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 5 MINUTE;".format(user))
+    data = mycursor.fetchall()
+
+    if data == []:
+        data = False
+    else:
+        data = True
+
+    return data
