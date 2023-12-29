@@ -1,3 +1,4 @@
+# The file is written in micropython
 import urequests
 import utime
 
