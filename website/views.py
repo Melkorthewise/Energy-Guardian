@@ -82,11 +82,11 @@ def main(request):
     else:
         status = "#f9434e"    
 
-    #usage(user, device, "HOUR")
+    # usage(user, device, "HOUR")
 
     # print("What", chart(user, device, "HOUR")[0])
 
-    #print(user, device)
+    # print(user, device)
     
     context = {
         'user': username,
@@ -94,13 +94,14 @@ def main(request):
         'status': status,
         'hour': usage(user, device, "HOUR"),
         'day': usage(user, device, "DAY"),
+        'week': usage(user, device, "WEEK"),
         'month': usage(user, device, "MONTH"),
         'year': usage(user, device, "YEAR"),
         'date': chart(user, device, "HOUR")[0],
         'value': chart(user, device, "HOUR")[1],
     }
 
-    #print(calculate_hourly_energy(device, "HOUR"))
+    # print(calculate_hourly_energy(device, "HOUR"))
             
     # print(type(context), context)
 
