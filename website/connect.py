@@ -5,7 +5,7 @@ class connecter:
         self.mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="root",
+        password="toor",
         database="energy_guardian"
         )
     

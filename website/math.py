@@ -7,7 +7,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 # Import non-Django libraries
 import mysql.connector
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 """
@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="root",
+    password="toor",
     database="energy_guardian",
     port=3306,
 )

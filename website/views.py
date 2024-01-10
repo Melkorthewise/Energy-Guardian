@@ -17,7 +17,7 @@ from .math import *
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="root",
+    password="toor",
     database="energy_guardian",
     port=3306,
 )
