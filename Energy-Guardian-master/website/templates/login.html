@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
+</head>
+<body>
+    <div class="header">
+        <h1 class="title-navbar">Energy-Guardian</h1>
+
+        <a href="/" class="navbar-link">Homepage</a>
+        <a href="signUp" class="navbar-link">Sign Up</a>
+    </div>
+
+    <div class="main-login">
+        <h1 class="login_txt">Login</h1>
+
+        {% if error_message %}
+            <p>{{ error_message }}</p>
+        {% endif %}
+
+        <form class="login" method="post">
+            {% csrf_token %}
+            <label for="username">Username</label><br>
+            <input type="text" name="username" id="username" placeholder="Username"><br>
+            <label for="password">Password</label><br>
+            <input type="password" name="password" id="password" placeholder="Password"><br>
+            <br>
+            <input type="submit" value="main" id="submit">
+        </form>    
+    </div>
+
+    <img class ="logo-login" src="{% static 'logo.png' %}">
+
+    <div class="bar_down">
+        <br>
+    </div>
+</body>
+</html>
