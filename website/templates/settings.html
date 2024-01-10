@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
+</head>
+<body>
+    <div class="header">
+        <a href="/"><h1 class="title-navbar">Energy-Guardian</h1></a>
+        <a href="logout" class="navbar-link">Log out</a>
+        <a href="main" class="navbar-link">Homepage</a>
+    </div>
+
+    <div class="main-login">
+        <h1 class="login_txt">Settings</h1>
+    
+        <form id="passwordChangeForm" method="post" class="login" action="{% url 'settings'%}" onsubmit="return showConfirmation()">
+            {% csrf_token %}
+            <label>Change Password</label><br>
+            <input type="password" name="password" id="password" placeholder="New password"></input>
+            <label>Repeat password</label>
+            <input type="password" name="passwordRepeat" id="passwordRepeat" placeholder="Repeat password"></input><br>
+            <button type="submit" id="submit">Submit</button>
+        </form>
+
+        <form id="deleteAccount" method="post" class="login" action="{% url 'settings'%}" onsubmit="return deleteAccount()">
+            {% csrf_token %}
+            <button type="delete" id="delete">Delete Account</button>
+        </form>
+                       
+    </div>
+    
+    <img class="logo-login" src="{% static 'logo.png' %}">
+    
+    <div class="bar_down">
+        <br>
+    </div>
+    
+    <script>
+        function showConfirmation() {
+            var confirmation = confirm("Are you sure you want to change your password?");
+    
+            if (confirmation && confirmation.toLowerCase() === confirmText.toLowerCase()) {
+                document.getElementById("password").value = "";
+                document.getElementById("passwordRepeat").value = "";
+                return true;
+            } 
+            
+            else {
+                return false;
+            }
+        }
+
+        function deleteAccount(){
+            const signs = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", 
+            "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", 
+            "8", "9", "0"];
+            
+            var confirm = "";
+        
+            for (let i = 0; i <= 5; i++) {
+                confirm += signs[Math.floor(Math.random() * signs.length)];
+            }
+    
+            var confirmation = prompt("Are you sure you want to delete your account?\nOnce you deleted your account, it can not be undone\nType " + confirm + " to confirm");
+            
+            if (confirmation && confirmation.toLowerCase() === confirm.toLowerCase()) {
+                return true;
+            }
+
+            else{
+                return false;
+                }
+        }
+    </script>
+    
+</body>
+</html>

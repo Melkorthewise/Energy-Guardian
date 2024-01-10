@@ -1,3 +1,4 @@
+# Import Django libraries
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.shortcuts import redirect, render
@@ -5,16 +6,24 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_
 from django.core.serializers.json import DjangoJSONEncoder
 
 # Import non-Django libraries
+from datetime import datetime, timedelta
+from coolname import generate_slug
+from threading import Thread
+
 import mysql.connector
 import json
-from datetime import datetime, timedelta
+import queue
+import time
+import os
 
-# Import other files
+# Import other python files
 from .connect import *
 from .math import *
+from website.settings import Settings
+from .pico import PicoReader
 
 # Database connection
-mydb = mysql.connector.connect(
+connection = mysql.connector.connect(
     host="localhost",
     user="root",
     password="toor",
@@ -24,15 +33,94 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
+database = connecter()
+
+pico_reader = PicoReader()
+
+def read_pico_data():
+    time.sleep(1)
+    
+    pico_reader.register()
+
+    time.sleep(1)
+    while True:
+        print("aklsfj")
+        data_to_send = "False"
+        
+        pico_reader.send_signal(data_to_send + "\n")
+
+        time.sleep(2)
+
+        data = pico_reader.read_data()
+
+        try:
+
+            print("Data:", type(data), data)
+
+            data = data.split(',')
+
+            Voltage, Current = data
+
+            Watt = float(Voltage) * float(Current)
+
+            mycursor.execute("SELECT WattageID FROM wattage")
+            wattageID = [row[0] for row in mycursor.fetchall()]
+
+            mycursor.execute("SELECT DeviceID FROM wattage")
+
+            old = 0
+            wID= 0
+            through = True
+            
+            for id in wattageID:
+                if id == old:
+                    old +=1
+                else:
+                    wID = old
+                    through = False
+                    break
+
+            if through:
+                while wID in wattageID:
+                    wID += 1
+
+            sql = "INSERT INTO wattage (WattageID, DeviceID, Volt, Ampere, pulldatetime) VALUES (%s, %s, %s, %s, 5s)"
+
+            val = (wID, )
+
+
+        except ValueError:
+            print("Error:", type(data), data)
+
+        # print(data)
+
+
+thread = Thread(target=read_pico_data)
+thread.daemon = True
+thread.start()
 
 #Home pagina
 def home(request):
     return render(request, "index.html")
 
 
+def index(request):
+    return render(request, "index.html")
+
+
 # Login pagina
 @csrf_protect
 def login(request):
+    # mydbLogin = mysql.connector.connect(
+    #     host="localhost",
+    #     user="root",
+    #     password="toor",
+    #     database="energy_guardian",
+    #     port=3306,
+    # )
+    
+    # mycursorLogin = mydbLogin.cursor()
+
     try:
         user = request.session["user"]
         return redirect('main')
@@ -51,12 +139,24 @@ def login(request):
 
         print(email, password, myresult)
 
+        # Het uitvoeren van de query met de opgehaalde gegevens
+        mycursor.execute("SELECT * FROM users WHERE email_address = %s", (email,))
+
+        myresult = mycursor.fetchall()
+        print(myresult)
+        
+        #decrpytie
+
         for x in myresult:
             # Checken of het de juiste gegevens zijn
-            if x[1] == email and x[4] == password:
+            if (x[1] == email and B.checkpw(password.encode('utf-8'), x[4].encode('utf-8'))):
+                print("Succes")
                 request.session["user"] = x[0]
                 response = redirect("main")
                 return response
+            
+            else:
+                print("ERROR NERD")
 
     return render(request, "login.html")
 
@@ -72,6 +172,8 @@ def main(request):
     user_tuple = mycursor.fetchone()    
 
     username = user_tuple[0] if user_tuple else None
+
+    time.sleep(0.1)
 
     # Niet meerdere apparaten tot de dezelfde eigenaar toekenen dat werkt nog niet
     mycursor.execute("SELECT Name_Device FROM Device WHERE UserID = '{}'".format(user))
@@ -113,7 +215,10 @@ def main(request):
 
 # Plotter pagina
 def plotter(request):
-    user = request.session["user"]
+    try:
+        user = request.session["user"]
+    except KeyError:
+        return redirect('login')
 
     # user = request.COOKIES.get('user')
     if user is None:
@@ -150,7 +255,7 @@ def signup(request):
         return redirect('main')
     except KeyError:
         pass
-
+    
     if request.method == 'POST':
         database = connecter()
         firstName = request.POST.get("firstName")
@@ -166,17 +271,24 @@ def signup(request):
     return render(request, 'signUp.html')
 
 
-# Data collection of the Raspberry Pi Pico
-@csrf_exempt
-def receive_data(request):
-    #if request.method == "POST":
-        #data = json.loads(request.body.decode('utf-8'))
+def settings(request):
+    try:
+        user = request.session["user"]
+    except KeyError:
+        return redirect('login')
 
-    sql = "insert into wattage (DeviceID, Volt, ampere, pulldatetime) VALUES (1, 230, 15, NOW());"
+    if request.method == "POST":
+        change = Settings()
+        
+        password1 = request.POST.get("password")
+        password2 = request.POST.get("passwordRepeat")
+        
+        if password1 != None:
+            if (password1 == password2) and password1 !="" and password2 != "": 
+                change.changePassword(user, password1)        
+        else:
+            change.deleteAccount(user)
+            del request.session["user"]
+            return render(request, 'index.html')
 
-    mycursor.execute(sql)
-    mydb.commit()
-
-    print("data added")
-
-    return HttpResponse()
+    return render(request, 'settings.html')

@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from .config import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,8 +24,6 @@ SECRET_KEY = 'django-insecure-1*(!h*+f$&rb#b1ja8(#=p6#@5k3pk$^ufj&8+!5*b3t=!4ub*
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = hosts
 
 
 # Application definition
@@ -70,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Energy_Guardians.wsgi.application'
+
 
 
 # Database

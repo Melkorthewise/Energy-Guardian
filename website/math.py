@@ -4,10 +4,13 @@ from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 from django.core.serializers.json import DjangoJSONEncoder
 
+from mysql.connector import pooling
+
 # Import non-Django libraries
 import mysql.connector
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
 
 
 """
@@ -27,13 +30,27 @@ mydb = mysql.connector.connect(
     port=3306,
 )
 
-mycursor = mydb.cursor()
+db_config = {
+    "host": "localhost",
+    "user":"root",
+    "password":"toor",
+    "database":"energy_guardian",
+    "port":3306,
+}
+
+connection_pool = pooling.MySQLConnectionPool(pool_name="mypool", pool_size=5, **db_config)
+
+# Use a connection from the pool
+connection = connection_pool.get_connection()
+
+#mycursor = mydb.cursor()
+cursor = connection.cursor()
 
 def usage(user, device, period):
     # Sorteren op datum waar die kijkt naar de meegegeven periode
-    mycursor.execute("select wattage.DeviceID, Volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 1 {};".format(user, period))
+    cursor.execute("select wattage.DeviceID, Volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 1 {};".format(user, period))
 
-    data = mycursor.fetchall()
+    data = cursor.fetchall()
 
     # print("Data:", type(data), data, "\n")
 
@@ -72,8 +89,8 @@ def usage(user, device, period):
 
 def chart(user, device, period):
 
-    mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 1 {};".format(user, period))
-    data = mycursor.fetchall()
+    cursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 1 {};".format(user, period))
+    data = cursor.fetchall()
 
     # print("Data:", type(data), data, "\n")
 
@@ -99,8 +116,8 @@ def chart(user, device, period):
 
 def device_status(user):
     
-    mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 5 MINUTE;".format(user))
-    data = mycursor.fetchall()
+    cursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 5 MINUTE;".format(user))
+    data = cursor.fetchall()
 
     if data == []:
         data = False

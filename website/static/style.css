@@ -111,7 +111,7 @@ img {
     right: 0vh;
 }
 
-#firstname, #secondname, #email, #password {
+#firstname, #secondname, #email, #password, #passwordRepeat{
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -288,9 +288,10 @@ img {
     background-color: var(--header);
     color: white;
 
-    width: 20vh;
-    height: 20vh;
-    margin: 13.25px;
+    width: 95%;
+    height: 10%;
+    /* margin: 13.25px; */
+    margin: 13.25px auto 100px auto;
 
     display: flex;
     align-items: center;
@@ -301,6 +302,17 @@ img {
     margin: 0px;
     padding: 0px;
 }
+
+#delete {
+    width: 100%;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #b34040;
+    margin-top: 350px; 
+}
+
 
 /* old code body{
     scrollbar-width:thin;

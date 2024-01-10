@@ -8,5 +8,5 @@ urlpatterns = [
     path('plotter', views.plotter, name='plotter'),
     path('logout', views.logout, name='logout'),
     path('signup', views.signup, name='signup'),
-    path('pico', views.receive_data, name='data')
+    path('settings', views.settings, name='settings'),
 ]

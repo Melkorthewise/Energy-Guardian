@@ -9,13 +9,16 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
 
+    <!-- Add this to your template, for example, base.html -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="header">
+        <!--  <a href="main"><h1 class="title-navbar">Energy-Guardian</h1></a> -->
         <a href="main"><h1 class="title-navbar">Welcome, {{user}}</h1></a>
 
         <a href="logout" class="navbar-link">Logout</a>
+        <a href="settings" class="navbar-link">Settings</a>
         <!-- <a href="about" class="navbar-link">About</a> -->
     </div>
 
