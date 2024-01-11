@@ -29,6 +29,7 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
+# Gives back data for the Average Usage tiles
 def usage(user, device, period):
     # Sorteren op datum waar die kijkt naar de meegegeven periode
     mycursor.execute("select Volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 1 {};".format(user, period))
@@ -69,10 +70,11 @@ def usage(user, device, period):
 
     return total_energy
 
-
+# Giving back the data for the chart
 def chart(user, device, period):
+    sql = ("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where Name_Device = '{}' and pulldatetime >= NOW() - INTERVAl 1 {};".format(device[0], period))
 
-    mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 1 {};".format(user, period))
+    mycursor.execute(sql)
     data = mycursor.fetchall()
 
     # print("Data:", type(data), data, "\n")
@@ -81,7 +83,6 @@ def chart(user, device, period):
     value = []
 
     for x in data:
-        # print(x, "\n")
         
         (Device, Voltage, Current, Pulldatetime) = x
 
@@ -97,6 +98,7 @@ def chart(user, device, period):
     
     return time, value
 
+# Gives back the status of the device
 def device_status(user):
     
     mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 5 MINUTE;".format(user))

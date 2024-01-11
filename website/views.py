@@ -22,17 +22,6 @@ from .math import *
 from website.settings import Settings
 from .pico import PicoReader
 
-# Database connection
-connection = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="toor",
-    database="energy_guardian",
-    port=3306,
-)
-
-mycursor = connection.cursor()
-
 database = connecter()
 
 pico_reader = PicoReader()
@@ -44,9 +33,20 @@ def read_pico_data():
         
         pico_reader.send_signal(data_to_send + "\n")
 
-        data = pico_reader.read_data()
-
         try:
+
+            # Database connection
+            connection = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="toor",
+                database="energy_guardian",
+                port=3306,
+            )
+
+            mycursor = connection.cursor()
+
+            data = pico_reader.read_data()
 
             print("Data:", type(data), data)
 
@@ -76,7 +76,6 @@ def read_pico_data():
                     wID += 1
 
             sql = "INSERT INTO wattage (WattageID, DeviceID, Volt, Ampere, pulldatetime) VALUES (%s, %s, %s, %s, NOW())"
-
             val = (wID, DeviceID, Voltage, Current)
 
             try:
@@ -89,14 +88,26 @@ def read_pico_data():
         except ValueError:
             print("Error:", type(data), data)
 
-        time.sleep(1)
+        time.sleep(2)
             
     print("test")
 
 
-# thread = Thread(target=read_pico_data)
-# thread.daemon = True
-# thread.start()
+thread = Thread(target=read_pico_data)
+thread.daemon = True
+thread.start()
+
+
+# Database connection
+connection = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="toor",
+    database="energy_guardian",
+    port=3306,
+)
+
+mycursor = connection.cursor()
 
 #Home pagina
 def home(request):
@@ -168,7 +179,7 @@ def dashboard(request):
         return redirect('login')
 
     mycursor.execute("SELECT FirstName FROM users where UserID = '{}'".format(user))
-    user_tuple = mycursor.fetchone()    
+    user_tuple = mycursor.fetchall()    
 
     username = user_tuple[0] if user_tuple else None
 
@@ -184,7 +195,7 @@ def dashboard(request):
         status = "#f9434e"
     
     context = {
-        'user': username,
+        'user': username[0],
         'device': device,
         'status': status,
         'hour': usage(user, device, "HOUR"),
@@ -192,8 +203,8 @@ def dashboard(request):
         'week': usage(user, device, "WEEK"),
         'month': usage(user, device, "MONTH"),
         'year': usage(user, device, "YEAR"),
-        'date': chart(user, device, "HOUR")[0],
-        'value': chart(user, device, "HOUR")[1],
+        'date': chart(user, device, "DAY")[0],
+        'value': chart(user, device, "DAY")[1],
     }
 
     template = loader.get_template("dashboard.html")

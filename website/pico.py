@@ -20,6 +20,7 @@ class PicoReader:
             database="energy_guardian"
         )
 
+    # Read the data from the pico
     def read_data(self):
         try:
             data = self.serial_port.readline().decode('utf-8').strip()
@@ -28,8 +29,19 @@ class PicoReader:
             
         except serial.SerialException as e:
             print(f"Error reading from serial port: {e}")
-            return None 
+            return None         
         
+    # Send a signal to the pico
+    def send_signal(self, data):
+        try:
+            # Send data to the Pico over the serial connection
+            self.serial_port.write(data.encode('utf-8'))
+
+            print(f"\n{type(data)} {data}")
+        except serial.SerialException as e:
+            print(f"Error sending data to serial port: {e}")
+
+    # Register the device in the database
     def register(self, number, UserID):
         print(number)
         He = self.mydb.cursor()
@@ -66,13 +78,3 @@ class PicoReader:
         except serial.SerialException as e:
             print(f"Error reading from serial port: {e}")
             return None 
-        
-        
-    def send_signal(self, data):
-        try:
-            # Send data to the Pico over the serial connection
-            self.serial_port.write(data.encode('utf-8'))
-
-            # print(f"{type(data)} {data}")
-        except serial.SerialException as e:
-            print(f"Error sending data to serial port: {e}")

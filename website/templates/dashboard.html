@@ -124,7 +124,9 @@
                     data: values,
                     fill: false,
                     borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 2
+                    borderWidth: 2,
+                    pointRadius: 0,           // Set point radius to 0 to remove dots
+                    pointHoverRadius: 0   
                 }]
             },
             options: {
@@ -133,9 +135,6 @@
                         beginAtZero: true,
                         maxRotation: 45,  // Maximum label rotation angle
                         minRotation: 0,   // Minimum label rotation angle
-                    },
-                    y: {
-                        beginAtZero: true
                     }
                 }
             }
