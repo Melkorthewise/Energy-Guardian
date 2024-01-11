@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Energy Guardians</title>
+      <link rel="stylesheet" href="{% static 'style.css' %}">
+      <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
+  </head>
+  <body>
+      <div class="header">
+        <a href="/"><h1 class="title-navbar">Energy-Guardian</h1></a>
+        <a href="/" class="navbar-link">Logout</a>
+        <a href="settings" class="navbar-link">Settings</a>
+        <a href="dashboard" class="navbar-link">Dashboard</a>
+      </div>
+    
+      <div class="main">
+        <div class="register">
+          <div class="module-header">
+            <h1>Updates</h>
+          </div>
+          <h5 id="dataParagraph" style="text-align:center;">
+          </h5>
+        </div>
+      </div>
+        
+      <div class="bar_down">
+      </div>
+
+    <script>
+      function getData() {
+        var fileName = '{% static "/txtDocuments/updateFile.txt" %}';
+    
+        fetch(fileName)
+            .then(function (res) {
+                return res.text();
+            })
+            .then(function (data) {
+                // Split the lines from the fetched data
+                var lines = data.split('\n');
+    
+                // Update the content of the <p> element with each line and a line break
+                var dataParagraph = document.getElementById("dataParagraph");
+                dataParagraph.appendChild(document.createElement("br"));
+                lines.forEach(function (line, index) {
+                    var lineElement = document.createElement("p");
+                    lineElement.textContent = line;
+                    dataParagraph.appendChild(lineElement);
+    
+                    // Add line break after each line except the last one
+                    dataParagraph.appendChild(document.createElement("br"));
+                    if (index < lines.length - 1) {
+                        dataParagraph.appendChild(document.createElement("br"));
+                    }
+                });
+            });
+    }
+    
+    // Call the getData function when the page loads
+    getData();
+    
+</script>
+</html>

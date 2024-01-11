@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Energy Guardians</title>
+      <link rel="stylesheet" href="{% static 'style.css' %}">
+      <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
+  </head>
+  <body>
+      <div class="header">
+        <a href="/"><h1 class="title-navbar">Energy-Guardian</h1></a>
+        <a href="signup" class="navbar-link">Sign Up</a>
+        <a href="login" class="navbar-link">Login</a>
+        <a href="/" class="navbar-link">Home</a>
+      </div>
+    
+      <div class="mid">
+        {% if deleted_account %}
+        <p style="margin-top: 10%">Your account</p>
+        <img class="logoHome" src="{% static 'verwijderenPepe.jpg' %}" alt="logo" style="width:30%; margin-top: 1%;" width="auto" height="auto">
+        <p style="margin-top: 1%">Has been succesfully deleted</p>
+        {% endif %}
+      </div>
+        
+      <div class="bar_down">
+      </div>
+  </body>
+</html>

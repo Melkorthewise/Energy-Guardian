@@ -250,31 +250,49 @@ def logout(request):
 def signup(request):
     try:
         user = request.session["user"]
-        return redirect('dashboard')
+        return redirect('main')
     except KeyError:
         pass
     
+    failed = False  # Initialize here
+
     if request.method == 'POST':
         database = connecter()
         firstName = request.POST.get("firstName")
         lastName = request.POST.get("secondName")
         email = request.POST.get("email")
         password = request.POST.get("password")
+        passwordRepeat = request.POST.get("passwordRepeat")
         
-        database.signUp(email, firstName, lastName, password)
+        signup = database.signUp(email, firstName, lastName, password, passwordRepeat)
 
-        return redirect('login')
+        if signup == "Empty":
+            pass
         
-    
-    return render(request, 'signUp.html')
+        elif signup == "PasswordError":
+            return render(request, 'signUp.html', {'password_failed': True})
+        
+        elif signup == "toLongFirst":
+            return render(request, 'signUp.html', {'toLongFirst': True})
+        
+        elif signup == "toLongLast":
+            return render(request, 'signUp.html', {'toLongLast': True})
+        
+        elif signup:
+            return redirect("login")
+        
+        else:
+            failed = True
 
+    return render(request, 'signUp.html', {'create_user_failed': failed})
 
+#Settings 
 def settings(request):
-    try:
-        user = request.session["user"]
-    except KeyError:
-        return redirect('login')
-
+    user = request.session["user"]
+    
+    if user is None:
+        return redirect ("accountDeleted")
+    
     if request.method == "POST":
         change = Settings()
         
@@ -283,13 +301,21 @@ def settings(request):
         
         if password1 != None:
             if (password1 == password2) and password1 !="" and password2 != "": 
-                change.changePassword(user, password1)        
+                change.changePassword(user, password1)
+            
+        
         else:
             change.deleteAccount(user)
             del request.session["user"]
-            return render(request, 'index.html')
+            return redirect ("accountDeleted")
 
     return render(request, 'settings.html')
+        
+
+def delete(request):
+    user = request.session.get("user")
+    if user is None:
+        return render(request, 'accountDeleted.html', {"deleted_account":True})
 
 # Page to register a device
 @csrf_protect

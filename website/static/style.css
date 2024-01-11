@@ -107,8 +107,9 @@ img {
     height:40vh;
     width:40vh;
     position:absolute;
-    bottom: 0.5vh;
+    bottom: 1.5vh;
     right: 0vh;
+    z-index: 2;
 }
 
 #firstname, #secondname, #email, #password, #passwordRepeat{
@@ -231,21 +232,21 @@ img {
     background-color: var(--background-window);
     margin: 0.5%;
     width: 47%;
-    height: 33em;
+    height: 30em;
 }
 
 .data {
     background-color: var(--background-window);
     margin: 0.5%;
     width: 23.25%;
-    height: 22.5em;
+    height: 30em;
 }
 
 .devices {
     background-color: var(--background-window);
     margin: 0.5%;
     width: 26.75%;
-    height: 51em;
+    height: 30em;
 }
 
 .register {
