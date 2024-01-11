@@ -30,33 +30,10 @@ class PicoReader:
             print(f"Error reading from serial port: {e}")
             return None 
         
-    def register(self):
+    def register(self, number, UserID):
+        print(number)
         He = self.mydb.cursor()
-        try:
-            reading = True
-
-            while reading:
-                self.send_signal("True" + "\n")
-
-                time.sleep(1)
-
-                data = self.serial_port.readline().decode('utf-8').strip()
-
-                data = data.split(',')
-
-                print(data)
-
-                try:
-                    id, _, _ = data
-
-                    # self.send_signal("False")        
-
-                    sql = "INSERT INTO device (DeviceID, UserID, Name_Device) VALUES (%s, %s, %s)"
-                    
-                    reading = False
-                except ValueError:
-                    print("Error")
-
+        try:      
             thinking = True
 
             while thinking:
@@ -69,16 +46,18 @@ class PicoReader:
                     name = slug
                     thinking = False
 
-            val = (id, None, name)
+            sql = "INSERT INTO device (DeviceID, UserID, Name_Device) VALUES (%s, %s, %s)"
+
+            val = (number, UserID, name)
 
             try:
                 He.execute(sql, val)
                 self.mydb.commit()
-                print(f"{name} set in Database with DeviceID: {id}. From the user with UserID: {id}.")
+                print(f"{name} set in Database with DeviceID: {number}. From the user with UserID: {UserID}.")
                 
             except mysql.connector.Error as err:
                 if err.errno == 1062:
-                    print(f"Device with DeviceID {id} already exists.")
+                    print(f"Device with DeviceID {number} already exists.")
                 else:
                     print(f"Error: {err}")
             finally:
@@ -88,11 +67,12 @@ class PicoReader:
             print(f"Error reading from serial port: {e}")
             return None 
         
+        
     def send_signal(self, data):
         try:
             # Send data to the Pico over the serial connection
             self.serial_port.write(data.encode('utf-8'))
 
-            print(f"{type(data)} {data}")
+            # print(f"{type(data)} {data}")
         except serial.SerialException as e:
             print(f"Error sending data to serial port: {e}")

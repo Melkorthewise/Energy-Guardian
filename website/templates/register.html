@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="30">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+    <!-- Add this to your template, for example, base.html -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="header">
+        <!--  <a href="main"><h1 class="title-navbar">Energy-Guardian</h1></a> -->
+        <a href="dashboard"><h1 class="title-navbar">Welcome, {{user}}</h1></a>
+
+        <a href="logout" class="navbar-link">Logout</a>
+        <a href="settings" class="navbar-link">Settings</a>
+        <a href="dashboard" class="navbar-link">Dashboard</a>
+        <!-- <a href="about" class="navbar-link">About</a> -->
+    </div>
+
+    <div class="main">
+        <div class="register">
+            <div class="module-header">
+                <h1>Register the device</h1>
+            </div>
+            <div class="steps">
+            <ol>
+                {% if device >= 1 %}
+                    <h2><li>Connect the Energy Guardian</li></h2>
+                    <p>Text</p><br><br>
+                {% endif %}
+                {% if device >= 2 %}
+                    <h2><li>Fill in the form</li></h2>
+                    <p>Fill in the number of the device.</p>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="device-Name" id="device-Name">
+                        <input type="submit" value="Submit">
+                    </form>
+                {% endif %}
+            </ol>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</body>
+</html>

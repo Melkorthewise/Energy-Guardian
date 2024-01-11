@@ -31,7 +31,7 @@ connection = mysql.connector.connect(
     port=3306,
 )
 
-mycursor = mydb.cursor()
+mycursor = connection.cursor()
 
 database = connecter()
 
@@ -39,17 +39,10 @@ pico_reader = PicoReader()
 
 def read_pico_data():
     time.sleep(1)
-    
-    pico_reader.register()
-
-    time.sleep(1)
     while True:
-        print("aklsfj")
-        data_to_send = "False"
+        data_to_send = "True"
         
         pico_reader.send_signal(data_to_send + "\n")
-
-        time.sleep(2)
 
         data = pico_reader.read_data()
 
@@ -59,14 +52,12 @@ def read_pico_data():
 
             data = data.split(',')
 
-            Voltage, Current = data
+            DeviceID, Voltage, Current = data
 
-            Watt = float(Voltage) * float(Current)
+            sql = "SELECT WattageID FROM wattage WHERE DeviceID = %s"
 
-            mycursor.execute("SELECT WattageID FROM wattage")
+            mycursor.execute(sql, (DeviceID,))
             wattageID = [row[0] for row in mycursor.fetchall()]
-
-            mycursor.execute("SELECT DeviceID FROM wattage")
 
             old = 0
             wID= 0
@@ -84,20 +75,28 @@ def read_pico_data():
                 while wID in wattageID:
                     wID += 1
 
-            sql = "INSERT INTO wattage (WattageID, DeviceID, Volt, Ampere, pulldatetime) VALUES (%s, %s, %s, %s, 5s)"
+            sql = "INSERT INTO wattage (WattageID, DeviceID, Volt, Ampere, pulldatetime) VALUES (%s, %s, %s, %s, NOW())"
 
-            val = (wID, )
+            val = (wID, DeviceID, Voltage, Current)
 
+            try:
+                mycursor.execute(sql, val)
+                connection.commit()
+                print("Data added to database.")
+            except mysql.connector.Error as err:
+                print(f"Error: {err}")
 
         except ValueError:
             print("Error:", type(data), data)
 
-        # print(data)
+        time.sleep(1)
+            
+    print("test")
 
 
-thread = Thread(target=read_pico_data)
-thread.daemon = True
-thread.start()
+# thread = Thread(target=read_pico_data)
+# thread.daemon = True
+# thread.start()
 
 #Home pagina
 def home(request):
@@ -123,7 +122,7 @@ def login(request):
 
     try:
         user = request.session["user"]
-        return redirect('main')
+        return redirect('dashboard')
     except KeyError:
         pass
 
@@ -152,7 +151,7 @@ def login(request):
             if (x[1] == email and B.checkpw(password.encode('utf-8'), x[4].encode('utf-8'))):
                 print("Succes")
                 request.session["user"] = x[0]
-                response = redirect("main")
+                response = redirect("dashboard")
                 return response
             
             else:
@@ -161,8 +160,8 @@ def login(request):
     return render(request, "login.html")
 
 
-# Main page with dashboard
-def main(request):
+# dashboard page with dashboard
+def dashboard(request):
     try:
         user = request.session["user"]
     except KeyError:
@@ -182,13 +181,7 @@ def main(request):
     if device_status(user):
         status = "#5db657"
     else:
-        status = "#f9434e"    
-
-    # usage(user, device, "HOUR")
-
-    # print("What", chart(user, device, "HOUR")[0])
-
-    # print(user, device)
+        status = "#f9434e"
     
     context = {
         'user': username,
@@ -203,13 +196,7 @@ def main(request):
         'value': chart(user, device, "HOUR")[1],
     }
 
-    # print(calculate_hourly_energy(device, "HOUR"))
-            
-    # print(type(context), context)
-
-    # print("Context:", context, "\n")
-
-    template = loader.get_template("main.html")
+    template = loader.get_template("dashboard.html")
     return HttpResponse(template.render(context, request))
 
 
@@ -245,14 +232,14 @@ def logout(request):
     except KeyError:
         pass
     
-    return redirect("main")
+    return redirect("dashboard")
 
 
 # Signup pagina maken
 def signup(request):
     try:
         user = request.session["user"]
-        return redirect('main')
+        return redirect('dashboard')
     except KeyError:
         pass
     
@@ -292,3 +279,35 @@ def settings(request):
             return render(request, 'index.html')
 
     return render(request, 'settings.html')
+
+# Page to register a device
+@csrf_protect
+def register(request):
+    try:
+        user = request.session["user"]
+    except KeyError:
+        return redirect('login')
+    
+    if request.method == 'POST':
+
+        number = request.POST.get("device-Name")
+
+        pico_reader.register(number, user)
+    
+    mycursor.execute("SELECT FirstName FROM users where UserID = '{}'".format(user))
+    user_tuple = mycursor.fetchone()    
+
+    username = user_tuple[0] if user_tuple else None
+
+    mycursor.execute("SELECT * FROM Device where UserID = '{}'".format(user))
+    user_tuple = mycursor.fetchone()    
+
+    device = user_tuple[0] if user_tuple else None
+
+    context = {
+        'user': username,
+        'device': 2,
+    }
+
+    template = loader.get_template("register.html")
+    return HttpResponse(template.render(context, request))

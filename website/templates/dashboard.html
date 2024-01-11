@@ -15,7 +15,7 @@
 <body>
     <div class="header">
         <!--  <a href="main"><h1 class="title-navbar">Energy-Guardian</h1></a> -->
-        <a href="main"><h1 class="title-navbar">Welcome, {{user}}</h1></a>
+        <a href="dashboard"><h1 class="title-navbar">Welcome, {{user}}</h1></a>
 
         <a href="logout" class="navbar-link">Logout</a>
         <a href="settings" class="navbar-link">Settings</a>
@@ -75,7 +75,8 @@
         
         <div class="devices">
             <div class="module-header">
-                <h1>Devices</h1>
+                <h1 style="float: left;">Devices</h1>
+                <a href="register-device"><h1>+</h1></a>
             </div>
             <div class="blocks">
                 {% for x in device %}
