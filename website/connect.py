@@ -17,13 +17,12 @@ class connecter:
         )
     
     def login(self, username, password): 
-        print("Login") 
         check = "SELECT Password FROM users WHERE Email_Address = %s"
         values = (username,)
 
         try:
             self.cursor = self.mydb.cursor()
-            self.cursor.execute(check, values)
+            self.cursor.execute("SELECT Password FROM users WHERE Email_Address = %s", username)
 
             result = self.cursor.fetchone()
             print(result)

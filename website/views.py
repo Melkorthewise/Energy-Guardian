@@ -264,7 +264,7 @@ def signup(request):
         password = request.POST.get("password")
         passwordRepeat = request.POST.get("passwordRepeat")
         
-        signup = database.signUp(email, firstName, lastName, password, passwordRepeat)
+        signup = database.signUp(email, firstName, lastName, password)
 
         if signup == "Empty":
             pass
@@ -348,3 +348,6 @@ def register(request):
 
     template = loader.get_template("register.html")
     return HttpResponse(template.render(context, request))
+
+def update(request):
+    return render(request, "update.html")
