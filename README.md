@@ -25,3 +25,8 @@ Open een terminal bijvoorbeeld in die van vscode. Ga naar de map waar het bestan
 
 Vervolgens voer je het commando `python manage.py runserver`. Als het goed is, is de server nu opgestart. Is dit niet geval kan je het even aan iemand vragen.
 
+<!-- # Producten + Prijs
+- Twee-kanaals 5V relais module - €3,95
+- Raspberry Pi Pico WH - €8,95
+- PZEM-004T (Stroomsensor) - 15,48
+- Behuizing - €7,00 (+/-) -->

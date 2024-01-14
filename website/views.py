@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_
 from django.core.serializers.json import DjangoJSONEncoder
 
 # Import non-Django libraries
+from kaspersmicrobit.bluetoothprofile.services import Service
+from kaspersmicrobit import KaspersMicrobit
 from datetime import datetime, timedelta
 from coolname import generate_slug
 from threading import Thread
@@ -26,15 +28,45 @@ database = connecter()
 
 pico_reader = PicoReader()
 
+def microbit():
+    def pressed(button):
+        time.sleep(0.1)
+
+    def pressed_long(button):
+        time.sleep(0.1)
+
+    def released(button):
+        if button == "A":
+            pico_reader.send_signal("off" + "\n")
+            time.sleep(1)
+        
+        if button == "B":
+            pico_reader.send_signal("on" + "\n")
+            time.sleep(1)
+
+        # print(f"button {button} released")
+
+    with KaspersMicrobit('DC:85:FE:2B:CB:D8') as microbit:
+        print(f'Bluetooth address: {microbit.address()}')
+        print(f"Device name: {microbit.generic_access.read_device_name()}")
+        while True:
+            # read the state of the buttons / lees de toestant van de knoppen
+            # print(f"button A state is now: {microbit.buttons.read_button_a()}")
+            # print(f"button B state is now: {microbit.buttons.read_button_b()}")
+
+            # listen for button events / luister naar drukken op knoppen
+            microbit.buttons.on_button_a(press=pressed, long_press=pressed_long, release=released)
+            microbit.buttons.on_button_b(press=pressed, long_press=pressed_long, release=released)
+
+            time.sleep(15)
+
 def read_pico_data():
     time.sleep(1)
     while True:
         data_to_send = "True"
-        
         pico_reader.send_signal(data_to_send + "\n")
 
         try:
-
             # Database connection
             connection = mysql.connector.connect(
                 host="localhost",
@@ -81,22 +113,23 @@ def read_pico_data():
             try:
                 mycursor.execute(sql, val)
                 connection.commit()
-                print("Data added to database.")
+                print("Data added to database.\n")
             except mysql.connector.Error as err:
-                print(f"Error: {err}")
+                print(f"Error: {err}\n")
 
         except ValueError:
             print("Error:", type(data), data)
 
         time.sleep(2)
-            
-    print("test")
 
 
 thread = Thread(target=read_pico_data)
 thread.daemon = True
 thread.start()
 
+thread2 = Thread(target=microbit)
+thread2.daemon = True
+thread2.start()
 
 # Database connection
 connection = mysql.connector.connect(
@@ -343,7 +376,7 @@ def register(request):
 
     context = {
         'user': username,
-        'device': 2,
+        'device': 3,
     }
 
     template = loader.get_template("register.html")

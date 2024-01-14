@@ -1,49 +1,60 @@
-# The file is written in micropython
-import urequests
-import utime
+# This code is written in micropython and is written for the pico.
+from machine import Pin, UART
+import select
+import sys
+import time
 
-# Fill in the necassary information below
-wifi_ssid  = ""
-wifi_password = ""
+poll_obj = select.poll() # Create an instance of a polling object
+poll_obj.register(sys.stdin, 1) # Register sys.stdin (standard input) for monitoring read events with priority 1
 
-# Change "ip" for the relevant ip address of the django server
-server_url = "http://ip:8000/pico"
+relay = Pin(2, mode=Pin.OUT, value=1) # Pin object for controlling pin 15.
 
-data_to_send = {"sensor_data": 123}
+running = False
 
-def connect_to_wifi():
-    import network
+def read_pzem_data():
+    uart = UART(0, baudrate=9600, tx=0, rx=1)
     
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
+    # PZEM-004T command to read voltage and current (register 0 and 1)
+    command = bytes([0x01, 0x04, 0x00, 0x00, 0x00, 0x02, 0x71, 0xCB])
     
-    if not wlan.isconnected():
-        print('Connecting to WiFi...')
-        wlan.connect(wifi_ssid, wifi_password)
-        while not wlan.isconnected():
-            pass
-        print('Connected to WiFi')
+    # Send the command to PZEM-004T
+    uart.write(command)
+    
+    # Wait for the PZEM-004T to respond
+    time.sleep(1)
+    
+    # Read the response (adjust the number of bytes based on the expected response length)
+    response = uart.read(7)
+    
+    # Parse the response
+    if response:
+        voltage = response[3] << 8 | response[4]
+        current = response[5] << 8 | response[6]
         
-#def make_http_request():
-#    response = urequests.get(server_url)
-#    print('HTTP Response:', response.text)
-#    response.close()
-
-connect_to_wifi()
-
-count = 1
+        # print(voltage, current)
+            
+        print ("0, {}, {}".format((voltage * 0.1), (current * 0.001)))
+        # print("Voltage:", voltage * 0.1, "V")
+        # print("Current:", current * 0.001, "A\n")
+    else:
+        print("No response from PZEM-004T")
 
 while True:
-    try:
-        response = urequests.post(server_url, json=data_to_send)
-        #print("Data sent. Server response:", response.text)
-        print("visited: ", count, "time")
-        response.close()
+    if poll_obj.poll(0):
+        data = sys.stdin.readline().strip()
+
+        # if data == "True":
+            # running = True
+        # elif data == "F":
+            # running = False
+        if data == "off":
+            relay.off()
+        elif data == "on":
+            relay.on()
         
-        count += 1
-        
-        utime.sleep(30)
-        
-    except Exception as e:
-        print("Error:", str(e))
-        utime.sleep(1)
+        # if running == True:
+            # read_pzem_data()
+            
+    read_pzem_data()
+            
+    time.sleep(0.1)

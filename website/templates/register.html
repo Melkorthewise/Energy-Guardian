@@ -41,7 +41,10 @@
                         {% csrf_token %}
                         <input type="text" name="device-Name" id="device-Name">
                         <input type="submit" value="Submit">
-                    </form>
+                    </form><br><br>
+                {% endif %}
+                {% if device >= 3 %}
+                    <h2><li>Calibrating Energy-Guardian</li></h2>
                 {% endif %}
             </ol>
             </div>
