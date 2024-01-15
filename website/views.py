@@ -45,39 +45,46 @@ def microbit():
             time.sleep(1)
 
         # print(f"button {button} released")
+            
+    while True:
+        try:
+            with KaspersMicrobit('DC:85:FE:2B:CB:D8') as microbit:
+                print(f'Bluetooth address: {microbit.address()}')
+                print(f"Device name: {microbit.generic_access.read_device_name()}")
+                
+                # read the state of the buttons / lees de toestant van de knoppen
+                # print(f"button A state is now: {microbit.buttons.read_button_a()}")
+                # print(f"button B state is now: {microbit.buttons.read_button_b()}")
 
-    with KaspersMicrobit('DC:85:FE:2B:CB:D8') as microbit:
-        print(f'Bluetooth address: {microbit.address()}')
-        print(f"Device name: {microbit.generic_access.read_device_name()}")
-        while True:
-            # read the state of the buttons / lees de toestant van de knoppen
-            # print(f"button A state is now: {microbit.buttons.read_button_a()}")
-            # print(f"button B state is now: {microbit.buttons.read_button_b()}")
+                # listen for button events / luister naar drukken op knoppen
+                microbit.buttons.on_button_a(press=pressed, long_press=pressed_long, release=released)
+                microbit.buttons.on_button_b(press=pressed, long_press=pressed_long, release=released)
 
-            # listen for button events / luister naar drukken op knoppen
-            microbit.buttons.on_button_a(press=pressed, long_press=pressed_long, release=released)
-            microbit.buttons.on_button_b(press=pressed, long_press=pressed_long, release=released)
-
-            time.sleep(15)
+                time.sleep(15)
+        except Exception:
+            time.sleep(1)
 
 def read_pico_data():
     time.sleep(1)
     while True:
-        data_to_send = "True"
-        pico_reader.send_signal(data_to_send + "\n")
+        try:
+            data_to_send = "True"
+            pico_reader.send_signal(data_to_send + "\n")
+        except AttributeError:
+            time.sleep(1)
+
+        # Database connection
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="toor",
+            database="energy_guardian",
+            port=3306,
+        )
+
+        mycursor = connection.cursor()
 
         try:
-            # Database connection
-            connection = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="toor",
-                database="energy_guardian",
-                port=3306,
-            )
-
-            mycursor = connection.cursor()
-
             data = pico_reader.read_data()
 
             print("Data:", type(data), data)
@@ -117,7 +124,7 @@ def read_pico_data():
             except mysql.connector.Error as err:
                 print(f"Error: {err}\n")
 
-        except ValueError:
+        except ValueError or AttributeError:
             print("Error:", type(data), data)
 
         time.sleep(2)
@@ -131,17 +138,6 @@ thread2 = Thread(target=microbit)
 thread2.daemon = True
 thread2.start()
 
-# Database connection
-connection = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="toor",
-    database="energy_guardian",
-    port=3306,
-)
-
-mycursor = connection.cursor()
-
 #Home pagina
 def home(request):
     return render(request, "index.html")
@@ -154,15 +150,16 @@ def index(request):
 # Login pagina
 @csrf_protect
 def login(request):
-    # mydbLogin = mysql.connector.connect(
-    #     host="localhost",
-    #     user="root",
-    #     password="toor",
-    #     database="energy_guardian",
-    #     port=3306,
-    # )
-    
-    # mycursorLogin = mydbLogin.cursor()
+    # Database connection
+    connection = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="toor",
+        database="energy_guardian",
+        port=3306,
+    )
+
+    mycursor = connection.cursor()
 
     try:
         user = request.session["user"]
@@ -206,6 +203,17 @@ def login(request):
 
 # dashboard page with dashboard
 def dashboard(request):
+    # Database connection
+    connection = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="toor",
+        database="energy_guardian",
+        port=3306,
+    )
+
+    mycursor = connection.cursor()
+
     try:
         user = request.session["user"]
     except KeyError:
@@ -246,6 +254,17 @@ def dashboard(request):
 
 # Plotter pagina
 def plotter(request):
+    # Database connection
+    connection = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="toor",
+        database="energy_guardian",
+        port=3306,
+    )
+
+    mycursor = connection.cursor()
+
     try:
         user = request.session["user"]
     except KeyError:
@@ -353,6 +372,17 @@ def delete(request):
 # Page to register a device
 @csrf_protect
 def register(request):
+    # Database connection
+    connection = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="toor",
+        database="energy_guardian",
+        port=3306,
+    )
+
+    mycursor = connection.cursor()
+
     try:
         user = request.session["user"]
     except KeyError:
@@ -362,7 +392,12 @@ def register(request):
 
         number = request.POST.get("device-Name")
 
-        pico_reader.register(number, user)
+        register = True
+
+        while register:
+            register = pico_reader.register(number, user)
+
+        pico_reader.calibration(number)
     
     mycursor.execute("SELECT FirstName FROM users where UserID = '{}'".format(user))
     user_tuple = mycursor.fetchone()    

@@ -133,15 +133,10 @@ class connecter:
             
             val = (setID, email, firstName, lastName, password)
 
-            sql2 = ("UPDATE device SET UserID = {} WHERE UserID IS NULL".format(setID))
-
             try:
                 He.execute(sql, val)
                 self.mydb.commit()
                 print(f"{email} set in Database with UserID: {setID}")
-
-                He.execute(sql2)
-                self.mydb.commit()
 
             except mysql.connector.Error as err:
                 if err.errno == 1062:

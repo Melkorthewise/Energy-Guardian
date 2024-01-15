@@ -18,19 +18,19 @@ from datetime import datetime
  E(kWh) = (P(W) * t(s)) / 1000
 """
 
-# Database connection
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="toor",
-    database="energy_guardian",
-    port=3306,
-)
-
-mycursor = mydb.cursor()
-
 # Gives back data for the Average Usage tiles
 def usage(user, device, period):
+    # Database connection
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="toor",
+        database="energy_guardian",
+        port=3306,
+    )
+
+    mycursor = mydb.cursor()
+
     # Sorteren op datum waar die kijkt naar de meegegeven periode
     mycursor.execute("select Volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 1 {};".format(user, period))
 
@@ -68,10 +68,23 @@ def usage(user, device, period):
 
     total_energy = round(total_energy, 2)
 
+    mycursor.close()
+
     return total_energy
 
 # Giving back the data for the chart
 def chart(user, device, period):
+    # Database connection
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="toor",
+        database="energy_guardian",
+        port=3306,
+    )
+
+    mycursor = mydb.cursor()
+
     sql = ("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where Name_Device = '{}' and pulldatetime >= NOW() - INTERVAl 1 {};".format(device[0], period))
 
     mycursor.execute(sql)
@@ -95,11 +108,23 @@ def chart(user, device, period):
 
         time.append(date)
         value.append(power_w)
+
+    mycursor.close()
     
     return time, value
 
 # Gives back the status of the device
 def device_status(user):
+    # Database connection
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="toor",
+        database="energy_guardian",
+        port=3306,
+    )
+
+    mycursor = mydb.cursor()
     
     mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 5 MINUTE;".format(user))
     data = mycursor.fetchall()
@@ -108,5 +133,7 @@ def device_status(user):
         data = False
     else:
         data = True
+    
+    mycursor.close()
 
     return data

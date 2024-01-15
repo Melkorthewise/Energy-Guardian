@@ -312,10 +312,6 @@ img {
     margin-right: 1.5%;
 }
 
-.chart {
-    padding: 15px;
-}
-
 .device-box {
     background-color: var(--header);
     color: white;

@@ -28,7 +28,7 @@
                 <h1>Usage</h1>
             </div>
             <div class="chart">
-                <canvas id="myChart" style="width: 100%;max-width:900px"></canvas> 
+                <canvas id="myChart" style="width: 100%;max-width:100%;padding: 0px 0px 25px 0px;"></canvas> 
             </div>
         </div>
 
@@ -135,6 +135,16 @@
                         beginAtZero: true,
                         maxRotation: 45,  // Maximum label rotation angle
                         minRotation: 0,   // Minimum label rotation angle
+                        title: {
+                            display: true,
+                            text: 'Date and time'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Watt (W)'
+                        }
                     }
                 }
             }
