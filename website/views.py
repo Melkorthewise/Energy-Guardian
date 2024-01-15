@@ -67,12 +67,6 @@ def microbit():
 def read_pico_data():
     time.sleep(1)
     while True:
-        try:
-            data_to_send = "True"
-            pico_reader.send_signal(data_to_send + "\n")
-        except AttributeError:
-            time.sleep(1)
-
         # Database connection
         connection = mysql.connector.connect(
             host="localhost",
@@ -126,8 +120,6 @@ def read_pico_data():
                     print(f"Error: {err}\n")
             except AttributeError:
                 time.sleep(1)
-
-
         except ValueError or AttributeError:
             print("Error:", type(data), data)
 
@@ -254,42 +246,6 @@ def dashboard(request):
 
     template = loader.get_template("dashboard.html")
     return HttpResponse(template.render(context, request))
-
-
-# Plotter pagina
-def plotter(request):
-    # Database connection
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="toor",
-        database="energy_guardian",
-        port=3306,
-    )
-
-    mycursor = connection.cursor()
-
-    try:
-        user = request.session["user"]
-    except KeyError:
-        return redirect('login')
-
-    # user = request.COOKIES.get('user')
-    if user is None:
-        response = redirect("login")
-        return response
-    
-    mycursor.execute("SELECT FirstName FROM users where UserID = '{}'".format(user))
-    myresult = mycursor.fetchall()
-
-    for x in myresult:
-        context = {
-            'user': x,
-        }
-
-    template = loader.get_template("plotter.html")
-    return HttpResponse(template.render(context, request))
-
 
 # Logout function
 def logout(request):
