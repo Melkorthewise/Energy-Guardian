@@ -12,14 +12,18 @@ import time
 # Pico related functions
 class PicoReader:
     def __init__(self, port='COM4', baudrate=9600):
-        self.serial_port = serial.Serial(port, baudrate, timeout=1)
+        try:
+            self.serial_port = serial.Serial(port, baudrate, timeout=1)
 
-        self.mydb = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="toor",
-            database="energy_guardian"
-        )
+            self.mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="toor",
+                database="energy_guardian"
+            )
+
+        except Exception:
+            print("Device is not connected.")
 
     # Read the data from the pico.
     def read_data(self):

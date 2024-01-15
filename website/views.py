@@ -85,44 +85,48 @@ def read_pico_data():
         mycursor = connection.cursor()
 
         try:
-            data = pico_reader.read_data()
-
-            print("Data:", type(data), data)
-
-            data = data.split(',')
-
-            DeviceID, Voltage, Current = data
-
-            sql = "SELECT WattageID FROM wattage WHERE DeviceID = %s"
-
-            mycursor.execute(sql, (DeviceID,))
-            wattageID = [row[0] for row in mycursor.fetchall()]
-
-            old = 0
-            wID= 0
-            through = True
-            
-            for id in wattageID:
-                if id == old:
-                    old +=1
-                else:
-                    wID = old
-                    through = False
-                    break
-
-            if through:
-                while wID in wattageID:
-                    wID += 1
-
-            sql = "INSERT INTO wattage (WattageID, DeviceID, Volt, Ampere, pulldatetime) VALUES (%s, %s, %s, %s, NOW())"
-            val = (wID, DeviceID, Voltage, Current)
-
             try:
-                mycursor.execute(sql, val)
-                connection.commit()
-                print("Data added to database.\n")
-            except mysql.connector.Error as err:
-                print(f"Error: {err}\n")
+                data = pico_reader.read_data()
+
+                print("Data:", type(data), data)
+
+                data = data.split(',')
+
+                DeviceID, Voltage, Current = data
+
+                sql = "SELECT WattageID FROM wattage WHERE DeviceID = %s"
+
+                mycursor.execute(sql, (DeviceID,))
+                wattageID = [row[0] for row in mycursor.fetchall()]
+
+                old = 0
+                wID= 0
+                through = True
+                
+                for id in wattageID:
+                    if id == old:
+                        old +=1
+                    else:
+                        wID = old
+                        through = False
+                        break
+
+                if through:
+                    while wID in wattageID:
+                        wID += 1
+
+                sql = "INSERT INTO wattage (WattageID, DeviceID, Volt, Ampere, pulldatetime) VALUES (%s, %s, %s, %s, NOW())"
+                val = (wID, DeviceID, Voltage, Current)
+
+                try:
+                    mycursor.execute(sql, val)
+                    connection.commit()
+                    print("Data added to database.\n")
+                except mysql.connector.Error as err:
+                    print(f"Error: {err}\n")
+            except AttributeError:
+                time.sleep(1)
+
 
         except ValueError or AttributeError:
             print("Error:", type(data), data)
