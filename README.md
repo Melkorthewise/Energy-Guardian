@@ -48,14 +48,15 @@ For a project on THUAS we have created the Energy Guardian Model C. But let's st
         + [Editing Files](#editing-files)
     * [MySQL Workbench](#mysql-workbench)
     * [Starting the server](#starting-the-server)
+- [Footnotes](#footnotes)
 
 ## The Challenge - Fase 1
 
 There were 17 goals that we could choose from. We chose number 7, **Affordable and Clean Energy**. We chose this one, because we thaught that this was the most promising way for us. We also think it is important that everyone can live a sustainable life in their own way.
 
-> Ensure access to affordable, reliable, sustainable and modern energy for all. (UN, 2023)
+> Ensure access to affordable, reliable, sustainable and modern energy for all. [^1]
 
-What we learned after doing some research is that there are still 675 milion people without electricity. We also learned that on average a houshold of 4, in the Netherlands, that live in a terraced or corner house consumes 2.500 kWh. And a detached house uses up to 3.300 kWh. (Tess, 2023)
+What we learned after doing some research is that there are still 675 milion people without electricity. We also learned that on average a houshold of 4, in the Netherlands, that live in a terraced or corner house consumes 2.500 kWh. And a detached house uses up to 3.300 kWh. [^2]
 
 That is why we want to create a solution that helps people to optimize their energy consumption at home an thus save valuable energy.
 
@@ -343,3 +344,10 @@ Before you can start the server we have to connect the database. We used the MyS
 ## Starting the server
 
 Open a terminal, for example in vscode or cmd. Go to the folder that has the file `manage.py`. Then you can type in the command `python manage.py runserver`. Press enter, and if I am right the server should now be running.
+
+# Footnotes
+
+[^1]: https://sdgs.un.org/goals/goal7
+
+[^2]Tess. (2023, 9 14). Gemiddeld stroomverbruik per jaar. Opgeroepen op 9 28, 2023, van pure energie: https://pure-energie.nl/kennisbank/gemiddeld-stroomverbruik-per-jaar/#:~:text=Voor%20een%204%20persoons%20huishouden,tot%203.300%20kWh%20per%20jaar
+
