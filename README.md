@@ -266,8 +266,6 @@ With the Wattage table we have a WattageID, we added this later because it was n
 
 # Hardware
 
-
-
 ## Components
 
 For the making of our device we used the following components:
@@ -280,7 +278,7 @@ For the making of our device we used the following components:
 
 ### Circuit
 
-![Energy Guardian Circuit](website\static\Pico.png)
+![Energy Guardian Circuit](https://github.com/Melkorthewise/Energy-Guardian/blob/master/website/static/Pico.png)
 
 We used the Raspberry Pi Pico as the microcontroller. It controlled the sensor and the relay. 
 
