@@ -319,7 +319,7 @@ img {
     width: 95%;
     height: 10%;
     /* margin: 13.25px; */
-    margin: 13.25px auto 100px auto;
+    margin: 13.25px auto 0px auto;
 
     display: flex;
     align-items: center;

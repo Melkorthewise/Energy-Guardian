@@ -7,13 +7,44 @@ from threading import Thread
 import mysql.connector
 import serial
 import time
+import serial.tools.list_ports
 
 # Import other python files.
 
 # Pico related functions
 class PicoReader:
-    def __init__(self, port='COM4', baudrate=9600):
+    def __init__(self, baudrate=9600):
+        port = ""
+
         try:
+            # Trying to open an serial connectino with the Pico.
+            pico_description = "USB Serial Device"
+
+            available_ports = list(serial.tools.list_ports.comports())
+    
+            matching_ports = [port for port, desc, hwid in available_ports if pico_description in desc]
+            
+            if not matching_ports:
+                time.sleep(0.1)
+                print(f"No {pico_description} found.")
+                # esp8266_port = None
+            else:
+                port = matching_ports[0]
+
+            # Trying to open a serial connection with the ESP8266.
+            esp8266_description = "Silicon Labs CP210x USB to UART Bridge"
+
+            available_ports = list(serial.tools.list_ports.comports())
+    
+            matching_ports = [port for port, desc, hwid in available_ports if esp8266_description in desc]
+            
+            if not matching_ports:
+                print(f"No {esp8266_description} found.")
+                # esp8266_port = None
+            else:
+                port = matching_ports[0]
+
+
             self.serial_port = serial.Serial(port, baudrate, timeout=1)
 
             self.mydb = mysql.connector.connect(

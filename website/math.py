@@ -129,14 +129,23 @@ def device_status(user):
 
     mycursor = mydb.cursor()
     
-    mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where UserID = '{}' and pulldatetime >= NOW() - INTERVAL 5 MINUTE;".format(user))
-    data = mycursor.fetchall()
+    mycursor.execute("SELECT DeviceID FROM Device WHERE UserID = '{}'".format(user))
+    
+    device = [row[0] for row in mycursor.fetchall()]
 
-    if data == []:
-        data = False
-    else:
-        data = True
+    status = []
+
+    for x in device:
+        mycursor.execute("select wattage.DeviceID, volt, ampere, pulldatetime from wattage WHERE DeviceID = '%s' and pulldatetime >= NOW() - INTERVAl 1 MINUTE;", (x,))
+        data = mycursor.fetchall()
+
+        if data == []:
+            status.append(False)
+        else:
+            status.append(True)
     
     mycursor.close()
 
-    return data
+    print(status)
+
+    return status

@@ -79,10 +79,10 @@
                 <a href="register-device"><h1>+</h1></a>
             </div>
             <div class="blocks">
-                {% for x in device %}
+                {% for x, y in device %}
                 <div class="device-box">
                     <svg height="50" width="50">
-                        <circle cx="25" cy="25" r="10" stroke="black" stroke-width="2" fill="{{status}}"/>
+                        <circle cx="25" cy="25" r="10" stroke="black" stroke-width="2" fill="{{y}}"/>
                     </svg>
                     <p>{{x}}</p>
                 </div>

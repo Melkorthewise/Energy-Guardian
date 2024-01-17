@@ -97,8 +97,6 @@ def read_pico_data():
 
                     Watt = float(Voltage) * float(Current)
 
-                    # print(Watt)
-
                     try:
                         sql = "SELECT Average_Voltage, Average_Ampere FROM calibration WHERE DeviceID = %s"
                         mycursor.execute(sql, (DeviceID,))
@@ -114,8 +112,8 @@ def read_pico_data():
                     except IndexError:
                         time.sleep(0.1)
 
-                    sql = "SELECT WattageID FROM wattage WHERE DeviceID = %s"
-                    mycursor.execute(sql, (DeviceID,))
+                    sql = "SELECT WattageID FROM wattage"
+                    mycursor.execute(sql)
                     wattageID = [row[0] for row in mycursor.fetchall()]
 
                     old = 0
@@ -249,17 +247,24 @@ def dashboard(request):
 
     # Niet meerdere apparaten tot de dezelfde eigenaar toekenen dat werkt nog niet
     mycursor.execute("SELECT Name_Device FROM Device WHERE UserID = '{}'".format(user))
-    device = mycursor.fetchone()
+    
+    device = [row[0] for row in mycursor.fetchall()]
 
-    if device_status(user):
-        status = "#5db657"
-    else:
-        status = "#f9434e"
+    status_device = device_status(user)
+
+    status = []
+
+    for x in status_device:
+        if x == False:
+            status.append("#f9434e")
+        elif x == True:
+            status.append("#5db657")
+
+    deviceandstatus = zip(device, status)
     
     context = {
         'user': username[0],
-        'device': device,
-        'status': status,
+        'device': deviceandstatus,
         'hour': usage(user, device, "HOUR"),
         'day': usage(user, device, "DAY"),
         'week': usage(user, device, "WEEK"),
