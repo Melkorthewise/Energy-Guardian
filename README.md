@@ -349,5 +349,5 @@ Open a terminal, for example in vscode or cmd. Go to the folder that has the fil
 
 [^1]: https://sdgs.un.org/goals/goal7
 
-[^2]Tess. (2023, 9 14). Gemiddeld stroomverbruik per jaar. Opgeroepen op 9 28, 2023, van pure energie: https://pure-energie.nl/kennisbank/gemiddeld-stroomverbruik-per-jaar/#:~:text=Voor%20een%204%20persoons%20huishouden,tot%203.300%20kWh%20per%20jaar
+[^2]: Tess. (2023, 9 14). Gemiddeld stroomverbruik per jaar. Opgeroepen op 9 28, 2023, van pure energie: https://pure-energie.nl/kennisbank/gemiddeld-stroomverbruik-per-jaar/#:~:text=Voor%20een%204%20persoons%20huishouden,tot%203.300%20kWh%20per%20jaar
 
