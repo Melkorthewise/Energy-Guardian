@@ -8,16 +8,13 @@ For a project on THUAS we have created the Energy Guardian Model C. But let's st
     * [Functional Design](#functional-design)
         + [List of Functional Demands](#list-of-functional-demands)
         + [Motivation & Explanation Functional Design](#motivation--explanation-functional-design)
-    
 - [Energy Guardian Model C](#energy-guardian-model-c)
-
 - [Server](#server)
     * [Frontend](#frontend)
         + [Javascript](#javascript)
-            - [Settings](#settings)
-            - [Update](#update)
-            - [Plotter](#plotter)
-
+            - [Settings:](#settings)
+            - [Update:](#update)
+            - [Plotter:](#plotter)
     * [Backend](#backend)
         + [Navigation](#navigation)
         + [Views](#views)
@@ -31,20 +28,26 @@ For a project on THUAS we have created the Energy Guardian Model C. But let's st
         + [Settings](#settings-1)
             - [Changing Password](#changing-password)
             - [Deleting Account](#deleting-account)
-
-- [Microcontrollers](#microcontrollers)
-    * [Raspberry Pi Pico](#raspberry-pi-pico)
-    * [Micro:bit](#microbit)
-
+    * [Microcontrollers](#microcontrollers)
+        + [Raspberry Pi Pico](#raspberry-pi-pico)
+            - [Registering](#registering)
+        + [Micro:bit](#microbit)
 - [Database](#database)
     * [Tables](#tables)
-    * [Saving](#saving)
-
 - [Hardware](#hardware)
     * [Components](#components)
+        + [Circuit](#circuit)
+            - [Raspberry Pi Pico](#raspberry-pi-pico-1)
+            - [PZEM-004T](#pzem-004t)
+            - [Relay](#relay)
     * [Connections](#connections)
-
 - [Setup](#setup)
+    * [Download the project](#download-the-project)
+        + [Extract the zip-file](#extract-the-zip-file)
+    * [Opening the project.](#opening-the-project)
+        + [Editing Files](#editing-files)
+    * [MySQL Workbench](#mysql-workbench)
+    * [Starting the server](#starting-the-server)
 
 ## The Challenge - Fase 1
 
@@ -280,28 +283,63 @@ For the making of our device we used the following components:
 
 ![Energy Guardian Circuit](https://github.com/Melkorthewise/Energy-Guardian/blob/master/website/static/Pico.png)
 
-We used the Raspberry Pi Pico as the microcontroller. It controlled the sensor and the relay. 
+We used the Raspberry Pi Pico as the microcontroller. It controlled the sensor and the relay. We mounted the walloutlet on the lid of the junction box and runned the cables throught the lid.
+
+#### Raspberry Pi Pico
+
+We have chosen the Pico for its wireless capabilaties. With the Pico we could connect wireless to the server, but the school wifi is restricted so we could not use this. Instead we do the communication over USB, only for testing purposes. The Pico sends data over the USB connection which then gets saved into the database and the server can give the Pico commands so that it can turn the power on and off.
+
+#### PZEM-004T
+
+The PZEM-004T is a multimeter sensor. This means it can measure voltage, current, watt and even kilowatthour. Because we were thinking, that we would use another sensor which could only voltage and current. We had already made a function that could calculate the watt and kilowatthour. So, we tought that we would just use it and only ask the sensor to give the voltage and the current, to keep it somewhat easier.
+
+This sensor has a little tric and that is that it will only send data after you have asked for it, that is why I said 'only ask the sensor'. So to get data every second, you have to ask it every second. Instead of only reading it.
+
+#### Relay
+
+The relay has one side with only connection point for the power circuit and on the other side connections to control it, for example with the Pico. 
+
+We have used a 2 channel relay, this means that there are two relais on one board.
+
+The relay has three connections, one in and two out. The middel is the in, here you put the cable that gives the power. Then the power goes to one of the two out's. We only used one, because we did not need to switch, but simply turn the circuit off.
 
 ## Connections
 
+In the picture you can see teh circuit of the Energy Guardian. Here you can see that a wire coming into the junction box. The neutral wire gets connected with the relay, so that we can turn off the power.
 
+The Pico has a wire running from the 5V pin to the junction box, here it connectes to the PZEM-004T and the relay. These are also connected to two seperated ground pins on the Pico. The relay is then also connected with one wire to the GPIO pin 2 of the Pico, this is the wire that can control the relay by giving an on of off signal.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+From the PZEM-004T there are going two other wires from the ttl connection. This means that both components are connected with each others rx/tx pins. The rx is for reading, so the rx from the Pico is connected to the tx from the PZEM-004T. So that the Pico can read what the PZEM-004T is writing. So, this means of course that the tx is for writing, the tx from the Pico is connected to the rx from the PZEM-004T. The Pico can then give commands to the PZEM-004T and the PZEM-004T can then read them.
 
 # Setup
+
+1. Download the project.
+    - Extract the zip-file.
+2. Open the project in a folder, if you want to edit it. Otherwise you can skip this.
+    - Editing files
+4. Connecting the MySQL Workbench
+5. Starting the server
+
+## Download the project
+
+You can download the project by pressing on the green button. Then you can click on 'download zip'.
+
+### Extract the zip-file
+
+You can now extract the zip-file, in a location that you like.
+
+## Opening the project.
+
+If you want to edit the website, you can open it in an edit. It can be notepad, or something like vscode.
+
+### Editing Files
+
+The HTML files are saved in the map called 'templates' and the css is saved in the map called 'static'. In the map static there all the other files, like javascript files or images.
+
+## MySQL Workbench
+
+Before you can start the server we have to connect the database. We used the MySQL Workbench, we can change the connection within the file called `settings.py`. Here you can search for the part called databases, here you have to edit somethings. The user is probably called root and the password is the one you fill in, in the workbench. Name stands for the database, in our case it is `energy_guardian`. Host is for which connection you are using, most times this is localhost. The port you probably do not have to change, because that is probably the same as us 3306. These settings you also have to change in the files `view.py`, `settings.py`, `math.py`, `pico.py`, `connect.py`. These files are all in the `website` folder.
+
+## Starting the server
+
+Open a terminal, for example in vscode or cmd. Go to the folder that has the file `manage.py`. Then you can type in the command `python manage.py runserver`. Press enter, and if I am right the server should now be running.
