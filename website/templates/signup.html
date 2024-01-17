@@ -11,7 +11,7 @@
 
 <body>
     <div class="header">
-        <a href="/"><h1 class="title-navbar">Energy-Guardian</h1></a>
+        <a href="/"><h1 class="title-navbar">Energy-Guardians</h1></a>
 
         <a href="login" class="navbar-link">Login</a>
         <a href="/" class="navbar-link">Home</a>
@@ -21,6 +21,37 @@
     <div class="main-login">
         <h1 class="login_txt">Energy-Guardian</h1>
 
+        {% if passwordFail %}
+        <p class="error">Passwords do not match<br>Please try again</p>
+        {% endif %}
+
+        {% if create_user_failed %}
+        <p class="error">Email-Address is allready in use<br>Please use a different email-address to sign up</p>
+        {% endif %}
+
+        {% if toLongFirst %}
+        <p class="error">Shorten your firstname between 0 and 255 symbols</p>
+        {% endif %}
+
+        {% if toLongLast %}
+        <p class="error">Shorten your lastname between 0 and 255 symbols</p>
+        {% endif %}
+
+        {% if toLongEmail %}
+        <p class="error">Shorten your email between 0 and 255 symbols</p>
+        {% endif %}
+
+        {% if toShortPassword %}
+        <p class="error">Make sure your password is between 8 and 20 symbols</p>
+        {% endif %}
+
+        {% if toLongPassword %}
+        <p class="error">Make sure your password is between 8 and 20 symbols</p>
+        {% endif %}
+
+        {% if password_failed %}
+        <p class="error">The passwords do not match</p>
+        {% endif %}
         <!-- <form class="login" method="post" onsubmit="signUp(event)"> -->
         <form method="post" class="login">
             {% csrf_token %}
@@ -34,10 +65,10 @@
             <label for="fEmail">E-mail Adress:</label><br>
             <input type="Email" placeholder="example@hotmail.com" name="email" id="email"><br><br>
 
-            <label for="fPassword">Password</label><br>
+            <label for="fPassword">Password (8-20 symbol)</label><br>
             <input type="Password" placeholder="Password" name="password" id="password"><br></br>
 
-            <label for="fRepeat Password">Repeat Password</label><br>
+            <label for="fRepeat Password">Repeat Password (8-20 symbols)</label><br>
             <input type="Password" placeholder="Password" name="passwordRepeat" id="password"><br></br>
 
             <input type="submit" value="Sign Up" id="submit">
@@ -52,26 +83,3 @@
     </div>
 </body>
 </html>
-
-<script>
-    // function signUp(){
-    //     var firstName = document.getElementById("firstName");
-    //     var secondName = document.getElementById("secondName");
-    //     var email = document.getElementById("email");
-    //     var password = document.getElementById("password");
-    //     var repeatPassword = document.getElementById("passwordRepeat");
-
-    //     if(password.value == repeatPassword.value){
-    //         window.location.href = "login";
-    //     }
-
-    //     else{
-    //         alert("Passwords do not match, try again");
-    //         firstName.value = "";
-    //         secondName.value = "";
-    //         email.value = "";
-    //         password.value = "";
-    //         repeatPassword.value = "";
-    //     }
-    // }
-</script>

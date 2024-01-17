@@ -17,6 +17,8 @@ import json
 import queue
 import time
 import os
+import threading
+import concurrent.futures
 
 # Import other python files
 from .connect import *
@@ -27,6 +29,8 @@ from .pico import PicoReader
 database = connecter()
 
 pico_reader = PicoReader()
+
+pause_event = threading.Event()
 
 def microbit():
     def pressed(button):
@@ -67,71 +71,90 @@ def microbit():
 def read_pico_data():
     time.sleep(1)
     while True:
-        # Database connection
-        connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="toor",
-            database="energy_guardian",
-            port=3306,
-        )
+        while not pause_event.is_set():
+            pico_reader.send_signal("True" + "\n")
 
-        mycursor = connection.cursor()
+            # Database connection
+            connection = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="toor",
+                database="energy_guardian",
+                port=3306,
+            )
 
-        try:
+            mycursor = connection.cursor()
+
             try:
-                data = pico_reader.read_data()
-
-                print("Data:", type(data), data)
-
-                data = data.split(',')
-
-                DeviceID, Voltage, Current = data
-
-                sql = "SELECT WattageID FROM wattage WHERE DeviceID = %s"
-
-                mycursor.execute(sql, (DeviceID,))
-                wattageID = [row[0] for row in mycursor.fetchall()]
-
-                old = 0
-                wID= 0
-                through = True
-                
-                for id in wattageID:
-                    if id == old:
-                        old +=1
-                    else:
-                        wID = old
-                        through = False
-                        break
-
-                if through:
-                    while wID in wattageID:
-                        wID += 1
-
-                sql = "INSERT INTO wattage (WattageID, DeviceID, Volt, Ampere, pulldatetime) VALUES (%s, %s, %s, %s, NOW())"
-                val = (wID, DeviceID, Voltage, Current)
-
                 try:
-                    mycursor.execute(sql, val)
-                    connection.commit()
-                    print("Data added to database.\n")
-                except mysql.connector.Error as err:
-                    print(f"Error: {err}\n")
-            except AttributeError:
-                time.sleep(1)
-        except ValueError or AttributeError:
-            print("Error:", type(data), data)
+                    data = pico_reader.read_data()
 
-        time.sleep(2)
+                    print("Data:", data)
 
+                    data = data.split(',')
 
-thread = Thread(target=read_pico_data)
-thread.daemon = True
+                    DeviceID, Voltage, Current = data
+
+                    Watt = float(Voltage) * float(Current)
+
+                    # print(Watt)
+
+                    try:
+                        sql = "SELECT Average_Voltage, Average_Ampere FROM calibration WHERE DeviceID = %s"
+                        mycursor.execute(sql, (DeviceID,))
+                        Data = mycursor.fetchall()[0]
+
+                        Average_Watt = float(Data[0]) * float(Data[1])
+
+                        # print(Average_Watt)
+
+                        if abs(Watt - Average_Watt) <= 0.1:
+                            pico_reader.send_signal("off" + "\n")
+
+                    except IndexError:
+                        time.sleep(0.1)
+
+                    sql = "SELECT WattageID FROM wattage WHERE DeviceID = %s"
+                    mycursor.execute(sql, (DeviceID,))
+                    wattageID = [row[0] for row in mycursor.fetchall()]
+
+                    old = 0
+                    wID= 0
+                    through = True
+                                            
+                    for id in wattageID:
+                        if id == old:
+                                    old +=1
+                        else:
+                            wID = old
+                            through = False
+                            break
+
+                    if through:
+                        while wID in wattageID:
+                            wID += 1
+
+                    sql = "INSERT INTO wattage (WattageID, DeviceID, Volt, Ampere, pulldatetime) VALUES (%s, %s, %s, %s, NOW())"
+                    val = (wID, DeviceID, Voltage, Current)
+
+                    try:
+                        mycursor.execute(sql, val)
+                        connection.commit()
+                        # print("Data added to database.\n")
+                    except mysql.connector.Error as err:
+                        print(f"Error: {err}\n")
+                except AttributeError:
+                    time.sleep(1)
+            except ValueError or AttributeError:
+                print("Error:", type(data), data)
+
+            time.sleep(2)
+
+# Start the necessary threads for the Pico and the Micro:bit.
+thread = Thread(target=read_pico_data, daemon=True)
 thread.start()
 
-thread2 = Thread(target=microbit)
-thread2.daemon = True
+thread2 = Thread(target=microbit, daemon=True)
 thread2.start()
 
 #Home pagina
@@ -181,6 +204,8 @@ def login(request):
         myresult = mycursor.fetchall()
         print(myresult)
         
+        if myresult == []:
+            return render(request, "login.html", {'Invalid':True})
         #decrpytie
 
         for x in myresult:
@@ -192,7 +217,7 @@ def login(request):
                 return response
             
             else:
-                print("ERROR NERD")
+                return render(request, "login.html", {'login_error':True})
 
     return render(request, "login.html")
 
@@ -240,8 +265,8 @@ def dashboard(request):
         'week': usage(user, device, "WEEK"),
         'month': usage(user, device, "MONTH"),
         'year': usage(user, device, "YEAR"),
-        'date': chart(user, device, "DAY")[0],
-        'value': chart(user, device, "DAY")[1],
+        'date': chart(user, device, "HOUR")[0],
+        'value': chart(user, device, "HOUR")[1],
     }
 
     template = loader.get_template("dashboard.html")
@@ -262,7 +287,7 @@ def logout(request):
 def signup(request):
     try:
         user = request.session["user"]
-        return redirect('main')
+        return redirect('dashboard')
     except KeyError:
         pass
     
@@ -275,6 +300,9 @@ def signup(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         passwordRepeat = request.POST.get("passwordRepeat")
+        
+        if password != passwordRepeat:
+            return render(request, 'signUp.html', {'passwordFail': True})
         
         signup = database.signUp(email, firstName, lastName, password)
 
@@ -290,13 +318,22 @@ def signup(request):
         elif signup == "toLongLast":
             return render(request, 'signUp.html', {'toLongLast': True})
         
-        elif signup:
-            return redirect("login")
+        elif signup == "toLongEmail":
+            return render(request, 'signUp.html', {'toLongEmail': True})
         
+        elif signup == "toShortPassword":
+            return render(request, 'signUp.html', {'toShortPassword': True})
+        
+        elif signup == "toLongPassword":
+            return render(request, 'signUp.html', {'toLongPassword': True})
+        
+        elif signup == "emailError":
+            return render(request, 'signUp.html', {'create_user_failed': failed})
+            
         else:
-            failed = True
-
-    return render(request, 'signUp.html', {'create_user_failed': failed})
+            return redirect("login")
+    
+    return render(request, 'signUp.html')
 
 #Settings 
 def settings(request):
@@ -312,8 +349,14 @@ def settings(request):
         password2 = request.POST.get("passwordRepeat")
         
         if password1 != None:
-            if (password1 == password2) and password1 !="" and password2 != "": 
-                change.changePassword(user, password1)
+            print("IN")
+            print(password1, password2)
+            if password1 == password2: 
+                if(change.changePassword(user, password1)):
+                    print("Changed")
+                
+                else:
+                    return render(request, 'settings.html', {'passwordError':True})
             
         
         else:
@@ -321,8 +364,7 @@ def settings(request):
             del request.session["user"]
             return redirect ("accountDeleted")
 
-    return render(request, 'settings.html')
-        
+    return render(request, 'settings.html')        
 
 def delete(request):
     user = request.session.get("user")
@@ -332,6 +374,18 @@ def delete(request):
 # Page to register a device
 @csrf_protect
 def register(request):
+    """
+        1. Verbind het apparaat
+        2. Registreren of stap 3
+        3. Kalibreren.
+            Wanneer op de knop aan of uit gedrukt wordt:
+                a. Functie read_pico_data stoppen, zodat er geen conflict ontstaat.
+                b. "True" verzenden naar de Pico, zodat deze data gaat verzenden.
+                c. Data lezen en opslitsen in de juiste variabelen.
+                d. device += 1
+
+    """
+
     # Database connection
     connection = mysql.connector.connect(
         host="localhost",
@@ -348,16 +402,7 @@ def register(request):
     except KeyError:
         return redirect('login')
     
-    if request.method == 'POST':
-
-        number = request.POST.get("device-Name")
-
-        register = True
-
-        while register:
-            register = pico_reader.register(number, user)
-
-        pico_reader.calibration(number)
+    device = 0        
     
     mycursor.execute("SELECT FirstName FROM users where UserID = '{}'".format(user))
     user_tuple = mycursor.fetchone()    
@@ -369,13 +414,41 @@ def register(request):
 
     device = user_tuple[0] if user_tuple else None
 
+    if request.method == 'POST':
+
+        number = request.POST.get("device-Name")
+        # aan = request.POST.get("aan")
+        uit = request.POST.get("uit")
+
+        if number != None:
+            print("Registering device.")
+            pico_reader.register(number, user)
+        else:
+            # Get the deviceid out of the database
+            sql = "SELECT DeviceID FROM device WHERE UserID = %s;"
+            mycursor.execute(sql, (user,))
+            number = mycursor.fetchone()[0]
+
+        # if aan != None:
+        #     print("Aan")
+        #     pause_event.set()
+        #     pico_reader.calibration(number, 1)
+        #     device = 0
+
+        if uit != None:
+            print("Uit")
+            pause_event.set()
+            pico_reader.calibration(number, 0)
+            device = 1
+
+        # print(device)
+
     context = {
         'user': username,
-        'device': 3,
+        'device': device,
     }
 
-    template = loader.get_template("register.html")
-    return HttpResponse(template.render(context, request))
+    return render(request, "register.html", context)
 
 def update(request):
     return render(request, "update.html")

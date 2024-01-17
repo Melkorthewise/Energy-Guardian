@@ -347,42 +347,7 @@ img {
     margin-left: 25px;
 }
 
-
-/* old code body{
-    scrollbar-width:thin;
-    scrollbar-color:#808080 #f0f0f0;
-    margin:0;
-}
-
-.mainH3{
-    font-size:1.5vw;
-    color:black;
-}
-
-.squareMain{
-    height:calc(50px + 15vh);
-    width:calc(50px + 7.5vw);
-    background-color: greenyellow;
-    border-radius:15px;
-    border:1px solid;
-}
-
-.plot{
-    font-size:larger;
-}
 .error{
-    position:absolute;
-    bottom:7.5vh;
-    left:3.25vw;
-    color:red;
-    font-size:1.5vw;
+    text-align:center;
+    color:rgb(212, 40, 40);
 }
-
-.enableSettings{
-    position:absolute;
-    right:1vw;
-    font-size:calc(2vh);
-}
-.inlog_boxes{
-    margin-top: -10%;
-} */

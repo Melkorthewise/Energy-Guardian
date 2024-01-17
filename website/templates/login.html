@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="header">
-        <a href="/"><h1 class="title-navbar">Energy-Guardian</h1></a>
+        <a href="/"><h1 class="title-navbar">Energy-Guardians</h1></a>
 
         <!-- <a href="/" class="navbar-link">Homepage</a> -->
         <a href="signup" class="navbar-link">Sign Up</a>
@@ -19,6 +19,13 @@
 
     <div class="main-login">
         <h1 class="login_txt">Login</h1>
+        {% if login_error %}
+        <p class="error">Email-Address and/or password is wrong</p>
+        {% endif %}
+
+        {% if Invalid %}
+        <p class="error">Email-Address does not exists</p>
+        {% endif %}
 
         <form method="post" class="login">
             {% csrf_token %}
@@ -28,7 +35,7 @@
             <input type="password" name="password" id="password" placeholder="Password"><br>
             <br>
             <input type="submit" value="Login" id="submit">
-        </form>    
+        </form>
     </div>
 
     <img class="logo-login" src="{% static 'logo.png' %}">

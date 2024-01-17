@@ -74,44 +74,47 @@ def usage(user, device, period):
 
 # Giving back the data for the chart
 def chart(user, device, period):
-    # Database connection
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="toor",
-        database="energy_guardian",
-        port=3306,
-    )
+    try:
+        # Database connection
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="toor",
+            database="energy_guardian",
+            port=3306,
+        )
 
-    mycursor = mydb.cursor()
+        mycursor = mydb.cursor()
 
-    sql = ("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where Name_Device = '{}' and pulldatetime >= NOW() - INTERVAl 1 {};".format(device[0], period))
+        sql = ("select wattage.DeviceID, volt, ampere, pulldatetime from wattage join device on wattage.DeviceID = device.DeviceID where Name_Device = '{}' and pulldatetime >= NOW() - INTERVAl 1 {};".format(device[0], period))
 
-    mycursor.execute(sql)
-    data = mycursor.fetchall()
+        mycursor.execute(sql)
+        data = mycursor.fetchall()
 
-    # print("Data:", type(data), data, "\n")
+        # print("Data:", type(data), data, "\n")
 
-    time = []
-    value = []
+        time = []
+        value = []
 
-    for x in data:
+        for x in data:
+            
+            (Device, Voltage, Current, Pulldatetime) = x
+
+            power_w = Voltage * Current
+            # energy_wh = power_w * (time_seconds / 3600)
+
+            #Pulldatetime = [x.strftime('%Y-%m-%dT%H:%M:%S')]
+
+            date = Pulldatetime.strftime("%Y-%m-%d %H:%M:%S")
+
+            time.append(date)
+            value.append(power_w)
+
+        mycursor.close()
         
-        (Device, Voltage, Current, Pulldatetime) = x
-
-        power_w = Voltage * Current
-        # energy_wh = power_w * (time_seconds / 3600)
-
-        #Pulldatetime = [x.strftime('%Y-%m-%dT%H:%M:%S')]
-
-        date = Pulldatetime.strftime("%Y-%m-%d %H:%M:%S")
-
-        time.append(date)
-        value.append(power_w)
-
-    mycursor.close()
-    
-    return time, value
+        return time, value
+    except:
+        return 0, 0
 
 # Gives back the status of the device
 def device_status(user):

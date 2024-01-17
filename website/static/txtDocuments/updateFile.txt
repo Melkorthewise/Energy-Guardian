@@ -1,3 +1,4 @@
+[14/01/2024] Data is getting send every second
 [09/01/2024] Accounts can now be deleted
 [09/01/2024] Passwords can be changed
 [09/01/2024] Energy-Guardian model C bug fixess

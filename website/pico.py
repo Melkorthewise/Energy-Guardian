@@ -2,6 +2,7 @@
 
 # Import non-Django libraries.
 from coolname import generate_slug
+from threading import Thread
 
 import mysql.connector
 import serial
@@ -42,7 +43,7 @@ class PicoReader:
             # Send data to the Pico over the serial connection.
             self.serial_port.write(data.encode('utf-8'))
 
-            print(f"\n{type(data)} {data}")
+            # print(f"\n{type(data)} {data}")
         except serial.SerialException as e:
             print(f"Error sending data to serial port: {e}")
 
@@ -88,44 +89,96 @@ class PicoReader:
             return True 
     
     # Save the calibration data to the database.
-    def calibration(self, number):
+    def calibration(self, number, mode):
         Voltage = []
         Current = []
 
-        average_V = 0
-        average_A = 0
-
-        x = 0
+        Average_V = 0
+        Average_C = 0
         
-        while x != (5 * 60):
-            try:
-                data_to_send = "True"
-                self.send_signal(data_to_send + "\n")
+        def loop():
+            x = 0
 
-                data = self.read_data()
+            self.send_signal("on" + "\n")
 
-                data = data.split(',')
+            time.sleep(5)
 
-                DeviceID, V, A = data
+            while x <= 20:
+                self.send_signal("True" + "\n")
 
-                Voltage.append(V)
-                Current.append(A)
+                try:
+                    try:
+                        data = self.read_data()
 
-                x += 1
-            except ValueError as err:
-                print(err)
+                        # print(f"Calibration Data({x}): {type(data)}, {data}")
 
+                        data = data.split(',')
 
-        numbers = len(Voltage)
+                        _, data_v, data_c = data
+
+                        Voltage.append(data_v)
+                        Current.append(data_c)
+
+                        x += 1
+                        
+                    except AttributeError:
+                        time.sleep(0.1)
+                except ValueError:
+                    print("Error:", type(data), data)
+
+                time.sleep(1)
+        
+        thread = Thread(target=loop, daemon=True)
+        thread.start()
+
+        thread.join()
+
+        # print(Voltage)
+        # print(Current)
+
         for x in range(len(Voltage)):
-            average_V += Voltage[x]
+            Average_V += float(Voltage[x])
+            Average_C += float(Current[x])
 
-        average_V /= numbers
+        Average_V /= len(Voltage)
+        Average_C /= len(Current)
 
-        numbers = len(Current)
-        for x in range(len(Current)):
-            average_A += Current[x]
+        # print(Average_V, Average_C)
 
-        average_A /= numbers
+        mycursor = self.mydb.cursor()
 
-        print(average_V, average_A)
+        # Check if there is already something saved in the database
+        sql = "SELECT * FROM calibration WHERE DeviceID = %s and Device_mode = %s;"
+        mycursor.execute(sql, (number, mode,))
+
+        data = mycursor.fetchall()
+
+        if data == []:
+            sql = "INSERT INTO calibration (Device_mode, DeviceID, Average_Voltage, Average_Ampere) VALUES (%s, %s, %s, %s)"
+            
+            try:
+                mycursor.execute(sql, (mode, number, Average_V, Average_C,))
+                self.mydb.commit()
+            except mysql.connector.Error as err:
+                if err.errno == 1062:
+                    print(f"Device with DeviceID {number} already exists.")
+
+                    return False
+                else:
+                    print(f"Error: {err}")
+            finally:
+                mycursor.close()
+        else:
+            sql = "UPDATE calibration SET Average_Voltage = %s, Average_Ampere = %s WHERE Device_mode = %s and DeviceID = %s;"
+            try:
+                mycursor.execute(sql, (Average_V, Average_C, mode, number))
+                self.mydb.commit()
+            except mysql.connector.Error as err:
+                if err.errno == 1062:
+                    print(f"Device with DeviceID {number} already exists.")
+
+                    return False
+                else:
+                    print(f"Error: {err}")
+            finally:
+                mycursor.close()

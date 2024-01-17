@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="30">
+    <!-- <meta http-equiv="refresh" content="30"> -->
     <title>Dashboard</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
@@ -30,22 +30,35 @@
             </div>
             <div class="steps">
             <ol>
-                {% if device >= 1 %}
-                    <h2><li>Connect the Energy Guardian</li></h2>
-                    <p>Text</p><br><br>
-                {% endif %}
-                {% if device >= 2 %}
-                    <h2><li>Fill in the form</li></h2>
-                    <p>Fill in the number of the device.</p>
-                    <form action="" method="post">
+                <h2><li>Connect the Energy Guardian</li></h2>
+                <p>Text</p><br><br>
+
+                <h2><li>Fill in the form</li></h2>
+                <p>Fill in the number of the device.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="text" name="device-Name" id="device-Name">
+                    <input type="submit" value="Submit">
+                </form><br><br>
+
+                <h2><li>Calibrating Energy-Guardian</li></h2>
+                <p>
+                    Now make sure that the device is <u>turned off</u> and then push the button Calibration.
+                    <form method="post">
                         {% csrf_token %}
-                        <input type="text" name="device-Name" id="device-Name">
-                        <input type="submit" value="Submit">
-                    </form><br><br>
-                {% endif %}
-                {% if device >= 3 %}
-                    <h2><li>Calibrating Energy-Guardian</li></h2>
-                {% endif %}
+                        <input type="submit" value="Calibration" name="uit">
+                    </form>
+
+                    <!-- <br>
+                    Now make sure that the device is <u>turned on</u> and then push the button Calibration.
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Calibration" name="aan">
+                    </form> -->
+                </p><br><br>
+
+                <h2><li>The Energy Guardian has been calabrated.</li></h2>
+                <p>You can now use your TV again.</p>
             </ol>
             </div>
         </div>

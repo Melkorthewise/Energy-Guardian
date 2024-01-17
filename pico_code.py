@@ -1,4 +1,3 @@
-# This code is written in micropython and is written for the pico.
 from machine import Pin, UART
 import select
 import sys
@@ -8,6 +7,7 @@ poll_obj = select.poll() # Create an instance of a polling object
 poll_obj.register(sys.stdin, 1) # Register sys.stdin (standard input) for monitoring read events with priority 1
 
 relay = Pin(2, mode=Pin.OUT, value=1) # Pin object for controlling pin 15.
+led = Pin("LED", mode=Pin.OUT, value=1) # Pin object for controlling onboard led.
 
 running = False
 
@@ -43,18 +43,22 @@ while True:
     if poll_obj.poll(0):
         data = sys.stdin.readline().strip()
 
-        # if data == "True":
-            # running = True
-        # elif data == "F":
-            # running = False
+        if data == "True":
+            running = True
+        
+        if data == "False":
+            running = False
+        
         if data == "off":
             relay.off()
+            led.off()
         elif data == "on":
             relay.on()
+            led.on()
         
-        # if running == True:
-            # read_pzem_data()
+        if running == True:
+            read_pzem_data()
             
-    read_pzem_data()
+    # read_pzem_data()
             
     time.sleep(0.1)

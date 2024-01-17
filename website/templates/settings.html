@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="header">
-        <a href="/"><h1 class="title-navbar">Energy-Guardian</h1></a>
+        <a href="/"><h1 class="title-navbar">Energy-Guardians</h1></a>
         <a href="logout" class="navbar-link">Log out</a>
         <a href="update" class="navbar-link">Updates</a>
         <a href="dashboard" class="navbar-link">Dashboard</a>
@@ -18,12 +18,16 @@
 
     <div class="main-login">
         <h1 class="login_txt">Settings</h1>
+        {% if passwordError %}
+            <p class="error">The password has to be between 8 and 20 symbols<br>Please try again</p>
+        {% endif %}
+        
     
         <form id="passwordChangeForm" method="post" class="login" action="{% url 'settings'%}" onsubmit="return showConfirmation()">
             {% csrf_token %}
-            <label>Change Password</label><br>
+            <label>Change Password (8-20 symbols)</label><br>
             <input type="password" name="password" id="password" placeholder="New password"></input>
-            <label>Repeat password</label>
+            <label>Repeat password (8-20 symbols)</label>
             <input type="password" name="passwordRepeat" id="passwordRepeat" placeholder="Repeat password"></input><br>
             <button type="submit" id="submit">Submit</button>
         </form>
@@ -42,16 +46,21 @@
     </div>
     
     <script>
+        function dontAllow(){
+            alert("Password has to be between 8 and 20 symbols\nPlease try again")
+        }
         function showConfirmation() {
+            var password = document.getElementById("password").value;
+            var passwordRepeat = document.getElementById("passwordRepeat").value;
+
             var confirmation = confirm("Are you sure you want to change your password?");
     
-            if (confirmation && confirmation.toLowerCase() === confirmText.toLowerCase()) {
-                document.getElementById("password").value = "";
-                document.getElementById("passwordRepeat").value = "";
+            if (confirmation && password === passwordRepeat) {
                 return true;
             } 
             
             else {
+                alert("The passwords are not matching\nPlease try again");
                 return false;
             }
         }
@@ -74,6 +83,7 @@
             }
 
             else{
+                alert("Your request to delete your account has been stopped\nThe code was: {"+confirm+"} your code was:{"+confirmation+"}\nIf you wish to delete your account, try again")
                 return false;
                 }
         }

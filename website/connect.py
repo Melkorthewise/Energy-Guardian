@@ -45,53 +45,44 @@ class connecter:
 
         return False
 
-        #check = "SELECT Password FROM login WHERE Email_Address = %s"
-        #values = (username,)
-        
-        #try:
-            #self.cursor = self.mydb.cursor()
-            #self.cursor.execute(check, values)
-
-            #result = self.cursor.fetchone()
-            #print(result)
-
-            #if result:
-                #input = password.encode('utf-8')
-                
-                #if (B.checkpw(input, result[0])):
-                    #return True
-            
-        #finally:
-            #self.cursor.close() 
-            #self.mydb.close() 
-            #self.cursor.execute(check, values)
-
-        #result = self.cursor.fetchone()
-        #print(result)
-
-        #if result:
-            #input = password.encode('utf-8')
-            
-            #if (B.checkpw(input, result[0])):
-                #return True
-            
-            #hashed_password_in_db = result[0]
-            #salt = B.gensalt(rounds=15)
-
-            # Hash the entered password with the retrieved salt
-            #hashed_password_to_check = B.hashpw(password.encode('utf-8'), salt.encode('utf-8'))
-
-            # Compare the hashed passwords
-            #if hashed_password_to_check == hashed_password_in_db:
-                #return True
-
-        #return True
-
-
     def signUp(self, email, firstName, lastName, password):
         inDataBase = False
         data = self.mydb.cursor()
         He = self.mydb.cursor()
+        
+        symbols = 0
+        for letter in firstName:
+            symbols +=1
+        
+        if symbols > 255:
+            return "toLongFirst"
+        
+        symbols = 0
+        for letter in lastName:
+            symbols += 1
+        
+        if symbols > 255:
+            return "toLongLast"
+        
+        symbols = 0
+        for letters in email:
+            symbols += 1
+        
+        if symbols > 255:
+            return "toLongEmail"
+        
+        symbols = 0
+        for letters in password:
+            symbols += 1
+        
+        if symbols < 8:
+            return "toShortPassword"
+        
+        elif symbols > 20:
+            return "toLongPassword"
+        
+        else:
+            pass
         
         data.execute("SELECT Email_Address from users")
         
@@ -99,13 +90,8 @@ class connecter:
         emailaddresses = [row[0] for row in data.fetchall()]
         for data in emailaddresses:
             if data == email:
-                inDataBase = True
-                print("Email address al in gebruik")
-                break
-        
-        if inDataBase:
-            pass
-        
+                return "emailerror"
+     
         #email-address niet in gebruik
         else:            
             He.execute("SELECT UserID FROM users")
