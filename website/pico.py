@@ -14,8 +14,6 @@ import serial.tools.list_ports
 # Pico related functions
 class PicoReader:
     def __init__(self, baudrate=9600):
-        port = ""
-
         try:
             # Trying to open an serial connectino with the Pico.
             pico_description = "USB Serial Device"

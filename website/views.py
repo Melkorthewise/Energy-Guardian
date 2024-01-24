@@ -43,10 +43,12 @@ def microbit():
         if button == "A":
             pico_reader.send_signal("off" + "\n")
             time.sleep(1)
+            print("Device is turned off.")
         
         if button == "B":
             pico_reader.send_signal("on" + "\n")
             time.sleep(1)
+            print("Device is turned on.")
 
         # print(f"button {button} released")
             
@@ -106,7 +108,7 @@ def read_pico_data():
 
                         # print(Average_Watt)
 
-                        if abs(Watt - Average_Watt) <= 0.1:
+                        if abs(Watt - Average_Watt) <= 0.2:
                             pico_reader.send_signal("off" + "\n")
 
                     except IndexError:
@@ -247,24 +249,17 @@ def dashboard(request):
 
     # Niet meerdere apparaten tot de dezelfde eigenaar toekenen dat werkt nog niet
     mycursor.execute("SELECT Name_Device FROM Device WHERE UserID = '{}'".format(user))
-    
-    device = [row[0] for row in mycursor.fetchall()]
+    device = mycursor.fetchone()
 
-    status_device = device_status(user)
-
-    status = []
-
-    for x in status_device:
-        if x == False:
-            status.append("#f9434e")
-        elif x == True:
-            status.append("#5db657")
-
-    deviceandstatus = zip(device, status)
+    if device_status(user):
+        status = "#5db657"
+    else:
+        status = "#f9434e"
     
     context = {
         'user': username[0],
-        'device': deviceandstatus,
+        'device': device,
+        'status': status,
         'hour': usage(user, device, "HOUR"),
         'day': usage(user, device, "DAY"),
         'week': usage(user, device, "WEEK"),
